@@ -43,7 +43,7 @@ agreement. Then commit the revised contract via git.
 
 
 TEAM NAME [type your team name here]: 
-- "MAJ" 
+- MAJic
 
 TEAM MEMBERS AND CONTACT INFO:
 
