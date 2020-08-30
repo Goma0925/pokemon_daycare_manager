@@ -43,7 +43,7 @@ agreement. Then commit the revised contract via git.
 
 
 TEAM NAME [type your team name here]: 
-
+- "MAJ" 
 
 TEAM MEMBERS AND CONTACT INFO:
 
@@ -57,7 +57,7 @@ TEAM MEMBERS AND CONTACT INFO:
 
 AGREED MEETING TIME/PLACE/LINK FOR REGULAR WEEKLY TEAM MEETINGS/WORK:
 
-
+- Every wednesday from 7:00PM - 8:00PM. At www.wherby.com/kydb or Zoom.
 
 
 
