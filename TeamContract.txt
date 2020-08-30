@@ -93,8 +93,9 @@ WE ALSO AGREE:
 [Type anything else that as a team you decide should be included in
 your covenant.  It is OK to leave this blank.]
 
-
-
+- Keep everyone updated before you implement any feature to our repository.
+- Communicate!
+- Cut a branch and add edits to the branch.
 
 WE HELD OUR INITIAL TEAM MEETING ON [8/30/2020 @2:00 PM]:
 AT [type location/provide meeting link of meeting; e.g., Olin 023]:
