@@ -49,7 +49,7 @@ TEAM MEMBERS AND CONTACT INFO:
 
    MEMBER              MOBILE PHONE           PREFERRED EMAIL
 1. Amon Otsuki         414-779-1430    amon.otsuki@centre.edu OR amonbali0925@gmail.com
-2.
+2. Michael Ramage      N/A             michael.ramage@centre.edu
 3. 
 4.
 
@@ -73,19 +73,19 @@ reason for the penalty is to help teams stay on track and have greater
 success in completing the project as a whole.]
 
 PHASE 1: DESIGN
-1. Team Contract 					08/28
-2. Mission & Objectives					09/01
-3. Tables, Fields, & PKs				09/04
-4. Table Relationships					09/08
-5. Business Rules					09/11
-6. Views, UI Flow (FINAL DESIGN)			09/15
+1. Team Contract 					08/28 
+2. Mission & Objectives					09/01 TUESDAY
+3. Tables, Fields, & PKs				09/04 FRIDAY
+4. Table Relationships					09/08 TUESDAY 
+5. Business Rules					09/11 FRIDAY
+6. Views, UI Flow (FINAL DESIGN)			09/15 SATURDAY
 
 PHASE 2: IMPLEMENTATION
-1. Coding Plan						09/18
-2. SQL Scripts						09/22
-3. First PHP pages					09/25
-4. More PHP pages					10/02
-5. Final Delivery					10/06
+1. Coding Plan						09/18 FRIDAY
+2. SQL Scripts						09/22 TUESDAY
+3. First PHP pages					09/25 FRIDAY
+4. More PHP pages					10/02 FRIDAY
+5. Final Delivery					10/06 TUESDAY
 
 
 WE ALSO AGREE:
