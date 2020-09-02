@@ -14,5 +14,3 @@ Objective statements
 - Keep track of the moves that pokemons have learned.
 - Keep track of the eggs that pokemons laid. 
 - Send updates to trainers on their pokemon(s)
-    - Update weekly about Levels, moves learned, happiness level
-    - Sporadic: Eggs
