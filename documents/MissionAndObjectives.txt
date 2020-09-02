@@ -1,0 +1,18 @@
+Mission statement
+
+Drafts of the mission statement
+- The purpose of the database is to maintain the data Pokémon Day Care and Breeding uses to provide their services. 
+
+Objective statements
+- Keep track of each pokemon’s relationship/friendship to the other pokemons. 
+- Keep track of the amount of service the care center offered to pokemons/trainers. 
+- Produce accurate bills for customers(trainers)
+- Store customer information
+- Keep track of the significant events that have happened to pokemons 
+- Keep track of the pokemons’s ownerships. 
+- Keep track of the pokemons’ level progress.
+- Keep track of the moves that pokemons have learned.
+- Keep track of the eggs that pokemons laid. 
+- Send updates to trainers on their pokemon(s)
+    - Annually (week based): Levels, moves learned, happiness level
+    - Sporadic: Eggs
