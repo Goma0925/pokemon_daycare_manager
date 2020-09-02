@@ -1,6 +1,4 @@
 Mission statement
-
-Drafts of the mission statement
 - The purpose of the database is to maintain the data Pokémon Day Care and Breeding uses to provide their services. 
 
 Objective statements
