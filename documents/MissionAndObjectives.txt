@@ -12,3 +12,21 @@ Objective statements
 - Keep track of the moves that pokemons have learned.
 - Keep track of the eggs that pokemons laid. 
 - Send updates to trainers on their pokemon(s)
+
+** NEW PROPOSED VERSION **
+Mission Statement
+The purpose of this database is to help Pokémon Day Care and Breeding support 
+their growing customer base by organizing and maintaining the data 
+they provide to their clients, and use to outsource for future clients.
+
+Objective Statements
+Keep track of the amount of service the care center has offered to all their clients
+Keep track of the clients’ ratings on the daycare
+Produce accurate bills for their clients
+Keep track of the significant events that have happened to clients’ pokemons 
+Send updates to clients on their pokemons’ significant events
+Keep track of pokemons’ ownerships. 
+Keep track of pokemons’ level progress.
+Keep track of moves that pokemons have learned.
+Keep track of eggs that pokemons have laid. 
+Keep track of pokemon friendships
