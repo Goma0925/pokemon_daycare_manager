@@ -13,7 +13,7 @@ Label:                Trainer Name
 Source Specification: _ 
 Shared By:            _ 
 Aliases:              _ 
-Description:          The name of the trainer given to us.
+Description:          The name of the trainer given to us. This is needed to create strong customer-company relationships.
 
 
 PHYSICAL ELEMENTS
