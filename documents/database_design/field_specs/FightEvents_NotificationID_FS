@@ -1,9 +1,3 @@
- FightEvents (Subset of Events)
-NotificationID (FK) 
-PokemonID_A (FK)
-PokemonID_B (FK)
-
-
 FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
