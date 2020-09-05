@@ -1,0 +1,119 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name:			  MoveName
+
+Specification Type:
+  Unique:  
+  Generic: 
+  Replica: X 
+Parent Table:         Moves
+Label:                _ 
+Source Specification: Generic_MoveNameFK_FS
+Shared By:            _ 
+Aliases:              
+Description:          A move name that has been learned by a past
+					  pokemon and that perhaps can be learned by a new
+					  pokemon
+ 
+PHYSICAL ELEMENTS
+
+Data Type:            
+Length:               
+Decimal Places:       
+Input Mask:           
+Display Format:       
+Character Support:
+  Letters (A-Z):       
+  Numbers (0-9):      
+  Keyboard (.,/$#%):   
+  Special (©®™Σπ):     
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:         
+               Primary:    
+               Foreign:    X 
+               Alternate:   
+
+Key Structure: Simple:     
+               Composite:   
+
+Uniqueness:    Non-unique: _ 
+               Unique:     X 
+
+Null Support:  Nulls OK:   _ 
+               No nulls:   X
+
+Values Entered By: User:   X 
+                   System: 
+
+Required Value:    No:     
+                   Yes:    X 
+
+Default Value:      
+
+Range of Values:   
+
+Edit Rule:
+  Enter now, edits allowed:        
+  Enter now, edits not allowed:   X
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL  _ 
+                =    X 
+                >    _ 
+                >=   _ 
+                !=   X 
+                <    _ 
+                <=   _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                =    X 
+                >    _ 
+                >=   _ 
+                !=   X 
+                <    _ 
+                <=   _ 
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+NOTES:
+Look at source specification for more info on field
+specifications for this field. 
