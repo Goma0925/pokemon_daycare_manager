@@ -10,10 +10,13 @@ Specification Type:
   Replica: X 
 Parent Table:         CurrentMoves
 Label:                Pokemon ID
-Source Specification: Pokemons_pokemon_id_FS.txt
+Source Specification: Generic_PokemonIDFK_FS
 Shared By:            _ 
 Aliases:              _ 
-Description:          _ 
+Description:          We uniquely identify each pokemon so that we 
+                      can hone in on developing their respective skillsets. 
+                      Over time, there current moves may change, so this field
+                      helps in organizing this process. 
 
 
 PHYSICAL ELEMENTS
