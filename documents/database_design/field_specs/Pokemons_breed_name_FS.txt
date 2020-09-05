@@ -1,0 +1,118 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name:           _ breed_name
+
+Specification Type:
+  Unique:  _ 
+  Generic: _ 
+  Replica: _ 
+Parent Table:         _ Pokemons
+Label:                _ Breed name
+Source Specification: _ N/A
+Shared By:            _ N/A
+Aliases:              _ N/A
+Description:          _ A name of the breed of a pokemon.
+
+
+PHYSICAL ELEMENTS
+
+Data Type:            _ VHARCHAR
+Length:               _ 16
+Decimal Places:       _ N/A
+Input Mask:           _ RAW
+Display Format:       _ N/A
+Character Support:
+  Letters (A-Z):      _ X
+  Numbers (0-9):      _ 
+  Keyboard (.,/$#%):  _ 
+  Special (©®™Σπ):    _ 
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:        _ X
+               Primary:    _ 
+               Foreign:    _ 
+               Alternate:  _ 
+
+Key Structure: Simple:     _ 
+               Composite:  _ 
+
+Uniqueness:    Non-unique: _ X
+               Unique:     _ 
+
+Null Support:  Nulls OK:   _ 
+               No nulls:   _ X
+
+Values Entered By: User:   _ X
+                   System: _ 
+
+Required Value:    No:     _ 
+                   Yes:    _ X
+
+Default Value:     _ N/A
+
+Range of Values:   _ 
+
+Edit Rule:
+  Enter now, edits allowed:       _ X
+  Enter now, edits not allowed:   _ 
+  Enter later, edits allowed:     _ 
+  Enter later, edits not allowed: _ 
+  Not determined at this time:    _ 
+
+Comparisons Allowed:
+  Same Field:   _ X
+                ALL  _ 
+                =    _ X
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Value Expr.:  _ X
+                ALL  _ 
+                =    _ X
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+NOTES:
+The lendth 16 is set based on the domain specialist's advice that breed name
+is restricte under 10 letters. The rest of the 6 letters are leeway.

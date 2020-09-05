@@ -1,0 +1,118 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name:           _ nickname
+
+Specification Type:
+  Unique:  _ X
+  Generic: _ 
+  Replica: _ 
+Parent Table:         _ Pokemons
+Label:                _ Nickname
+Source Specification: _ N/A
+Shared By:            _ N/A
+Aliases:              _ 
+Description:          _ A given name of a pokemon.
+
+
+PHYSICAL ELEMENTS
+
+Data Type:            _ VHARCHAR
+Length:               _ 16
+Decimal Places:       _ N/A
+Input Mask:           _ RAW
+Display Format:       _ N/A
+Character Support:
+  Letters (A-Z):      _ X
+  Numbers (0-9):      _ 
+  Keyboard (.,/$#%):  _ 
+  Special (©®™Σπ):    _ 
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:        _ X
+               Primary:    _ 
+               Foreign:    _ 
+               Alternate:  _ 
+
+Key Structure: Simple:     _ 
+               Composite:  _ 
+
+Uniqueness:    Non-unique: _ X
+               Unique:     _ 
+
+Null Support:  Nulls OK:   _ 
+               No nulls:   _ X
+
+Values Entered By: User:   _ X
+                   System: _ 
+
+Required Value:    No:     _ X
+                   Yes:    _ 
+
+Default Value:     _ Same as Pokemons.BreedName
+
+Range of Values:   _ N/A
+
+Edit Rule:
+  Enter now, edits allowed:       _ N/A
+  Enter now, edits not allowed:   _ 
+  Enter later, edits allowed:     _ 
+  Enter later, edits not allowed: _ 
+  Not determined at this time:    _ 
+
+Comparisons Allowed:
+  Same Field:   _ NO
+                ALL  _ 
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Other Fields: _ NO
+                ALL  _ 
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Value Expr.:  _ YES
+                ALL  _ 
+                =    _ X
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+Operations Allowed:
+  Same Field:   _ NO
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Other Fields: _ NO
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Value Expr.:  _ NO
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+NOTES:
+The lendth of the field is set to 16 because the expected default name length
+of a nickname is 10 letters. 6 letters are saved just in case for future extension.
