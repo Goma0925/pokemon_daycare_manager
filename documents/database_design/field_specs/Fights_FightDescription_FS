@@ -1,0 +1,117 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name:			  FightDescription
+
+Specification Type:
+  Unique: 			  X  
+  Generic: 
+  Replica:  
+Parent Table:         Fights
+Label:                _ 
+Source Specification: 
+Shared By:            _ 
+Aliases:              
+Description:          A description of the fight that occurred. 
+					  This is useful as it allows fights to be 
+ 					  to be described so as to keep a track record.
+ 
+PHYSICAL ELEMENTS
+
+Data Type:        VARCHAR    
+Length:           500
+Decimal Places:       
+Input Mask:           
+Display Format:       
+Character Support:
+  Letters (A-Z):  X     
+  Numbers (0-9):      
+  Keyboard (.,/$#%): X  
+  Special (©®™Σπ):     
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:		X         
+               Primary:    
+               Foreign:     
+               Alternate:   
+
+Key Structure: Simple:     
+               Composite:   
+
+Uniqueness:    Non-unique:  
+               Unique:     X 
+
+Null Support:  Nulls OK:    
+               No nulls:   X
+
+Values Entered By: User:   X 
+                   System: 
+
+Required Value:    No:     
+                   Yes:    X 
+
+Default Value:      
+
+Range of Values:   Any description of the fight.
+
+Edit Rule:
+  Enter now, edits allowed: X       
+  Enter now, edits not allowed: 
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL  _ 
+                =     
+                >    _ 
+                >=   _ 
+                !=    
+                <    _ 
+                <=   _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                =     
+                >    _ 
+                >=   _ 
+                !=    
+                <    _ 
+                <=   _ 
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+NOTES:
