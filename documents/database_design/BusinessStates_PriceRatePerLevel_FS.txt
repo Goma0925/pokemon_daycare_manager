@@ -1,0 +1,119 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name: PriceRatePerLevel           
+
+Specification Type:
+  Unique:  X
+  Generic: 
+  Replica: 
+Parent Table:         BusinessStates 
+Label: Cost Per Level               
+Source Specification: 
+Shared By:            _ 
+Aliases:              _ 
+Description:          Trainers who opt in for extended stay
+					  provide us with the necessary time to 
+					  help level their pokemon up. We use extra
+					  resources to try to level pokemon up, so we
+					  must charge a small fee per level gained.
+			
+PHYSICAL ELEMENTS
+
+Data Type:            DECIMAL 
+Length:                
+Decimal Places:       2 
+Input Mask:           Dollars.Cents 
+Display Format:       $Dollars.Cents
+Character Support:
+  Letters (A-Z):       
+  Numbers (0-9):      X 
+  Keyboard (.,/$#%):  X 
+  Special (©®™Σπ):    
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:        X 
+               Primary:    
+               Foreign:    
+               Alternate:   
+
+Key Structure: Simple:      
+               Composite:  _ 
+
+Uniqueness:    Non-unique: X 
+               Unique:      
+
+Null Support:  Nulls OK:   _ 
+               No nulls:   X 
+
+Values Entered By: User:   X 
+                   System:  
+
+Required Value:    No:     _ 
+                   Yes:    X 
+
+Default Value:     _ 
+
+Range of Values:   _ 
+
+Edit Rule:
+  Enter now, edits allowed:        
+  Enter now, edits not allowed:   X
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL   
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=    
+
+  Other Fields: _
+                ALL  
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=   
+
+  Value Expr.:  _ 
+                ALL X  
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=    
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+  Other Fields: _ 
+                ALL   
+                +     
+                -     
+                *   X     
+                /     
+
+  Value Expr.:  _ 
+                ALL   
+                +     
+                -     
+                *   X     
+                /     
+
+NOTES:
