@@ -2,37 +2,37 @@ FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
 
-Field Name:           _ satisfaction
+Field Name:           satisfaction
 
 Specification Type:
   Unique:  _ 
   Generic: _ 
   Replica: _ 
-Parent Table:         _ Ratings
-Label:                _ Satisfaction
+Parent Table:         Ratings
+Label:                Satisfaction
 Source Specification: _ 
 Shared By:            _ 
 Aliases:              _ 
-Description:          _ A degree of customer satisfaction for the service.
+Description:          A degree of customer satisfaction for the service.
 
 
 PHYSICAL ELEMENTS
 
-Data Type:            _ INT
+Data Type:            INT
 Length:               _ 
 Decimal Places:       _ 
-Input Mask:           _ 0
-Display Format:       _ ★★★★★
+Input Mask:           0
+Display Format:       ★★★★★
 Character Support:
   Letters (A-Z):      _ 
-  Numbers (0-9):      _ X
+  Numbers (0-9):      X
   Keyboard (.,/$#%):  _ 
   Special (©®™Σπ):    _ 
 
 
 LOGICAL ELEMENTS
 
-Key Type:      Non:        _ X
+Key Type:      Non:        X
                Primary:    _ 
                Foreign:    _ 
                Alternate:  _ 
@@ -40,17 +40,17 @@ Key Type:      Non:        _ X
 Key Structure: Simple:     _ 
                Composite:  _ 
 
-Uniqueness:    Non-unique: _ X
+Uniqueness:    Non-unique: X
                Unique:     _ 
 
 Null Support:  Nulls OK:   _ 
-               No nulls:   _ X
+               No nulls:   X
 
-Values Entered By: User:   _ X
+Values Entered By: User:   X
                    System: _ 
 
 Required Value:    No:     _ 
-                   Yes:    _ X
+                   Yes:    X
 
 Default Value:     _ 
 
@@ -58,14 +58,14 @@ Range of Values:   _ 1-5
 
 Edit Rule:
   Enter now, edits allowed:       _ 
-  Enter now, edits not allowed:   _ X
+  Enter now, edits not allowed:   X
   Enter later, edits allowed:     _ 
   Enter later, edits not allowed: _ 
   Not determined at this time:    _ 
 
 Comparisons Allowed:
-  Same Field:   _ X
-                ALL  _ X
+  Same Field:   X
+                ALL  X
                 =    _ 
                 >    _ 
                 >=   _ 
@@ -73,8 +73,8 @@ Comparisons Allowed:
                 <    _ 
                 <=   _ 
 
-  Other Fields: _ X
-                ALL  _ X
+  Other Fields: X
+                ALL  X
                 =    _ 
                 >    _ 
                 >=   _ 
@@ -82,8 +82,8 @@ Comparisons Allowed:
                 <    _ 
                 <=   _ 
 
-  Value Expr.:  _ X
-                ALL  _ X
+  Value Expr.:  X
+                ALL  X
                 =    _ 
                 >    _ 
                 >=   _ 

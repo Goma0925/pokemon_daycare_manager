@@ -2,37 +2,37 @@ FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
 
-Field Name:           _ level
+Field Name:           level
 
 Specification Type:
-  Unique:  _ X
+  Unique:  X
   Generic: _ 
   Replica: _ 
-Parent Table:         _ Pokemons
-Label:                _ level
-Source Specification: _ N/A
-Shared By:            _ N/A
-Aliases:              _ N/A
-Description:          _ A level counter of a pokemon.
+Parent Table:         Pokemons
+Label:                level
+Source Specification: _
+Shared By:            _
+Aliases:              _
+Description:          A level counter of a pokemon.
 
 
 PHYSICAL ELEMENTS
 
-Data Type:            _ INT
-Length:               _ N/A
-Decimal Places:       _ N/A
-Input Mask:           _ 0
-Display Format:       _ "0"
+Data Type:            INT
+Length:               N/A
+Decimal Places:       N/A
+Input Mask:           #
+Display Format:       #
 Character Support:
   Letters (A-Z):      _ 
-  Numbers (0-9):      _ X
+  Numbers (0-9):      X
   Keyboard (.,/$#%):  _ 
   Special (©®™Σπ):    _ 
 
 
 LOGICAL ELEMENTS
 
-Key Type:      Non:        _ X
+Key Type:      Non:        X
                Primary:    _ 
                Foreign:    _ 
                Alternate:  _ 
@@ -40,32 +40,32 @@ Key Type:      Non:        _ X
 Key Structure: Simple:     _ 
                Composite:  _ 
 
-Uniqueness:    Non-unique: _ X
+Uniqueness:    Non-unique: X
                Unique:     _ 
 
 Null Support:  Nulls OK:   _ 
-               No nulls:   _ X
+               No nulls:   X
 
-Values Entered By: User:   _ X
+Values Entered By: User:   X
                    System: _ 
 
 Required Value:    No:     _ 
-                   Yes:    _ X
+                   Yes:    X
 
 Default Value:     _ N/A
 
 Range of Values:   _ 1-100
 
 Edit Rule:
-  Enter now, edits allowed:       _ X
+  Enter now, edits allowed:       X
   Enter now, edits not allowed:   _ 
   Enter later, edits allowed:     _ 
   Enter later, edits not allowed: _ 
   Not determined at this time:    _ 
 
 Comparisons Allowed:
-  Same Field:   _ X
-                ALL  _ X
+  Same Field:   X
+                ALL  X
                 =    _ 
                 >    _ 
                 >=   _ 
@@ -73,8 +73,8 @@ Comparisons Allowed:
                 <    _ 
                 <=   _ 
 
-  Other Fields: _ X
-                ALL  _ X
+  Other Fields: X
+                ALL  X
                 =    _ 
                 >    _ 
                 >=   _ 
@@ -82,8 +82,8 @@ Comparisons Allowed:
                 <    _ 
                 <=   _ 
 
-  Value Expr.:  _ X
-                ALL  _ X
+  Value Expr.:  X
+                ALL  X
                 =    _ 
                 >    _ 
                 >=   _ 
@@ -106,8 +106,8 @@ Operations Allowed:
                 *    _ 
                 /    _ 
 
-  Value Expr.:  _ X
-                ALL  _ X
+  Value Expr.:  X
+                ALL  X
                 +    _ 
                 -    _ 
                 *    _ 

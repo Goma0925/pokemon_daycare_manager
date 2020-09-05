@@ -13,7 +13,7 @@ Label:                Trainer ID
 Source Specification: Generic_IncrementPK_FS.txt
 Shared By:            _
 Aliases:              _ 
-Description:          An identifier of the trainer who received the service.
+Description:          A unique identifier of the trainer who received the service.
 
 
 PHYSICAL ELEMENTS
