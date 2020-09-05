@@ -1,0 +1,117 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name: NotificationID          
+
+Specification Type:
+  Unique:  
+  Generic: 
+  Replica: 	X	
+Parent Table:         FightEvents
+Label:               	
+Source Specification 
+Shared By:            Notifications 
+Aliases:              _ 
+Description:          Trainers should be informed whenever their pokemon
+					  get into fights. In order to inform trainers of such
+					  occurrences, we uniquely identify these as a notification
+					  to be sent to trainers. 
+					  
+PHYSICAL ELEMENTS
+
+Data Type:            INT 
+Length:               
+Decimal Places:        
+Input Mask:          
+Display Format:       
+Character Support:
+  Letters (A-Z):      
+  Numbers (0-9):      X 
+  Keyboard (.,/$#%):   
+  Special (©®™Σπ):     
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:        
+               Primary:     
+               Foreign:    X 
+               Alternate:   
+
+Key Structure: Simple:     X 
+               Composite:   
+
+Uniqueness:    Non-unique:  
+               Unique:     X
+
+Null Support:  Nulls OK:    
+               No nulls:   X 
+
+Values Entered By: User:    
+                   System: X 
+
+Required Value:    No:      
+                   Yes:    X 
+
+Default Value:      
+
+Range of Values:    
+
+Edit Rule:
+  Enter now, edits allowed:        
+  Enter now, edits not allowed:   X
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL   
+                =    X 
+                >     
+                >=   
+                !=   X 
+                <     
+                <=    
+
+  Other Fields: _
+                ALL  
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=    
+
+  Value Expr.:  _ 
+                ALL   
+                =   X  
+                >     
+                >=    
+                !=  X  
+                <     
+                <=    
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+  Other Fields: _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+  Value Expr.:  _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+NOTES:
