@@ -13,7 +13,7 @@ Label:                End time
 Source Specification: Generic_DateTime_FS.txt
 Shared By:            _ 
 Aliases:              _ 
-Description:          _ 
+Description:          The end date and time when the service ended.
 
 
 PHYSICAL ELEMENTS

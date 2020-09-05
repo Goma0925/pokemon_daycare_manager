@@ -2,29 +2,29 @@ FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
 
-Field Name:           _ nickname
+Field Name:           nickname
 
 Specification Type:
-  Unique:  _ X
+  Unique:  X
   Generic: _ 
   Replica: _ 
-Parent Table:         _ Pokemons
-Label:                _ Nickname
-Source Specification: _ N/A
-Shared By:            _ N/A
+Parent Table:         Pokemon
+Label:                Nickname
+Source Specification: _
+Shared By:            _
 Aliases:              _ 
-Description:          _ A given name of a pokemon.
+Description:          A given name of a pokemon.
 
 
 PHYSICAL ELEMENTS
 
-Data Type:            _ VHARCHAR
-Length:               _ 16
-Decimal Places:       _ N/A
-Input Mask:           _ RAW
-Display Format:       _ N/A
+Data Type:            VHARCHAR
+Length:               16
+Decimal Places:       _ 
+Input Mask:           The nick name string as it is.
+Display Format:       The nick name string as it is.
 Character Support:
-  Letters (A-Z):      _ X
+  Letters (A-Z):      X
   Numbers (0-9):      _ 
   Keyboard (.,/$#%):  _ 
   Special (©®™Σπ):    _ 
@@ -32,7 +32,7 @@ Character Support:
 
 LOGICAL ELEMENTS
 
-Key Type:      Non:        _ X
+Key Type:      Non:        X
                Primary:    _ 
                Foreign:    _ 
                Alternate:  _ 
@@ -40,24 +40,24 @@ Key Type:      Non:        _ X
 Key Structure: Simple:     _ 
                Composite:  _ 
 
-Uniqueness:    Non-unique: _ X
+Uniqueness:    Non-unique: X
                Unique:     _ 
 
 Null Support:  Nulls OK:   _ 
-               No nulls:   _ X
+               No nulls:   X
 
-Values Entered By: User:   _ X
+Values Entered By: User:   X
                    System: _ 
 
-Required Value:    No:     _ X
+Required Value:    No:     X
                    Yes:    _ 
 
-Default Value:     _ Same as Pokemons.BreedName
+Default Value:     Same as Pokemon.BreedName
 
-Range of Values:   _ N/A
+Range of Values:   N/A
 
 Edit Rule:
-  Enter now, edits allowed:       _ N/A
+  Enter now, edits allowed:       X
   Enter now, edits not allowed:   _ 
   Enter later, edits allowed:     _ 
   Enter later, edits not allowed: _ 
@@ -84,7 +84,7 @@ Comparisons Allowed:
 
   Value Expr.:  _ YES
                 ALL  _ 
-                =    _ X
+                =    X
                 >    _ 
                 >=   _ 
                 !=   _ 
@@ -92,21 +92,21 @@ Comparisons Allowed:
                 <=   _ 
 
 Operations Allowed:
-  Same Field:   _ NO
+  Same Field:   _ 
                 ALL  _ 
                 +    _ 
                 -    _ 
                 *    _ 
                 /    _ 
 
-  Other Fields: _ NO
+  Other Fields: _ 
                 ALL  _ 
                 +    _ 
                 -    _ 
                 *    _ 
                 /    _ 
 
-  Value Expr.:  _ NO
+  Value Expr.:  _ 
                 ALL  _ 
                 +    _ 
                 -    _ 

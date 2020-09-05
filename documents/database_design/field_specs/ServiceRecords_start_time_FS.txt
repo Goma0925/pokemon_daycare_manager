@@ -13,7 +13,7 @@ Label:                Start time
 Source Specification: Generic_DateTime_FS.txt
 Shared By:            _ 
 Aliases:              _ 
-Description:          _ 
+Description:          The start date and time when the service started. 
 
 
 PHYSICAL ELEMENTS

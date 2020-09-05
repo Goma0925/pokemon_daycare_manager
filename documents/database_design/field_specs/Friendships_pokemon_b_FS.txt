@@ -7,13 +7,13 @@ Field Name:           _ pokemon_b
 Specification Type:
   Unique:  _ 
   Generic: _ 
-  Replica: _ X
-Parent Table:         _ Friendships
-Label:                _ Pokemon
-Source Specification: _ Pokemons_pokemon_id_FS.txt
-Shared By:            _ Pokemons
-Aliases:              _ N/A
-Description:          _ A pokemon_id to represent one of two pokemons in a frinedship.
+  Replica: X
+Parent Table:         Friendships
+Label:                Pokemon
+Source Specification: Pokemons_pokemon_id_FS.txt
+Shared By:            Pokemons
+Aliases:              N/A
+Description:          A pokemon_id to represent one of two pokemons in a frinedship.
 
 
 PHYSICAL ELEMENTS
