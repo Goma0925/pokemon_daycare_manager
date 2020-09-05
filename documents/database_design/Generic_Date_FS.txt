@@ -20,7 +20,7 @@ Description:          A specified date that helps keep track
 
 PHYSICAL ELEMENTS
 
-Data Type:            DATE 
+Data Type:            DATETIME 
 Length:               10 
 Decimal Places:       _ 
 Input Mask:           DD-MM-YYYY 
