@@ -1,0 +1,120 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name:			  MoveName
+
+Specification Type:
+  Unique:  _ 
+  Generic: 
+  Replica: X 
+Parent Table:         Moves
+Label:                _ 
+Source Specification: Generic_MoveNameFK_FS
+Shared By:            _ 
+Aliases:              OldMoveName
+Description:          After the pokemon has learned 4 moves, that pokemon will have to 
+					  forget a move and replace it with a new move.
+					  We should be able to reconstruct a pokemon's moves so that we can 
+					  present how we have helped the pokemon evolve over time. We will 
+					  allow the trainer to rediscover their pokemon's past in this way.  
+
+
+PHYSICAL ELEMENTS
+
+Data Type:            VARCHAR
+Length:               _
+Decimal Places:       _
+Input Mask:           _
+Display Format:       
+Character Support:
+  Letters (A-Z):      X 
+  Numbers (0-9):      _
+  Keyboard (.,/$#%):  _ 
+  Special (©®™Σπ):    _ 
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:         
+               Primary:    
+               Foreign:    X 
+               Alternate:   
+
+Key Structure: Simple:     X
+               Composite:  _ 
+
+Uniqueness:    Non-unique: _ 
+               Unique:     X 
+
+Null Support:  Nulls OK:   _ 
+               No nulls:   X
+
+Values Entered By: User:   X 
+                   System: 
+
+Required Value:    No:     X
+                   Yes:    _ 
+
+Default Value:     _ N/A
+
+Range of Values:   _ N/A
+
+Edit Rule:
+  Enter now, edits allowed:       _ 
+  Enter now, edits not allowed:   X
+  Enter later, edits allowed:     _ 
+  Enter later, edits not allowed: _ 
+  Not determined at this time:    _ 
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL  _ 
+                =    X 
+                >    _ 
+                >=   _ 
+                !=   X 
+                <    _ 
+                <=   _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                =    X 
+                >    _ 
+                >=   _ 
+                !=   X 
+                <    _ 
+                <=   _ 
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+NOTES:
