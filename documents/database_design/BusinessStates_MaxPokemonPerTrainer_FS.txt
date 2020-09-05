@@ -1,0 +1,118 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name: MaxPokemonPerTrainer          
+
+Specification Type:
+  Unique:  X
+  Generic: 
+  Replica: 
+Parent Table:         BusinessStates 
+Label: Cost Per Level               
+Source Specification: 
+Shared By:            _ 
+Aliases:              _ 
+Description:          A max set on the number of pokemon a given
+					  trainer can enroll in our service at a given time.
+					  This field helps enforce restrictions that align with
+					  our current potential as an organization. 
+			
+PHYSICAL ELEMENTS
+
+Data Type:            INT 
+Length:                
+Decimal Places:        
+Input Mask:            
+Display Format:       
+Character Support:
+  Letters (A-Z):       
+  Numbers (0-9):      X 
+  Keyboard (.,/$#%):   
+  Special (©®™Σπ):    
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:        X 
+               Primary:    
+               Foreign:    
+               Alternate:   
+
+Key Structure: Simple:      
+               Composite:  _ 
+
+Uniqueness:    Non-unique: X 
+               Unique:      
+
+Null Support:  Nulls OK:   _ 
+               No nulls:   X 
+
+Values Entered By: User:   X 
+                   System:  
+
+Required Value:    No:     _ 
+                   Yes:    X 
+
+Default Value:     _ 
+
+Range of Values:   _ 
+
+Edit Rule:
+  Enter now, edits allowed:        
+  Enter now, edits not allowed:   X
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL   
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=    
+
+  Other Fields: _
+                ALL  
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=   
+
+  Value Expr.:  _ 
+                ALL X  
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=    
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+  Other Fields: _ 
+                ALL   
+                +     
+                -   X  
+                *   X     
+                /     
+
+  Value Expr.:  _ 
+                ALL   
+                +     
+                -   X  
+                *   X     
+                /     
+
+NOTES:
