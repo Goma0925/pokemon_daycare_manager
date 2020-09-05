@@ -13,7 +13,7 @@ Label:                Phone Number
 Source Specification: _ 
 Shared By:            _ 
 Aliases:              _ 
-Description:          The phone number of the trainer in order for us to contact him/her. 
+Description:          The phone number of the trainer in order for to contact him/her in the case of an event. 
 
 
 PHYSICAL ELEMENTS
