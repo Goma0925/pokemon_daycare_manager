@@ -8,7 +8,7 @@ Specification Type:
   Unique:  
   Generic: 
   Replica: X
-Parent Table:         _ 
+Parent Table: BusinessStates        _ 
 Label:                Date 
 Source Specification: Date (SEE Generic_Date_FS) 
 Shared By:            _ 
