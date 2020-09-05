@@ -2,7 +2,7 @@ FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
 
-Field Name:           pokemon_id
+Field Name:           PokemonID
 
 Specification Type:
   Unique:  _ 
@@ -10,7 +10,7 @@ Specification Type:
   Replica: _ 
 Parent Table:         ServiceRecords
 Label:                Pokemon ID
-Source Specification: Generic_IncrementPK_FS.txt
+Source Specification: Generic_PokemonIDFK
 Shared By:            _
 Aliases:              _ 
 Description:          A unique identifier of the pokemon that received the service.
@@ -34,7 +34,7 @@ LOGICAL ELEMENTS
 
 Key Type:      Non:        _ 
                Primary:    _ 
-               Foreign:    _ 
+               Foreign:    X 
                Alternate:  _ 
 
 Key Structure: Simple:     _ 
@@ -114,3 +114,5 @@ Operations Allowed:
                 /    _ 
 
 NOTES:
+Look at the Generic_PokemonIDFK_FS to see non-overriden
+field specifications. 
