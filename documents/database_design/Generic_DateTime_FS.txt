@@ -23,7 +23,7 @@ Data Type:            DATETIME
 Length:               20
 Decimal Places:       _ 
 Input Mask:           DD-MM-YYYY-HH:MM:SS
-Display Format:       YYYY-MM-DD HH:MM:SS
+Display Format:       DD-MM-YYYY HH:MM:SS
 Character Support:
   Letters (A-Z):      X
   Numbers (0-9):      X 
