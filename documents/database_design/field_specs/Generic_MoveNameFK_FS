@@ -13,10 +13,8 @@ Label:                MoveName
 Source Specification: 
 Shared By:             
 Aliases:               
-Description:          A trainer enrolls a pokemon that may or may not already 
-                      have a certain moveset. A pokemon can have 4 moves and this
-                      field allows for maintaining and updating a pokemon's moves
-                      as we help it evolve. 
+Description:          A pokemon has a moveset. As a part of our service,
+                      we help the pokemon acquire new moves.
 
 
 PHYSICAL ELEMENTS
