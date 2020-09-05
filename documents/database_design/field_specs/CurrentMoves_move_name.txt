@@ -2,18 +2,18 @@ FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
 
-Field Name:           _ pokemon_a
+Field Name:           move_name
 
 Specification Type:
-  Unique:  _ 
+  Unique:  _
   Generic: _ 
-  Replica: _ X
-Parent Table:         _ Friendships
-Label:                _ Pokemon
-Source Specification: _ Pokemons_pokemon_id_FS.txt
-Shared By:            _ Pokemons
-Aliases:              _ N/A
-Description:          _ A pokemon_id to represent one of two pokemons in a frinedship.
+  Replica: X
+Parent Table:         CurrentMoves
+Label:                Move
+Source Specification: Moves_move_name_FS.txt
+Shared By:            _ 
+Aliases:              _ 
+Description:          _ 
 
 
 PHYSICAL ELEMENTS
@@ -34,10 +34,10 @@ LOGICAL ELEMENTS
 
 Key Type:      Non:        _ 
                Primary:    _ 
-               Foreign:    _ 
+               Foreign:    X
                Alternate:  _ 
 
-Key Structure: Simple:     _ 
+Key Structure: Simple:     X
                Composite:  _ 
 
 Uniqueness:    Non-unique: _ 

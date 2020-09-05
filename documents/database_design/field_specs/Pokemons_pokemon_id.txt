@@ -2,18 +2,18 @@ FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
 
-Field Name:           _ pokemon_a
+Field Name:           pokemon_id
 
 Specification Type:
   Unique:  _ 
   Generic: _ 
-  Replica: _ X
-Parent Table:         _ Friendships
-Label:                _ Pokemon
-Source Specification: _ Pokemons_pokemon_id_FS.txt
-Shared By:            _ Pokemons
-Aliases:              _ N/A
-Description:          _ A pokemon_id to represent one of two pokemons in a frinedship.
+  Replica: X
+Parent Table:         Pokemons
+Label:                Pokemon ID
+Source Specification: Generic_IncrementID_FS.txt
+Shared By:            CurrentMoves, Friendships, ServiceRecords, EggEvents, MoveEvents, FightEvents
+Aliases:              _ 
+Description:          A unique identifier for a pokemon that has been/is in the day care.
 
 
 PHYSICAL ELEMENTS
