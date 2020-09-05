@@ -1,0 +1,120 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name: 		  Comment          
+
+Specification Type:
+  Unique:  X
+  Generic: 
+  Replica: 
+Parent Table: 		  Ratings         
+Label:                Rating Comment
+Source Specification:  
+Shared By:             
+Aliases:               
+Description:          Satisfaction is a descriptive way for past and current
+					  customers to criticize their experience with us 
+					  as a service. This reflection is critical for growing
+					  as an organization. 
+					 
+
+PHYSICAL ELEMENTS
+
+Data Type:            VARCHAR 
+Length:               500 
+Decimal Places:        
+Input Mask:            
+Display Format:        
+Character Support:
+  Letters (A-Z):      X 
+  Numbers (0-9):      X 
+  Keyboard (.,/$#%):  X 
+  Special (©®™Σπ):     
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:        X 
+               Primary:    _ 
+               Foreign:    _ 
+               Alternate:  _ 
+
+Key Structure: Simple:     _ 
+               Composite:  _ 
+
+Uniqueness:    Non-unique: X 
+               Unique:     _ 
+
+Null Support:  Nulls OK:   X 
+               No nulls:    
+
+Values Entered By: User:   X 
+                   System: _ 
+
+Required Value:    No:     _ 
+                   Yes:    X 
+
+Default Value:     null 
+
+Range of Values:   _ 
+
+Edit Rule:
+  Enter now, edits allowed:  X      
+  Enter now, edits not allowed:   
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL  X 
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Other Fields: _
+                ALL  X
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL  X 
+                +    X 
+                -    _ 
+                *    _ 
+                /    X 
+
+  Other Fields: _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+  Value Expr.:  _ 
+                ALL  
+                +    X 
+                -     
+                *    X
+                /    X  
+
+NOTES:
+
