@@ -1,0 +1,14 @@
+NOTES TO US
+
+There is a lot of inconsistent logging
+because we are all new to using these kinds 
+of specifications.
+
+Let's talk to Bailey about things like
+specifications for keys and using generics. 
+
+There is extreme redundancy and if one thing changes,
+so many other files have to change. 
+
+This is kind of a problematic part of design because it 
+can change, regardless how much one believes it will not.
