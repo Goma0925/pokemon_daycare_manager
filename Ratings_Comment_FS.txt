@@ -2,33 +2,35 @@ FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
 
-Field Name: Date           
+Field Name: 		  Comment          
 
 Specification Type:
-  Unique:  
-  Generic: X
+  Unique:  X
+  Generic: 
   Replica: 
-Parent Table:         _ 
-Label:                _ 
-Source Specification: _ 
-Shared By:            _ 
-Aliases:              _ 
-Description:          A specified date and time that helps keep track of when something occurred.  
-					  
-
+Parent Table: 		  Ratings         
+Label:                Rating Comment
+Source Specification:  
+Shared By:             
+Aliases:               
+Description:          Satisfaction is a descriptive way for past and current
+					  customers to criticize their experience with us 
+					  as a service. This reflection is critical for growing
+					  as an organization. 
+					 
 
 PHYSICAL ELEMENTS
 
-Data Type:            DATETIME 
-Length:               20
-Decimal Places:       _ 
-Input Mask:           DD-MM-YYYY-HH:MM:SS
-Display Format:       DD-MM-YYYY HH:MM:SS
+Data Type:            VARCHAR 
+Length:               500 
+Decimal Places:        
+Input Mask:            
+Display Format:        
 Character Support:
-  Letters (A-Z):      X
+  Letters (A-Z):      X 
   Numbers (0-9):      X 
   Keyboard (.,/$#%):  X 
-  Special (©®™Σπ):    _ 
+  Special (©®™Σπ):     
 
 
 LOGICAL ELEMENTS
@@ -44,8 +46,8 @@ Key Structure: Simple:     _
 Uniqueness:    Non-unique: X 
                Unique:     _ 
 
-Null Support:  Nulls OK:   _ 
-               No nulls:   X 
+Null Support:  Nulls OK:   X 
+               No nulls:    
 
 Values Entered By: User:   X 
                    System: _ 
@@ -53,16 +55,16 @@ Values Entered By: User:   X
 Required Value:    No:     _ 
                    Yes:    X 
 
-Default Value:     _ 
+Default Value:     null 
 
 Range of Values:   _ 
 
 Edit Rule:
-  Enter now, edits allowed:       X 
-  Enter now, edits not allowed:   _
-  Enter later, edits allowed:     _ 
-  Enter later, edits not allowed: _ 
-  Not determined at this time:    _ 
+  Enter now, edits allowed:  X      
+  Enter now, edits not allowed:   
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
 
 Comparisons Allowed:
   Same Field:   _ 
@@ -94,28 +96,25 @@ Comparisons Allowed:
 
 Operations Allowed:
   Same Field:   _ 
-                ALL  _ 
-                +    _ 
+                ALL  X 
+                +    X 
                 -    _ 
                 *    _ 
-                /    _ 
+                /    X 
 
   Other Fields: _ 
-                ALL  _ 
-                +    _ 
-                -    X 
-                *    _ 
-                /    _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
 
   Value Expr.:  _ 
-                ALL  _ 
-                +    _ 
-                -    _ 
-                *    _ 
-                /    _ 
+                ALL  
+                +    X 
+                -     
+                *    X
+                /    X  
 
 NOTES:
 
-We can subtract two dates to determine the elapsed time.
-We can compare two dates to determine to determine the decision 
-for some other related event. 

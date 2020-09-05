@@ -2,28 +2,30 @@ FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
 
-Field Name: Date           
+Field Name: RatingDate          
 
 Specification Type:
   Unique:  
-  Generic: X
-  Replica: 
-Parent Table:         _ 
-Label:                _ 
-Source Specification: _ 
+  Generic: 
+  Replica: 	X
+Parent Table:         Ratings 
+Label:                Date of Rating 
+Source Specification: Generic_DateTime_FS 
 Shared By:            _ 
 Aliases:              _ 
-Description:          A specified date and time that helps keep track of when something occurred.  
+Description:          We can modify the way we go 
+					  about our service by confronting our most
+					  recent ratings. This will allow us to understand
+					  current criticisms so that we can address them 
+					  as soon as possible. 
 					  
-
-
 PHYSICAL ELEMENTS
 
 Data Type:            DATETIME 
 Length:               20
 Decimal Places:       _ 
-Input Mask:           DD-MM-YYYY-HH:MM:SS
-Display Format:       DD-MM-YYYY HH:MM:SS
+Input Mask:           YYYY-MM-DD HH:MM:SS
+Display Format:       YYYY-MM-DD HH:MM:SS
 Character Support:
   Letters (A-Z):      X
   Numbers (0-9):      X 
@@ -47,8 +49,8 @@ Uniqueness:    Non-unique: X
 Null Support:  Nulls OK:   _ 
                No nulls:   X 
 
-Values Entered By: User:   X 
-                   System: _ 
+Values Entered By: User:   _ 
+                   System: X 
 
 Required Value:    No:     _ 
                    Yes:    X 
@@ -116,6 +118,8 @@ Operations Allowed:
 
 NOTES:
 
-We can subtract two dates to determine the elapsed time.
-We can compare two dates to determine to determine the decision 
-for some other related event. 
+This uses a generic and diverges
+on the Values Entered By property.
+
+This will log the datetime for the moment
+a user presses submit on a rate form data form. 
