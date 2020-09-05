@@ -1,0 +1,120 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name: PricePerDay          
+
+Specification Type:
+  Unique:  X
+  Generic: 
+  Replica: 
+Parent Table:         BusinessStates 
+Label: Cost Per Level               
+Source Specification: 
+Shared By:            _ 
+Aliases:              _ 
+Description:          Our daycare service comes with a fee per day.
+					  This field allows us to manage pricing to trainers'
+					  pokemon we serve as we must cover food, housing, staff,
+					  and more costs in order to continue as an organization.
+					  The resources we input into a trainer's pokemon allows
+					  us to help the pokemon level, produce eggs, and learn moves. 
+			
+PHYSICAL ELEMENTS
+
+Data Type:            DECIMAL 
+Length:                
+Decimal Places:       2 
+Input Mask:           Dollars.Cents 
+Display Format:       $Dollars.Cents
+Character Support:
+  Letters (A-Z):       
+  Numbers (0-9):      X 
+  Keyboard (.,/$#%):  X 
+  Special (©®™Σπ):    
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:        X 
+               Primary:    
+               Foreign:    
+               Alternate:   
+
+Key Structure: Simple:      
+               Composite:  _ 
+
+Uniqueness:    Non-unique: X 
+               Unique:      
+
+Null Support:  Nulls OK:   _ 
+               No nulls:   X 
+
+Values Entered By: User:   X 
+                   System:  
+
+Required Value:    No:     _ 
+                   Yes:    X 
+
+Default Value:     _ 
+
+Range of Values:   _ 
+
+Edit Rule:
+  Enter now, edits allowed:        
+  Enter now, edits not allowed:   X
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL   
+                =   X 
+                >   X  
+                >=  X  
+                !=    
+                <   X  
+                <=  X  
+
+  Other Fields: _
+                ALL  
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=   
+
+  Value Expr.:  _ 
+                ALL X  
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=    
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+  Other Fields: _ 
+                ALL X  
+                +     
+                -     
+                *        
+                /     
+
+  Value Expr.:  _ 
+                ALL X  
+                +     
+                -     
+                *        
+                /     
+
+NOTES:
