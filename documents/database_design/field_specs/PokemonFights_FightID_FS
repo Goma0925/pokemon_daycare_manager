@@ -1,0 +1,117 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name:			  FightID
+
+Specification Type:
+  Unique:  
+  Generic: 
+  Replica: 			  X 
+Parent Table:		  PokemonFights          
+Label:                 
+Source Specification: 
+Shared By:             
+Aliases:              
+Description:          An unauthorized fight that some pokemon participated in. 
+					  Ensuring that we connect all of those pokemon that participated
+					  in a fight is our fight for safety. 
+ 
+PHYSICAL ELEMENTS
+
+Data Type:			  X            
+Length:               
+Decimal Places:       
+Input Mask:           
+Display Format:       
+Character Support:
+  Letters (A-Z):       
+  Numbers (0-9):      X
+  Keyboard (.,/$#%):   
+  Special (©®™Σπ):     
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:         
+               Primary:    
+               Foreign:    X 
+               Alternate:   
+
+Key Structure: Simple:     X
+               Composite:   
+
+Uniqueness:    Non-unique:  
+               Unique:     X 
+
+Null Support:  Nulls OK:    
+               No nulls:   X
+
+Values Entered By: User:    
+                   System: X
+
+Required Value:    No:     
+                   Yes:    X 
+
+Default Value:      
+
+Range of Values:   
+
+Edit Rule:
+  Enter now, edits allowed:        
+  Enter now, edits not allowed:   X
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL  _ 
+                =    X 
+                >    _ 
+                >=   _ 
+                !=   X 
+                <    _ 
+                <=   _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                =    _ 
+                >    _ 
+                >=   _ 
+                !=   _ 
+                <    _ 
+                <=   _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                =    X 
+                >    _ 
+                >=   _ 
+                !=   X 
+                <    _ 
+                <=   _ 
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Other Fields: _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+  Value Expr.:  _ 
+                ALL  _ 
+                +    _ 
+                -    _ 
+                *    _ 
+                /    _ 
+
+NOTES:
