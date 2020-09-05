@@ -1,0 +1,116 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name:			  MoveName
+
+Specification Type:
+  Unique:  
+  Generic: 
+  Replica: X 
+Parent Table:         Moves
+Label:                _ 
+Source Specification: Generic_MoveNameFK_FS
+Shared By:            _ 
+Aliases:              
+Description:          A pokemon's newly learned move. This new move is apart of 
+					  an alert that will notify the pokemon's trainer. 
+ 
+PHYSICAL ELEMENTS
+
+Data Type:            
+Length:               
+Decimal Places:       
+Input Mask:           
+Display Format:       
+Character Support:
+  Letters (A-Z):       
+  Numbers (0-9):      
+  Keyboard (.,/$#%):   
+  Special (©®™Σπ):     
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:         
+               Primary:    
+               Foreign:   X  
+               Alternate:   
+
+Key Structure: Simple:     
+               Composite:   
+
+Uniqueness:    Non-unique:  
+               Unique:   X   
+
+Null Support:  Nulls OK:    
+               No nulls: X 
+
+Values Entered By: User:    
+                   System:
+
+Required Value:    No:     
+                   Yes:     
+
+Default Value:      
+
+Range of Values:   
+
+Edit Rule:
+  Enter now, edits allowed:        
+  Enter now, edits not allowed:   X
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL  
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=   
+  Other Fields: _ 
+                ALL   
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=   
+  Value Expr.:  _ 
+                ALL   
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=    
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+  Other Fields: _ 
+                ALL   
+                +    
+                -     
+                *     
+                /     
+
+  Value Expr.:  _ 
+                ALL   
+                +     
+                -     
+                *    
+				/ 
+
+NOTES:
+Look at source specification for more info on field
+specifications for this field. 
