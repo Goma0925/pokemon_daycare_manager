@@ -1,0 +1,122 @@
+FIELD SPECIFICATIONS
+
+GENERAL ELEMENTS
+
+Field Name: BusinessStateID           
+
+Specification Type:
+  Unique:  X
+  Generic: 
+  Replica: 
+Parent Table:         BusinessStates 
+Label:                
+Source Specification: 
+Shared By:            _ 
+Aliases:              _ 
+Description:          A unique number that identifies a state of the business's
+					  rules that govern the landscape of the services provided
+					  to clients. It is assigned when decision makers decide to
+					  make such alterations.
+			
+PHYSICAL ELEMENTS
+
+Data Type:            INT 
+Length:                
+Decimal Places:        
+Input Mask:            
+Display Format:        
+Character Support:
+  Letters (A-Z):       
+  Numbers (0-9):      X 
+  Keyboard (.,/$#%):   
+  Special (©®™Σπ):    
+
+
+LOGICAL ELEMENTS
+
+Key Type:      Non:         
+               Primary:    X
+               Foreign:    
+               Alternate:   
+
+Key Structure: Simple:     X 
+               Composite:  _ 
+
+Uniqueness:    Non-unique:  
+               Unique:     X 
+
+Null Support:  Nulls OK:   _ 
+               No nulls:   X 
+
+Values Entered By: User:    
+                   System: X 
+
+Required Value:    No:     _ 
+                   Yes:    X 
+
+Default Value:     _ 
+
+Range of Values:   _ 
+
+Edit Rule:
+  Enter now, edits allowed:        
+  Enter now, edits not allowed:   X
+  Enter later, edits allowed:      
+  Enter later, edits not allowed:  
+  Not determined at this time:     
+
+Comparisons Allowed:
+  Same Field:   _ 
+                ALL   
+                =    X 
+                >     
+                >=    
+                !=    
+                <     
+                <=    
+
+  Other Fields: _
+                ALL  
+                =     
+                >     
+                >=    
+                !=    
+                <     
+                <=   
+
+  Value Expr.:  _ 
+                ALL   
+                =   X  
+                >     
+                >=    
+                !=    
+                <     
+                <=    
+
+Operations Allowed:
+  Same Field:   _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+  Other Fields: _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+  Value Expr.:  _ 
+                ALL   
+                +     
+                -     
+                *     
+                /     
+
+NOTES:
+While this primary key is allowed to be
+compared on a same field basis using equals,
+this current design of the database does not
+include this field in other tables as a foreign key. 

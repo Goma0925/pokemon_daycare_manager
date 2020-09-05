@@ -2,7 +2,7 @@ FIELD SPECIFICATIONS
 
 GENERAL ELEMENTS
 
-Field Name: PriceRatePerLevel           
+Field Name: PricePerDay          
 
 Specification Type:
   Unique:  X
@@ -13,19 +13,20 @@ Label: Cost Per Level
 Source Specification: 
 Shared By:            _ 
 Aliases:              _ 
-Description:          Trainers who opt in for extended stay
-					  provide us with the necessary time to 
-					  help level their pokemon up. We use extra
-					  resources to try to level pokemon up, so we
-					  must charge a small fee per level gained.
+Description:          Our daycare service comes with a fee per day.
+					  This field allows us to manage pricing to trainers'
+					  pokemon we serve as we must cover food, housing, staff,
+					  and more costs in order to continue as an organization.
+					  The resources we input into a trainer's pokemon allows
+					  us to help the pokemon level, produce eggs, and learn moves. 
 			
 PHYSICAL ELEMENTS
 
 Data Type:            DECIMAL 
 Length:                
 Decimal Places:       2 
-Input Mask:           Dollars.Cents 
-Display Format:       $Dollars.Cents
+Input Mask:           ##.## 
+Display Format:       $##.##
 Character Support:
   Letters (A-Z):       
   Numbers (0-9):      X 
@@ -69,12 +70,12 @@ Edit Rule:
 Comparisons Allowed:
   Same Field:   _ 
                 ALL   
-                =     
-                >     
-                >=    
+                =   X 
+                >   X  
+                >=  X  
                 !=    
-                <     
-                <=    
+                <   X  
+                <=  X  
 
   Other Fields: _
                 ALL  
@@ -103,17 +104,17 @@ Operations Allowed:
                 /     
 
   Other Fields: _ 
-                ALL   
+                ALL X  
                 +     
                 -     
-                *   X     
+                *        
                 /     
 
   Value Expr.:  _ 
-                ALL   
+                ALL X  
                 +     
                 -     
-                *   X     
+                *        
                 /     
 
 NOTES:
