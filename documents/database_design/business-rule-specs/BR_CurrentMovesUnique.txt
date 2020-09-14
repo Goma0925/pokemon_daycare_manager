@@ -1,0 +1,60 @@
+BUSINESS RULE SPECIFICATIONS
+
+RULE INFORMATION
+
+Statement:  A pokemon must have all unique 
+moves. 
+
+Constraint: A Pokemon's current moves in 
+the CurrentMoves linking table should be unique
+in value. 
+
+Type:     Database Oriented:     X
+          Application Oriented:  _
+
+Category: Field Specific:        X
+          Relationship Specific: _
+
+Test On:  Insert:                X
+          Delete:                _
+          Update:                X
+
+
+STRUCTURES AFFECTED
+  Field Names: CurrentMoves.MoveName, CurrentMoves.PokemonID
+  Table Names: CurrentMoves
+
+FIELD ELEMENTS AFFECTED
+  Physical Elements: Data Type:           _
+                     Length:              _
+                     Decimal Places:      _
+                     Character Support:   _
+                     Input Mask:          _
+                     Display Format:      _
+
+  Logical Elements:  Key Type:            _
+                     Key Structure:       _
+                     Uniqueness:          X
+                     Null Support:        _
+                     Values Entered By:   _
+                     Default Value:       _
+                     Range of Values:     _
+                     Comparisons Allowed: _
+                     Operations Allowed:  _
+                     Edit Rule:           _
+
+RELATIONSHIP CHARACTERISTICS AFFECTED
+  Deletion rule:           _
+  Type of participation:   _
+  Degree of participation: _
+
+ACTION TAKEN
+We will impose UNIQUE 
+constraint on CurrentMoves.MoveName. 
+
+NOTES: 
+To test this, we just Insert
+a new move associated with a particular
+pokemon that results in a duplicate.
+The db server will return a signal
+saying failed. 

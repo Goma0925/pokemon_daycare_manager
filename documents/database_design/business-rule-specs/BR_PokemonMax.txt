@@ -1,0 +1,69 @@
+BUSINESS RULE SPECIFICATIONS
+
+RULE INFORMATION
+
+Statement: A trainer can only have two pokemon
+enrolled in daycare at a time. 
+
+Constraint: Only two pokemon can be tied to 
+a trainer in active service records. 
+
+Type:     Database Oriented:     X
+          Application Oriented:  _
+
+Category: Field Specific:        _
+          Relationship Specific: X
+
+Test On:  Insert:                X
+          Delete:                _
+          Update:                _
+
+
+STRUCTURES AFFECTED
+  Field Names: ServiceRecords.TrainerID (FK), 
+               ServiceRecords.PokemonID (FK)
+  Table Names: ServiceRecords, Trainers
+
+FIELD ELEMENTS AFFECTED
+  Physical Elements: Data Type:           _
+                     Length:              _
+                     Decimal Places:      _
+                     Character Support:   _
+                     Input Mask:          _
+                     Display Format:      _
+
+  Logical Elements:  Key Type:            _
+                     Key Structure:       _
+                     Uniqueness:          _
+                     Null Support:        _
+                     Values Entered By:   _
+                     Default Value:       _
+                     Range of Values:     _
+                     Comparisons Allowed: _
+                     Operations Allowed:  _
+                     Edit Rule:           _
+
+RELATIONSHIP CHARACTERISTICS AFFECTED
+  Deletion rule:           _
+  Type of participation:   _
+  Degree of participation: X
+
+ACTION TAKEN
+To constrain this degree of participation
+at the database level, we will have an 
+active service records view and another 
+view which aggregates pokemon per trainer
+who have 2 pokemon in the care in active service 
+records. From here, we impose an insertion rule,
+where an insertion can only be made for a trainer
+if that trainer is not in the aggregate for trainers
+with max pokemon. 
+
+
+NOTES: 
+We can test this rule by 
+creating a trainer and then
+inserting two pokemon. 
+Then a third pokemon will 
+be inserted, but to no avail,
+if test is incorrect. 
