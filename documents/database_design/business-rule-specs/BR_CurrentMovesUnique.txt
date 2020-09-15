@@ -58,6 +58,9 @@ moves in and update the new move, but check if
 that new move overlaps with the other moves not
 being replaced. 
 
+Additionally, we reinforce this constraint by
+imposing UNIQUE on (pokemon_id,move_name).
+
 NOTES: 
 To test this, we just Insert
 a new move associated with a particular
