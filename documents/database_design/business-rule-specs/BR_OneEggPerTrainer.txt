@@ -5,7 +5,9 @@ RULE INFORMATION
 Statement:  the Daycare will only hold one egg per trainer until the trainer
               decides to pick up the egg. 
 
-Constraint: A trainer will only have 1 egg at a time in the database. 
+Constraint: A trainer will only have 1 egg at a time in the database. This means
+            that the EggEvents table cannot house more than 1 active egg at a time
+            for a given trainer. 
 
 Type:     Database Oriented:     X
           Application Oriented:  _
@@ -49,7 +51,7 @@ RELATIONSHIP CHARACTERISTICS AFFECTED
 ACTION TAKEN
 
 While the daycare will do its part to prevent pokemon to have any more eggs after the first one, the database
-will utilize a check to make sure that there is no multiple eggs under a single TrainerID
+will utilize a check to make sure that there is no multiple eggs under a single TrainerID.
 
 
 NOTES: _
