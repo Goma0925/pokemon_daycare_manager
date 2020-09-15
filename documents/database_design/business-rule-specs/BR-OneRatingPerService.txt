@@ -47,5 +47,7 @@ RELATIONSHIP CHARACTERISTICS AFFECTED
 
 ACTION TAKEN
   Set UNIQUE constraint on Ratings.service_record_id.
+  Use a trigger to impose conditional insertions on into Ratings
+  based on Ratings.service_record_id. 
 
 NOTES: _
