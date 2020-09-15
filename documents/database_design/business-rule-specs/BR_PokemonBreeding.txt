@@ -4,7 +4,10 @@ RULE INFORMATION
 
 Statement:  When two pokemon breed, those two pokemon must be from the same trainer.
 
-Constraint: Only pokemon wit the same TrainerID will be allowed to make eggs.
+Constraint: A pokemon A can only generate an egg with another pokemon B when
+            pokemon A and pokemon B come from the same trainer T. More specifically,
+            two pokemon in Pokemon Table can breed iff they both have the same 
+            trainer_id FK. 
 
 Type:     Database Oriented:     X
           Application Oriented:  _
@@ -48,8 +51,7 @@ RELATIONSHIP CHARACTERISTICS AFFECTED
 ACTION TAKEN
 
 While the work of making sure two pokemon who are from th same trainer breed with only themselves is up to the Daycare Staff
-the Database will have a check to make sure the father and mover of the same egg has the same trainerID
-
+the Database will have a check to make sure the father and mother of the same egg have the same trainerID.
 
 NOTES: 
 
