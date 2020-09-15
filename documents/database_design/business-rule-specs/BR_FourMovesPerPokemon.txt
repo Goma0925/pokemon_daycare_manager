@@ -5,6 +5,9 @@ RULE INFORMATION
 Statement:  A Pokemon must only know a max of four moves at any given time.
 
 Constraint: The Pokemon can only have four records in the CurrentMoves table at one time.
+            This means that for any given pokemon_id pk in Pokemon, there can only be 4 records in
+            CurrentMoves associated with that pokemon_id fk. Thus, we are constraining on degree of
+            participation. 
 
 Type:     Database Oriented:     X
           Application Oriented:  _
