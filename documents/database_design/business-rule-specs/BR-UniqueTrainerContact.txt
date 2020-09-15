@@ -1,0 +1,52 @@
+BUSINESS RULE SPECIFICATIONS
+
+RULE INFORMATION
+
+Statement:  Each trainer has to have a unique phone number.
+
+Constraint: The phone_number field in the trainers table must be unique within the table.
+
+Type:     Database Oriented:     X
+          Application Oriented:  _
+
+Category: Field Specific:        X
+          Relationship Specific: _
+
+Test On:  Insert:                X
+          Delete:                _
+          Update:                X
+
+
+STRUCTURES AFFECTED
+  Field Names: phone_number
+  Table Names: trainers
+
+FIELD ELEMENTS AFFECTED
+  Physical Elements: Data Type:           _
+                     Length:              _
+                     Decimal Places:      _
+                     Character Support:   _
+                     Input Mask:          _
+                     Display Format:      _
+
+  Logical Elements:  Key Type:            _
+                     Key Structure:       _
+                     Uniqueness:          X
+                     Null Support:        _
+                     Values Entered By:   _
+                     Default Value:       _
+                     Range of Values:     _
+                     Comparisons Allowed: _
+                     Operations Allowed:  _
+                     Edit Rule:           _
+
+RELATIONSHIP CHARACTERISTICS AFFECTED
+  Deletion rule:           _
+  Type of participation:   _
+  Degree of participation: _
+
+ACTION TAKEN
+    Set UNIQUE constraint on the trainers.phone_number.
+
+
+NOTES: _
