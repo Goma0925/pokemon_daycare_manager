@@ -1,0 +1,55 @@
+BUSINESS RULE SPECIFICATIONS
+
+RULE INFORMATION
+
+Statement:  the Daycare will only hold one egg per trainer until the trainer
+              decides to pick up the egg. 
+
+Constraint: A trainer will only have 1 egg at a time in the database. 
+
+Type:     Database Oriented:     X
+          Application Oriented:  _
+
+Category: Field Specific:        _
+          Relationship Specific: X
+
+Test On:  Insert:                X
+          Delete:                X
+          Update:                X
+
+
+STRUCTURES AFFECTED
+  Field Names: _
+  Table Names: EggEvents
+
+FIELD ELEMENTS AFFECTED
+  Physical Elements: Data Type:           _
+                     Length:              _
+                     Decimal Places:      _
+                     Character Support:   _
+                     Input Mask:          _
+                     Display Format:      _
+
+  Logical Elements:  Key Type:            _
+                     Key Structure:       _
+                     Uniqueness:          _
+                     Null Support:        _
+                     Values Entered By:   _
+                     Default Value:       _
+                     Range of Values:     _
+                     Comparisons Allowed: _
+                     Operations Allowed:  _
+                     Edit Rule:           _
+
+RELATIONSHIP CHARACTERISTICS AFFECTED
+  Deletion rule:           _
+  Type of participation:   _
+  Degree of participation: X
+
+ACTION TAKEN
+
+While the daycare will do its part to prevent pokemon to have any more eggs after the first one, the database
+will utilize a check to make sure that there is no multiple eggs under a single TrainerID
+
+
+NOTES: _
