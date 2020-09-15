@@ -9,8 +9,8 @@ Constraint: A Pokemon's current moves in
 the CurrentMoves linking table should be unique
 in value. 
 
-Type:     Database Oriented:     X
-          Application Oriented:  _
+Type:     Database Oriented:     _
+          Application Oriented:  X
 
 Category: Field Specific:        X
           Relationship Specific: _
@@ -49,8 +49,14 @@ RELATIONSHIP CHARACTERISTICS AFFECTED
   Degree of participation: _
 
 ACTION TAKEN
-We will impose UNIQUE 
-constraint on CurrentMoves.MoveName. 
+When adding a new pokemon,
+we keep a local list on the application
+end and ensure that when they submit, 
+there are no duplicates in the list. 
+When updating existing moves, we pull those
+moves in and update the new move, but check if
+that new move overlaps with the other moves not
+being replaced. 
 
 NOTES: 
 To test this, we just Insert
