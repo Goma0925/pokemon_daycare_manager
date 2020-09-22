@@ -8,9 +8,9 @@ Specification Type:
   Unique:  
   Generic: 
   Replica: X
-Parent Table: BusinessStates        _ 
+Parent Table: BusinessStates         
 Label:                Date 
-Source Specification: Date (SEE Generic_Date_FS) 
+Source Specification: Generic_DateTime_FS
 Shared By:            _ 
 Aliases:              _ 
 Description:          A date entered by a business administator
@@ -21,15 +21,15 @@ Description:          A date entered by a business administator
 
 PHYSICAL ELEMENTS
 
-Data Type:            DATE 
-Length:               10 
+Data Type:            DATETIME 
+Length:               _ 
 Decimal Places:       _ 
-Input Mask:           DD-MM-YYYY 
-Display Format:       YYYY-MM-DD 
+Input Mask:           _ 
+Display Format:       _
 Character Support:
-  Letters (A-Z):      X 
-  Numbers (0-9):      X 
-  Keyboard (.,/$#%):  X 
+  Letters (A-Z):      _ 
+  Numbers (0-9):      _
+  Keyboard (.,/$#%):  _ 
   Special (©®™Σπ):    _ 
 
 
@@ -117,4 +117,4 @@ Operations Allowed:
                 /    _ 
 
 NOTES:
-
+See Generic_DateTime_FS.txt for more info. 
