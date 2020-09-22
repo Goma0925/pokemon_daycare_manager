@@ -8,7 +8,7 @@ Specification Type:
   Unique:  
   Generic:  
   Replica:            X 
-Parent Table:         Notifcations
+Parent Table:         Notifications
 Label:                Date of Event
 Source Specification: Generic_DateTime_FS
 Shared By:            _ 
