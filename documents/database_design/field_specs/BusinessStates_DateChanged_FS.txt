@@ -35,7 +35,7 @@ Character Support:
 
 LOGICAL ELEMENTS
 
-Key Type:      Non:        X 
+Key Type:      Non:        _ 
                Primary:    _ 
                Foreign:    _ 
                Alternate:  _ 
@@ -43,17 +43,17 @@ Key Type:      Non:        X
 Key Structure: Simple:     _ 
                Composite:  _ 
 
-Uniqueness:    Non-unique: X 
+Uniqueness:    Non-unique: _ 
                Unique:     _ 
 
 Null Support:  Nulls OK:   _ 
-               No nulls:   X 
+               No nulls:   _ 
 
-Values Entered By: User:   X 
+Values Entered By: User:   _ 
                    System: _ 
 
 Required Value:    No:     _ 
-                   Yes:    X 
+                   Yes:    _ 
 
 Default Value:     _ 
 
