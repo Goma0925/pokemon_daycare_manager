@@ -35,6 +35,19 @@ do them inside of a stored procedure because a trigger will always insert, delet
 (unless we explicitly declare signals to stop the trigger event altogether, 
 which is probably overkill). 
 
+For example, suppose we want to limit the number of moves a pokemon can have to 4. Because we
+cannot use a subquery in CHECK constraints, we must do something else. We would use a stored 
+procedure for this (or just do all of what the stored procedure does inside of the application 
+code, which is not ideal). 
+
+Example -- 
+START PROCEDURE insert_pokemon_move(id, someargs...)
+    if (select movenames from moves where pokemonid = id)<4
+        insert new move into moves table for pokemon with id id
+    else
+        return a message saying pokemon already has 4 moves
+END PROCEDURE
+
 2. When we are going to perform the action but it also should performs other actions 
 such as delete, update, insert, use a trigger. 
 
