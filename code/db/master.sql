@@ -44,7 +44,7 @@ CREATE TABLE ServiceRecords (
 /* Create a table for 'Ratings' */
 CREATE TABLE Ratings ( /* is the service record id fk allow duplicates? */
     PRIMARY KEY(service_record_id),
-    service_record_id INT,
+    service_record_id INT UNIQUE,
     FOREIGN KEY (service_record_id)
     REFERENCES ServiceRecords(service_record_id), /* add deletion/update rules */
     satisfaction INT NOT NULL  
@@ -56,19 +56,20 @@ CREATE TABLE Ratings ( /* is the service record id fk allow duplicates? */
 /* Create a table for 'Moves' */
 CREATE TABLE Moves (
     PRIMARY KEY(move_name),
-    move_name VARCHAR(20), /* length is what? update tables fields doc */
+    move_name VARCHAR(20) UNIQUE, /* length is what? update tables fields doc */
     move_description VARCHAR(150)
 );
 
 /* Create a table for 'CurrentMoves' */
 CREATE TABLE CurrentMoves ( /* is this compound pk? */
     PRIMARY KEY(move_name, pokemon_id),
-    move_name VARCHAR(20), /* length is what? update tables fields doc */
-    pokemon_id INT,
+    move_name VARCHAR(20) NOT NULL, /* length is what? update tables fields doc */
+    pokemon_id INT NOT NULL,
     FOREIGN KEY (move_name)
     REFERENCES Moves(move_name),
     FOREIGN KEY (pokemon_id)
-    REFERENCES Pokemon(pokemon_id)
+    REFERENCES Pokemon(pokemon_id),
+    CONSTRAINT `unique_moves` UNIQUE(move_name, pokemon_id)
 );
 
 /* Create a table for 'BusinessStates' */
@@ -94,10 +95,10 @@ CREATE TABLE Notifications (
 /* Create a table for 'EggEvents' */
 CREATE TABLE EggEvents (
     PRIMARY KEY(notification_id),
-    notification_id INT AUTO_INCREMENT,
+    notification_id INT,
     father INT,
-    mother INT,
-    given_to_trainer TINYINT,
+    mother INT CHECK (mother != father), /* mother and father cannot be same */
+    given_to_trainer TINYINT DEFAULT 0,
     FOREIGN KEY (notification_id)
     REFERENCES Notifications(notification_id),
     FOREIGN KEY (father) 
@@ -106,16 +107,18 @@ CREATE TABLE EggEvents (
     REFERENCES Pokemon(pokemon_id)
 );
 
+
 /* Create a table for 'MoveEvents' */
 CREATE TABLE MoveEvents (
     PRIMARY KEY(notification_id),
-    notification_id INT AUTO_INCREMENT,
+    notification_id INT,
     old_move_name VARCHAR(20),
+    new_move_name VARCHAR(20),
     pokemon_id INT,
     FOREIGN KEY (notification_id)
     REFERENCES Notifications(notification_id),
-    FOREIGN KEY (pokemon_id, old_move_name) /* CFK */
-    REFERENCES CurrentMoves(pokemon_id, move_name)
+    FOREIGN KEY (new_move_name, pokemon_id) /* CFK */
+    REFERENCES CurrentMoves(move_name, pokemon_id)
 );
 
 
@@ -129,13 +132,15 @@ CREATE TABLE Fights ( /* is this most recent? */
 /* Create a table for 'FightEvents' */
 CREATE TABLE FightEvents ( /* is this most recent? */
     PRIMARY KEY(notification_id),
-    notification_id INT AUTO_INCREMENT,
+    notification_id INT,
     pokemon_id INT,
     fight_id INT, 
     FOREIGN KEY (notification_id)
     REFERENCES Notifications(notification_id),
     FOREIGN KEY (fight_id)
-    REFERENCES Fights(fight_id)
+    REFERENCES Fights(fight_id),
+    FOREIGN KEY (pokemon_id)
+    REFERENCES Pokemon(pokemon_id)
 );
 
 
