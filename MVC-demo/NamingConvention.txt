@@ -1,0 +1,9 @@
+By taking the naming convention from the video(https://www.youtube.com/watch?v=Fg0CP-ri87U&feature=youtu.be), 
+we can name each MVC class as following:
+
+Model - Plural entity name.
+View - Plural entity name + "View"
+Controller - Plural entity name + "Contr"
+
+Other useful docs:
+https://www.sitepoint.com/the-mvc-pattern-and-php-1/

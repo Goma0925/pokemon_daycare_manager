@@ -7,7 +7,7 @@ CREATE TABLE Trainers (
     PRIMARY KEY(trainer_id),
     trainer_id INT AUTO_INCREMENT, /* change from auto to something else */
     email VARCHAR(25) UNIQUE,
-    phone VARCHAR(10) NOT NULL UNIQUE, 
+    phone VARCHAR(12) NOT NULL UNIQUE, 
     trainer_name VARCHAR(16) NOT NULL
 );
 
