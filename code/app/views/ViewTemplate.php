@@ -1,7 +1,7 @@
 <?php
     include 'models/setModelClassNameHere.php';
 
-    class SomethingsView { //Make sure to use plural noun
+    class SomethingsView { //Make sure to use plural noun for the class name
         private $someModel;
         public function __construct() {
             //Make sure you don' put the $ sign in front of the variable name when using $this keyword!
