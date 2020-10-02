@@ -1,6 +1,6 @@
 <?php
     include 'models/Database.php';
-    class SomethingsModel extends Database { //Make sure to use plural noun
+    class SomethingsModel extends Database { //Make sure to use plural noun for the class name
         public function someMethod(){
             $sql = //SQL for prepared statement;
             $stmt;
