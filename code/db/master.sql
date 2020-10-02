@@ -115,6 +115,8 @@ CREATE TABLE MoveEvents (
     old_move_name VARCHAR(20),
     new_move_name VARCHAR(20),
     pokemon_id INT,
+    FOREIGN KEY (old_move_name)
+    REFERENCES Moves(move_name),
     FOREIGN KEY (notification_id)
     REFERENCES Notifications(notification_id),
     FOREIGN KEY (new_move_name, pokemon_id) /* CFK */
@@ -143,5 +145,8 @@ CREATE TABLE FightEvents ( /* is this most recent? */
     REFERENCES Pokemon(pokemon_id)
 );
 
-
+CREATE VIEW ActivePokemon AS
+SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
+Pokemon.nickname, Pokemon.breedname FROM Pokemon INNER JOIN ServiceRecords
+USING (pokemon_id) WHERE ServiceRecords.end_time IS NULL; 
 
