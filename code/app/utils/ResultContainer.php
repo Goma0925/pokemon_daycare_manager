@@ -15,12 +15,19 @@
 
         *If you want to merge the error messages from two ResultContainer objects, use
             ResultContainer->mergeError()
+
+
+    We can use this more. We currently
+    never use it beyond scope of class
+    methods. 
+
 -->
 
 <?php 
     class ResultContainer{
         private $errorMessages;
         private $isSuccess;
+
         public function __construct() {
             $this->errorMessages = Array();
             $this->isSuccess = true;
