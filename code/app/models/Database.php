@@ -28,7 +28,7 @@
                     $stmt->bind_param($bindTypeStr,...$bindArr); 
                 }
                 $stmt->execute(); 
-                $result = $stmt->get_result();
+                $result = $stmt->get_result(); // consult documentation: https://www.php.net/manual/en/mysqli-stmt.get-result.php
             } 
             catch (Exception $e) {
                 /* we have technical errors and user defined errors.
