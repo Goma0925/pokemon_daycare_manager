@@ -11,7 +11,7 @@ Specification Type:
 Parent Table:		  Fights          
 Label:                 
 Source Specification: 
-Shared By:            FightEvents, PokemonFights 
+Shared By:            FightEvents
 Aliases:              
 Description:          All fights that occur at our daycare
 					  are recorded. This is essential to 

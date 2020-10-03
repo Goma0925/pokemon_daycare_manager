@@ -6,7 +6,7 @@ USE daycare;
 CREATE TABLE Trainers (
     PRIMARY KEY(trainer_id),
     trainer_id INT AUTO_INCREMENT, /* change from auto to something else */
-    email VARCHAR(25) UNIQUE,
+    email VARCHAR(320) UNIQUE,
     phone VARCHAR(12) NOT NULL UNIQUE, 
     trainer_name VARCHAR(16) NOT NULL
 );
