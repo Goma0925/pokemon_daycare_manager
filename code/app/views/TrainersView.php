@@ -7,7 +7,7 @@
             $this->trainersModel = new TrainersModel();
         }
 
-        public function trainerSearchTableByName($name){
+        public function trainerTableByName($name){
             $resultContainer = $this->trainersModel->getTrainersByName($name);
             echo '
             <form method="post">
