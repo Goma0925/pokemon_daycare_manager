@@ -47,10 +47,10 @@
                 */
 
                 // https://www.php.net/manual/en/mysqli-stmt.error.php
-                $err_mssg = $stmt->error; 
+                $result = $stmt->error; 
 
                 // https://www.php.net/manual/en/function.error-log.php
-                error_log("Error (".$err_mssg.") occurred at ".date('Format String')."\n",
+                error_log("Error (".$result.") occurred at ".date('Format String')."\n",
                 "~/class/csc362_project/code/app/err_logs/errors.log");
                 // ^ overkill to have reporting hit an email?
 
