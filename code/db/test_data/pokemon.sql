@@ -4,7 +4,12 @@ INSERT INTO Pokemon (trainer_id, current_level, nickname, breedname)
     VALUE 
         (1, 3, "PikaPingPong", "Pikachu"),
         (2, 10, "Polly", "Charamander"),
-        (3, 31, "JJ", "Pichu");
+        (3, 31, "JJ", "Pichu"),
+        (3, 3, "Jackson", "Pichu"),
+        (1, 10, "JJ", "Charamander");
+
+        /* Pichu: two of same breed but diff level */
+        /* Charamander: two of same breed and level */
 
 INSERT INTO Moves (move_name, move_description)
     VALUE 
