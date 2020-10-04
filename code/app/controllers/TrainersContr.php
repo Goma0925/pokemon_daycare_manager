@@ -19,24 +19,23 @@
                 $result->addErrorMessage("Phone number has to be less than 12 characters and follow the format XXX-XXX-XXXX.");
             }
             if (strlen($email) > 25 && preg_match("/([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})/", $email)){
-                //If the input format is valid, check for duplicate.
                 $result->setFailure();
                 $result->addErrorMessage("Email has to be less than 25 characters and a valid email address");
             }
 
             //Next, check for duplicate email and phone in the database.
-            $exists = $this->trainersModel->emailExists($email);
-            if ($exists){
+            $emailExists = $this->trainersModel->emailExists($email);
+            if ($emailExists){
                 $result->setFailure();
                 $result->addErrorMessage("Email '".$email."' is already taken.");
             }
-            $exists = $this->trainersModel->phoneExists($phone_number);
-            if ($exists){
+            $phoneExists = $this->trainersModel->phoneExists($phone_number);
+            if ($phoneExists){
                 $result->setFailure();
                 $result->addErrorMessage("Phone number '".$phone_number."' is already taken.");
             }
 
-            //If all validation passes, insert to the database.
+            //If all validations pass, insert a trainer to the database.
             if ($result->isSuccess()){
                 $queryResult = $this->trainersModel->addUser($name, $phone_number, $email);
                 if (!$queryResult->isSuccess()){

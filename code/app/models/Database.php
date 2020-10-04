@@ -19,6 +19,7 @@
         // Constructs prepared statement and provides robust err handling
         // https://www.php.net/manual/en/functions.arguments.php - default args
         public function handleQuery($sql, $bindTypeStr=null, $bindArr=null) {
+            $resultContainer = new ResultContainer();
             $stmt;
             /** *If anything fails, throw exception.
                 *If stmt causes error, we can use its attr 
@@ -31,6 +32,7 @@
                 }
                 $stmt->execute(); 
                 $result = $stmt->get_result(); // consult documentation: https://www.php.net/manual/en/mysqli-stmt.get-result.php
+                $resultContainer->set_mysqli_result($result);
             } 
             catch (Exception $e) {
                 /* we have technical errors and user defined errors.
@@ -60,12 +62,13 @@
                     * so that we can learn to build error reporting like you have 
                     * started 
                 **/
-                // $qryResult->addErrorMessage($stmt->error);
-                // $qryResult->setFailure();
+                $resultContainer->addErrorMessage("Database communication error. Sorry for the inconvenience. Report to organization's 
+                tech support.");
+                $resultContainer->setFailure();
             }
             finally {
                 $this->close();
-                return $result; 
+                return $resultContainer; 
             }
         }
     }
