@@ -33,12 +33,7 @@
                 }
                 $stmt->execute(); 
                 $result = $stmt->get_result(); // consult documentation: https://www.php.net/manual/en/mysqli-stmt.get-result.php
-<<<<<<< HEAD
-                $resultContainer.setSuccess();
-                $resultContainer.set_mysqli_result($result);
-=======
                 $resultContainer->set_mysqli_result($result);
->>>>>>> amon2
             } 
             catch (Exception $e) {
                 /* we have technical errors and user defined errors.
@@ -60,21 +55,15 @@
                 // ^ overkill to have reporting hit an email?
 
                 // Something to output to user. 
-                echo "<br>Sorry for the inconvenience. Report to organization's 
-                tech support<br>"; 
+                $user_error = "Database communication error. Sorry for the inconvenience. Report to organization's 
+                tech support.";
 
                 /** error handling below commented out (perfect for user defined)
                     * let's expand this to define our own handlers and exceptions
                     * so that we can learn to build error reporting like you have 
                     * started 
                 **/
-<<<<<<< HEAD
-                $resultContainer->addErrorMessage("Database error occured. Sorry for the inconvenience. Report the issue to organization's 
-                tech support");
-=======
-                $resultContainer->addErrorMessage("Database communication error. Sorry for the inconvenience. Report to organization's 
-                tech support.");
->>>>>>> amon2
+                $resultContainer->addErrorMessage($user_error);
                 $resultContainer->setFailure();
             }
             finally {
