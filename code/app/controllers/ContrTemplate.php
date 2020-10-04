@@ -1,5 +1,5 @@
 <?php 
-    include 'models/setModelClassNameHere.php';
+    include_once 'models/setModelClassNameHere.php';
 
     class SomethingsContr {//Make sure to use plural noun for the class nam
         private $trainersModel;

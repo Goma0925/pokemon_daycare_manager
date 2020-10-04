@@ -1,5 +1,4 @@
 <?php 
-    include 'utils/ResultContainer.php';
     class TrainersContr {
         private $trainersModel;
         public function __construct() {

@@ -1,5 +1,5 @@
 <?php
-    include 'models/Database.php';
+    include_once 'models/Database.php';
     class PokemonModel extends Database { 
 
         public function getPokemonColNames() {

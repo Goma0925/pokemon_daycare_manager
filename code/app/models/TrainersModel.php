@@ -1,5 +1,5 @@
 <?php
-    include 'models/Database.php';
+    include_once 'models/Database.php';
     class TrainersModel extends Database {
         public function getTrainersByName($name){
             //This function returns all the trainer records that contain the name string

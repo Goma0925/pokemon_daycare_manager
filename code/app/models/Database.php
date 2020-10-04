@@ -1,4 +1,5 @@
 <?php 
+    include_once 'utils/ResultContainer.php';
     class Database {
         private $conn;
         protected function connect(){
