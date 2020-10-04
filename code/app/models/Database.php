@@ -2,6 +2,7 @@
     class Database {
         private $conn;
         protected function connect(){
+            // Deprecated: Use of handleQuery() is recommended. 
             $dbhost = "localhost";
             $dbuser = "Amon";
             $dbpass = "password";
