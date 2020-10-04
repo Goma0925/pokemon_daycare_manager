@@ -115,7 +115,7 @@
             
             // Preparing args for query handler calls
             $arg_list = [$trainer_id, $phone, $email];
-            $result = []; // default
+            $result; // default
             $base_sql = "SELECT pokemon_id, trainer_id, current_level,
             nickname, breedname FROM ".($active ? "ActivePokemon" : "Pokemon");
 
@@ -127,6 +127,17 @@
                 *  https://www.php.net/manual/de/mysqlinfo.concepts.buffering.php
                 *  https://stackoverflow.com/questions/35820810/php-get-result-returns-an-empty-result-set
             */
+            
+            try { // ensure an argument is provided
+                if (!isset($trainer_id) && !isset($phone) && $isset($email)) {
+                    throw new Exception("Error: 0 arguments provided");
+                }
+            }
+            catch (Exception $e) {
+                echo "Exception caught: " . $e->getMessage();
+                return; 
+            }
+
             if (isset($trainer_id)) {
                 // try
                 $sql = $base_sql."WHERE trainer_id = ?";
@@ -134,20 +145,21 @@
                 $bindArr = [$trainer_id];
                 $result = $this->handleQuery($sql,$bindTypeStr,$bindArr); // return false if failed.
             }
-            if (isset($phone) && mysqli_num_rows($result) == 0) {
+            if (isset($phone) && mysqli_num_rows($result->get_mysqli_result()) == 0) { // updated from mysqli_num_rows($result)
                 // previous failed, try this
                 $sql = $base_sql."INNER JOIN USING (phone) WHERE phone = ?";
                 $bindTypeStr = "s";
                 $bindArr = [$phone];
                 $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);
             }
-            if (isset($email) && mysqli_num_rows($result) == 0) {
+            if (isset($email) && mysqli_num_rows($result->get_mysqli_result()) == 0) { // updated from mysqli_num_rows($result)
                 // previous failed, try this
                 $sql = $base_sql."INNER JOIN USING (email) WHERE email = ?";
                 $bindTypeStr = "s";
                 $bindArr = [$email];
                 $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);
             }
+
             return $result; // if result set empty at this point, bad search args.
         }
 
