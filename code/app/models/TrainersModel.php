@@ -16,9 +16,18 @@
             // if (!$stmt->execute()){
             //     echo "Query execution failed<br>";
             // }
-            $result = $stmt->get_result();
-            $this->close();
-            return $result;
+            
+            // added code below to show handleQuery use *******
+            // with this code, the statements above can be commented out
+            $bindArr = [$name];
+            $bindStr = "s";
+            $res_container = $this->handleQuery($sql,$bindStr,$bindArr); // positional or explicitly state
+            return $res_container; 
+            
+            // commented code from below out *******
+            // $result = $stmt->get_result();
+            // $this->close();
+            // return $result;
         }
 
         public function emailExists($email){
