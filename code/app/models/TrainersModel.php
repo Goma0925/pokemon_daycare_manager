@@ -1,5 +1,5 @@
 <?php
-    include 'models/Database.php';
+    include_once 'models/Database.php';
     class TrainersModel extends Database {
         public function getTrainersByName($name){
             //This function returns all the trainer records that contain the name string
@@ -7,15 +7,15 @@
             $name = "%".$name."%";
             $sql = 'SELECT * FROM Trainers WHERE UPPER(trainer_name) LIKE ?';
             $stmt;
-            if (!$stmt = $this->connect()->prepare($sql)){
-                echo "Prepare statement failed<br>";
-            }
-            if (!$stmt->bind_param("s", $name)){
-                echo "Parameter binding failed<br>";
-            }
-            if (!$stmt->execute()){
-                echo "Query execution failed<br>";
-            }
+            // if (!$stmt = $this->connect()->prepare($sql)){
+            //     echo "Prepare statement failed<br>";
+            // }
+            // if (!$stmt->bind_param("s", $name)){
+            //     echo "Parameter binding failed<br>";
+            // }
+            // if (!$stmt->execute()){
+            //     echo "Query execution failed<br>";
+            // }
             $result = $stmt->get_result();
             $this->close();
             return $result;

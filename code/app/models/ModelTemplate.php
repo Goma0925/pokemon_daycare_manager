@@ -1,5 +1,5 @@
 <?php
-    include 'models/Database.php';
+    include_once 'models/Database.php';
     class SomethingsModel extends Database { //Make sure to use plural noun for the class name
         public function someSelectMethod(){
             $qryResult = new ResultContainer(); //Custom error container. See utils/ResultContainer.php

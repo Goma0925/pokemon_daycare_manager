@@ -1,5 +1,5 @@
 <?php 
-    include 'utils/ResultContainer.php';
+    include_once 'utils/ResultContainer.php';
     class Database {
         private $conn;
         protected function connect(){
@@ -33,8 +33,12 @@
                 }
                 $stmt->execute(); 
                 $result = $stmt->get_result(); // consult documentation: https://www.php.net/manual/en/mysqli-stmt.get-result.php
+<<<<<<< HEAD
                 $resultContainer.setSuccess();
                 $resultContainer.set_mysqli_result($result);
+=======
+                $resultContainer->set_mysqli_result($result);
+>>>>>>> amon2
             } 
             catch (Exception $e) {
                 /* we have technical errors and user defined errors.
@@ -64,8 +68,13 @@
                     * so that we can learn to build error reporting like you have 
                     * started 
                 **/
+<<<<<<< HEAD
                 $resultContainer->addErrorMessage("Database error occured. Sorry for the inconvenience. Report the issue to organization's 
                 tech support");
+=======
+                $resultContainer->addErrorMessage("Database communication error. Sorry for the inconvenience. Report to organization's 
+                tech support.");
+>>>>>>> amon2
                 $resultContainer->setFailure();
             }
             finally {
