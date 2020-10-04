@@ -184,6 +184,8 @@
             $bindTypeStr = "ssi";
             $bindArr = [$new_move_name, $old_move_name, $pokemon_id];
             $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+        
+            return $result;                                   
         }
         public function addCurrentMove(int $pokemon_id, string $new_move_name) { 
             // define trigger/procedure for insertion (reinforcing degree)
@@ -192,6 +194,8 @@
             $bindTypeStr = "si";
             $bindArr = [$new_move_name, $pokemon_id];
             $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+            return $result;
+            
         }
 
     }
