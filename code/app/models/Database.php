@@ -2,7 +2,7 @@
     include_once 'utils/ResultContainer.php';
     class Database {
         private $conn;
-        protected function connect(){
+        private function connect(){
             // Deprecated: Use of handleQuery() is recommended. 
             $dbhost = "localhost";
             $dbuser = "Amon";
