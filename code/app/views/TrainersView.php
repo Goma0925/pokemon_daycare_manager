@@ -8,7 +8,7 @@
         }
 
         public function trainerSearchTableByName($name){
-            $result = $this->trainersModel->getTrainersByName($name);
+            $resultContainer = $this->trainersModel->getTrainersByName($name);
             echo '
             <form method="post">
                 <table class="table">
@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                 ';
-            while ($row = $result->fetch_assoc()) {
+            while ($row = $resultContainer->get_mysqli_result()->fetch_assoc()) {
                 echo '  <tr>
                             <td>
                                 <div class="form-check">
@@ -38,7 +38,7 @@
             echo '
                     </tbody>
                 </table>';
-            if ($result->num_rows!=0){
+            if ($resultContainer->get_mysqli_result()->num_rows!=0){
                 echo '
                     <input type="submit" value="Select trainer">
                 ';
@@ -48,7 +48,7 @@
             ';
 
             //Render "not found" message if no records were found.
-            if ($result->num_rows==0){
+            if ($resultContainer->get_mysqli_result()->num_rows==0){
                 echo '
                         <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
                 ';

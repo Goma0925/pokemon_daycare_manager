@@ -4,45 +4,36 @@
         public function getTrainersByName($name){
             //This function returns all the trainer records that contain the name string
             //It ignores the distinction lowercase & uppercase.
-            $name = "%".$name."%";
             $sql = 'SELECT * FROM Trainers WHERE UPPER(trainer_name) LIKE ?';
-            $stmt;
-            // if (!$stmt = $this->connect()->prepare($sql)){
-            //     echo "Prepare statement failed<br>";
-            // }
-            // if (!$stmt->bind_param("s", $name)){
-            //     echo "Parameter binding failed<br>";
-            // }
-            // if (!$stmt->execute()){
-            //     echo "Query execution failed<br>";
-            // }
-            $result = $stmt->get_result();
-            $this->close();
-            return $result;
+
+            //Construct bind parameters
+            $bindTypeStr = "s"; 
+            $name = "%".$name."%";
+            $bindArr = Array($name);
+
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+            return $resultContainer;
         }
 
         public function emailExists($email){
-            $qryResultContainer = new ResultContainer();
             $sql = 'SELECT trainer_id
                         FROM Trainers
                         WHERE email = ?;
             ';
-            $stmt;
-            if (!$stmt = $this->connect()->prepare($sql)){
-                $qryResultContainer->addErrorMessage("Prepare statement failed.");
-                $qryResultContainer->setFailure();
-            }
-            if (!$stmt->bind_param("s", $email)){
-                $qryResultContainer->addErrorMessage("Parameter binding failed.");
-                $qryResultContainer->setFailure();
-            }
-            if (!$stmt->execute()){
-                $qryResultContainer->addErrorMessage("Query execution failed.");
-                $qryResultContainer->setFailure();
-            };
-            $result = $stmt->get_result();  
+
+            //Construct bind parameters
+            $bindTypeStr = "s"; 
+            $bindArr = Array($email);
+
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+
+            //Get the number of rows to check if the record with the email exsits.
+            $result = $resultContainer->get_mysqli_result();  
             $row_num = $result->num_rows;
-            $this->close();
+
+            //Return true if the record with the email exsits.
             if ($row_num > 0){
                 return true;
             }else{
@@ -56,22 +47,18 @@
                         FROM Trainers
                         WHERE phone = ?;
             ';
-            $stmt;
-            if (!$stmt = $this->connect()->prepare($sql)){
-                $qryResultContainer->addErrorMessage("Prepare statement failed.");
-                $qryResultContainer->setFailure();
-            }
-            if (!$stmt->bind_param("s", $phone_number)){
-                $qryResultContainer->addErrorMessage("Parameter binding failed.");
-                $qryResultContainer->setFailure();
-            }
-            if (!$stmt->execute()){
-                $qryResultContainer->addErrorMessage("Query execution failed.");
-                $qryResultContainer->setFailure();
-            };
-            $result = $stmt->get_result();  
+            //Construct bind parameters
+            $bindTypeStr = "s"; 
+            $bindArr = Array($phone_number);
+
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+
+            //Get the number of rows to check if the record with the phone number exsits.
+            $result = $resultContainer->get_mysqli_result();  
             $row_num = $result->num_rows;
-            $this->close();
+
+            //Return true if the record with the phone number exsits.
             if ($row_num > 0){
                 return true;
             }else{
