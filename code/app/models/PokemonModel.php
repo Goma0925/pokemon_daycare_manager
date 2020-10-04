@@ -44,7 +44,7 @@
                 $bindArr = [$pokemon_id];
                 $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);
             }      
-            else { // aggregate on other column values
+            else { // aggregate on all other *specified* column values
                 // https://www.w3schools.com/sql/sql_like.asp (sql LIKE)
                 $sql = $base_sql."WHERE breedname LIKE '?' && nickname LIKE '?'";
 
@@ -52,15 +52,23 @@
                 $bindTypeStr = "";
                 $bindArr = Array(); 
 
-                // always bind breedname and nickname, just conditionally use "%": ALL wildcard
+                // ALWAYS bind breedname, nickname; just conditionally use "%": ALL wildcard.
                 $bindTypeStr."ss"; // str breedname, str nickname
                 $bindArr[] = isset($breedname) ? $breedname : "%";
                 $bindArr[] = isset($nickname) ? $nickname : "%";
 
-                // do not always bind current_level, add to typestr and arr accordingly
+                /* Note (https://www.php.net/manual/en/function.array-push.php): 
+                   $arr = Array();
+                   $arr[] = 'cool'; 
+                   $arr[] = 'awesome'; 
+                   var_dump($arr) // output: [0]=> string(4) "cool"
+                                             [1]=> string(7) "awesome"
+                   // **faster than array_push() for single pushing**
+                */
+                // If $current_level specified, bind. Otherwise, do not. 
                 if (isset($current_level) && !isset($upper_current_level)) { // exact filtering
                     $sql = $base_sql." && current_level = ?;"; 
-                    $bindTypeStr."i";
+                    $bindTypeStr."i"; 
                     $bindArr[] = $current_level; 
                 }
                 elseif (isset($current_level) && isset($upper_current_level)) { // range filtering
@@ -73,7 +81,7 @@
                     $sql = $base_sql.";"; // wrap up query and do not add current_level
                 }
                 $result = $this->handleQuery($sql,$bindTypeStr,$bindArr); // if no filtering added ^, 
-                                                                         // uses $sql = base_sql
+                                                                          // uses $sql = base_sql
             }       
             return $result; 
         }
@@ -143,6 +151,48 @@
             return $result; // if result set empty at this point, bad search args.
         }
 
-   
+        /* assume autoincrement on pokemon? */
+        public function addPokemon(int $trainer_id, int $current_level, 
+                                   string $nickname, string $breedname) {
+            $sql = "INSERT INTO Pokemon(trainer_id,current_level,nickname,breedname) 
+                    VALUES (?,?,?,?);";
+            $bindTypeStr = "iiss";
+            $bindArr = [$trainer_id, $current_level, $nickname, $breedname];
+            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                            
+        }
+
+        /** should we check if pokemon is active? */
+        public function getAllCurrentMoves(int $pokemon_id) {
+             // Always contains move description, just slice as needed
+            $sql = "SELECT CurrentMoves.move_name, Moves.move_description 
+                    FROM CurrentMoves INNER JOIN Moves
+                    USING (move_name) WHERE CurrentMoves.pokemon_id = ?;";
+            $bindTypeStr = "i";
+            $bindArr = [$pokemon_id];
+            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+        }
+
+        /* At this point, we have performed all necessary 
+         checks to ensure safe insertion for replace and 
+         addCurrentMove methods. 
+        */
+        public function replaceCurrentMove(int $pokemon_id, 
+                                           string $old_move_name, 
+                                           string $new_move_name) {
+            $sql = "UPDATE CurrentMoves SET move_name = ? 
+                                        WHERE move_name = ? && pokemon_id = ?;";
+            $bindTypeStr = "ssi";
+            $bindArr = [$new_move_name, $old_move_name, $pokemon_id];
+            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+        }
+        public function addCurrentMove(int $pokemon_id, string $new_move_name) { 
+            // define trigger/procedure for insertion (reinforcing degree)
+            $sql = "INSERT INTO CurrentMoves(move_name, pokemon_id) 
+                    VALUES (?,?);";
+            $bindTypeStr = "si";
+            $bindArr = [$new_move_name, $pokemon_id];
+            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+        }
+
     }
 ?>
