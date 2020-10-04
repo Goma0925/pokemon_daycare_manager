@@ -4,19 +4,78 @@
 
         public function getPokemonColNames() {
             $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Pokemon'";
-            $result = $this->handleQuery($sql); // other args are optional
+            $result = $this->handleQuery($sql); // other args are optional, read handleQuery
             return $result;
         } 
 
-        public function getPokemonByID($pokemon_id) {
-            /* Prepare args for query handler */
-            $sql = "SELECT pokemon_id, trainer_id, current_level,
-                    nickname, breedname
-                    FROM Pokemon WHERE pokemon_id = ?";
-            $bindTypeStr = "i";
-            $bindArr = [$pokemon_id];
-            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);
-            return $result;
+        /** Get 1 or more pokemon 
+         * If pokemon_id is specified, returns 1 pokemon record.
+         * If pokemon_id is unspecified, all other fields will be used
+            * to aggregate results based on the arguments provided (below):
+                * $current_level: exact level filter || 
+                    * use as lower bound for $upper_current_level 
+                    * [$current_level, $upper_current_level].
+                * $upper_current_level: 
+                    * use as upper bound for $current_level
+                    * [$current_level, $upper_current_level].
+                * $nickname
+                * $breedname
+         * If active is set to false, then the aggregation will be done
+         * on all pokemon (including those that are active). 
+         * Search on range level ** to add
+        */
+        public function getPokemonByAttr(int $pokemon_id = null,
+                                        int $current_level = null,
+                                        int $upper_current_level = null,
+                                        string $nickname = null,
+                                        string $breedname = null,
+                                        bool $active = true) {
+            $result; // declare return val
+            /* Construct base_sql string */
+            /* https://davidwalsh.name/php-shorthand-if-else-ternary-operators 
+               (common for inline conditional concatentation)
+            */
+            $base_sql = "SELECT pokemon_id, trainer_id, current_level,
+                                nickname, breedname
+                                FROM ".($active ? "ActivePokemon" : "Pokemon"); 
+            if (isset($pokemon_id)) { // get unique pokemon
+                $sql = $base_sql." WHERE pokemon_id = ?;";
+                $bindTypeStr = "i";
+                $bindArr = [$pokemon_id];
+                $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+            }      
+            else { // aggregate on other column values
+                // https://www.w3schools.com/sql/sql_like.asp (sql LIKE)
+                $sql = $base_sql."WHERE breedname LIKE '?' && nickname LIKE '?'";
+
+                // Construct types for prepared statement bind type string
+                $bindTypeStr = "";
+                $bindArr = Array(); 
+
+                // always bind breedname and nickname, just conditionally use "%": ALL wildcard
+                $bindTypeStr."ss"; // str breedname, str nickname
+                $bindArr[] = isset($breedname) ? $breedname : "%";
+                $bindArr[] = isset($nickname) ? $nickname : "%";
+
+                // do not always bind current_level, add to typestr and arr accordingly
+                if (isset($current_level) && !isset($upper_current_level)) { // exact filtering
+                    $sql = $base_sql." && current_level = ?;"; 
+                    $bindTypeStr."i";
+                    $bindArr[] = $current_level; 
+                }
+                elseif (isset($current_level) && isset($upper_current_level)) { // range filtering
+                    $sql = $base_sql." && (current_level >= ? && current_level <= ?);"; 
+                    $bindTypeStr."ii"; // one i for lowerbound, other for upperbound
+                    $bindArr[] = $current_level;
+                    $bindArr[] = $upper_current_level;
+                }
+                else {
+                    $sql = $base_sql.";"; // wrap up query and do not add current_level
+                }
+                $result = $this->handleQuery($sql,$bindTypeStr,$bindArr); // if no filtering added ^, 
+                                                                         // uses $sql = base_sql
+            }       
+            return $result; 
         }
 
         public function getAllActivePokemon() {
@@ -27,10 +86,14 @@
             return $result;
         }
 
-
+        /* Get pokemon by unique trainer information.
+           All arguments provided may be tried. The first
+           criteria to return a result with more than 0 rows will be
+           the output. If all criteria fail, ... */
         public function getPokemonByTrainer(int $trainer_id = null, 
                                             string $phone = null, 
-                                            string $email = null) {                      
+                                            string $email = null,
+                                            $active = true) {                      
             // https://www.php.net/manual/en/functions.arguments.php - default args
 
             /**  Account for following errors:  
@@ -44,11 +107,11 @@
             
             // Preparing args for query handler calls
             $arg_list = [$trainer_id, $phone, $email];
-            $result;
+            $result = []; // default
             $base_sql = "SELECT pokemon_id, trainer_id, current_level,
-            nickname, breedname FROM ActivePokemon"; 
+            nickname, breedname FROM ".($active ? "ActivePokemon" : "Pokemon");
 
-            /** Go over all non-null, set args provided to see if any succeed.
+            /** Go over all non-null, set args that are provided to see if any succeed.
                 * isset(): https://www.php.net/manual/en/function.isset.php
              * These are not in loop because binding varies
              * for each type. 
@@ -77,7 +140,9 @@
                 $bindArr = [$email];
                 $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);
             }
-            return $result; 
+            return $result; // if result set empty at this point, bad search args.
         }
+
+   
     }
 ?>
