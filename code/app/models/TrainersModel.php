@@ -41,9 +41,9 @@
                 $qryResultContainer->setFailure();
             };
             $result = $stmt->get_result();  
-            $rows = $result->fetch_array();
+            $row_num = $result->num_rows;
             $this->close();
-            if (COUNT($rows) > 0){
+            if ($row_num > 0){
                 return true;
             }else{
                 return false;
@@ -70,9 +70,9 @@
                 $qryResultContainer->setFailure();
             };
             $result = $stmt->get_result();  
-            $rows = $result->fetch_array();
+            $row_num = $result->num_rows;
             $this->close();
-            if (COUNT($rows) > 0){
+            if ($row_num > 0){
                 return true;
             }else{
                 return false;
@@ -86,15 +86,15 @@
             ';
             $stmt;
             if (!$stmt = $this->connect()->prepare($sql)){
-                $qryResultContainer->addErrorMessage("Prepare statement failed<br>");
+                $qryResultContainer->addErrorMessage("Prepare statement failed");
                 $qryResultContainer->setFailure();
             }
             if (!$stmt->bind_param("sss", $name, $phone_number, $email)){
-                $qryResultContainer->addErrorMessage("Parameter binding failed<br>");
+                $qryResultContainer->addErrorMessage("Parameter binding failed");
                 $qryResultContainer->setFailure();
             }
             if (!$stmt->execute()){
-                $qryResultContainer->addErrorMessage("Query execution failed<br>");
+                $qryResultContainer->addErrorMessage("Query execution failed");
                 $qryResultContainer->setFailure();
             };
             $this->close();
