@@ -25,7 +25,7 @@
             <p>Search trainers by name: 
                 <input type="text" name="trainer-name">
                 <input type="submit" value="Search">
-                <a style="float:right" href="./trainer_registration.php" type="button" class="btn btn-secondary">Register new trainer</a>
+                <a style="float:right" href="./register-trainer.php" type="button" class="btn btn-secondary">Register new trainer</a>
             </p>
         </form>
     <?php 
@@ -35,7 +35,7 @@
             $name = $_GET["trainer-name"];
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
-            $trainerView->trainerSelectionTableByName($name, "pokemon_selector.php");
+            $trainerView->trainerSelectionTableByName($name, "dropoff-pokemon.php");
         }
 
     ?>
