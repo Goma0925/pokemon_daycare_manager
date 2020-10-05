@@ -22,7 +22,8 @@
                     </thead>
                     <tbody>
                 ';
-            while ($row = $resultContainer->get_mysqli_result()->fetch_assoc()) {
+            while (!is_null($resultContainer->get_mysqli_result()) &&
+                   $row = $resultContainer->get_mysqli_result()->fetch_assoc()) {
                 echo '  <tr>
                             <td>
                                 <div class="form-check">
@@ -38,7 +39,7 @@
             echo '
                     </tbody>
                 </table>';
-            if ($resultContainer->get_mysqli_result()->num_rows!=0){
+            if (!is_null($resultContainer->get_mysqli_result()) && $resultContainer->get_mysqli_result()->num_rows!=0){
                 echo '
                     <input type="submit" value="Select trainer">
                 ';
@@ -48,7 +49,7 @@
             ';
 
             //Render "not found" message if no records were found.
-            if ($resultContainer->get_mysqli_result()->num_rows==0){
+            if (!is_null($resultContainer->get_mysqli_result()) && $resultContainer->get_mysqli_result()->num_rows==0){
                 echo '
                         <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
                 ';

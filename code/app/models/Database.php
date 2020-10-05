@@ -1,73 +1,80 @@
 <?php 
     include_once 'utils/ResultContainer.php';
+    // mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // includes try/catch
     class Database {
         private $conn;
         private function connect(){
             // Deprecated: Use of handleQuery() is recommended. 
             $dbhost = "localhost";
-            $dbuser = "Amon";
+            $dbuser = "ming";
             $dbpass = "password";
             $dbname = "daycare";
             $this->conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
             return $this->conn;
         }
 
-        protected function close(){
-            $this->conn->close();
-        }
-
         // Constructs prepared statement and provides robust err handling
         // Always return the custom ResultContainer object
         // https://www.php.net/manual/en/functions.arguments.php - default args
         public function handleQuery($sql, $bindTypeStr=null, $bindArr=null) {
+            
+            // Declare vars 
             $resultContainer = new ResultContainer();
-            $stmt;
-            /** *If anything fails, throw exception.
-                *If stmt causes error, we can use its attr 
-            **/
+            $stmt; // https://www.php.net/manual/en/class.mysqli-stmt.php
+            $conn;
+
+            // The reason why we keep try/catch block is 
+            // 1) catch intermediate errors and throw when necessary,
+            // 2) **halt code execution**
             try { 
-                $stmt = $this->connect()->prepare($sql);
+                if(!$conn = $this->connect()) {
+                    throw new Exception($conn->error);                   
+                };
+
+                // https://www.php.net/manual/en/mysqli.prepare.php
+                if(!($stmt = $conn->prepare($sql))) { 
+                    throw new Exception($conn->error); 
+                };
                 if (!is_null($bindTypeStr) && !is_null($bindArr)) {
                     // https://wiki.php.net/rfc/argument_unpacking
-                    $stmt->bind_param($bindTypeStr,...$bindArr); 
+                    // https://www.php.net/manual/en/mysqli-stmt.bind-param.php
+                    if(!$stmt->bind_param($bindTypeStr,...$bindArr)){
+                        $stmt->close();
+                        throw new Exception($stmt->error);
+                    }; 
                 }
-                $stmt->execute(); 
-                $result = $stmt->get_result(); // consult documentation: https://www.php.net/manual/en/mysqli-stmt.get-result.php
+                if (!$stmt->execute()) {
+                    $stmt->close();
+                    throw new Exception($stmt->error);
+                }; 
+
+                // We are good if we made it this far. 
+                // consult documentation: https://www.php.net/manual/en/mysqli-stmt.get-result.php
+                $result = $stmt->get_result();
                 $resultContainer->set_mysqli_result($result);
             } 
-            catch (Exception $e) {
-                /* we have technical errors and user defined errors.
-                   how should we handle technical errors? we probably
-                   should return a general message to user because they
-                   will not be debugging anything. these technical errors 
-                   will really just convey bugs in code because we might be 
-                   binding something we should never bind and such. 
-                   thus, we can just echo out a general message to user when
-                   facing technical errors. 
-                */
-
+            catch (Throwable $t) {
+                // Error to send to user
+                $user_error = "Database error has occurred.
+                Sorry for the inconvenience. Report to organization's 
+                tech support.";
+                echo $user_error;
+                
                 // https://www.php.net/manual/en/mysqli-stmt.error.php
-                $result = $stmt->error; 
+                // echo $stmt->error; // the documentation contradicts itself, report
 
                 // https://www.php.net/manual/en/function.error-log.php
-                error_log("Error (".$result.") occurred at ".date('Format String')."\n",
-                "~/class/csc362_project/code/app/err_logs/errors.log");
-                // ^ overkill to have reporting hit an email?
+                // logs to /var/log/apache2 by default --> error.log
+                // use cat /var/log/apache2/error.log (NOTE: DO NOT EDIT THAT FILE)
+                error_log("Error (".$t.") occurred at ".date('Format String')."\n");
 
                 // Something to output to user. 
-                $user_error = "Database communication error. Sorry for the inconvenience. Report to organization's 
-                tech support.";
-
-                /** error handling below commented out (perfect for user defined)
-                    * let's expand this to define our own handlers and exceptions
-                    * so that we can learn to build error reporting like you have 
-                    * started 
-                **/
                 $resultContainer->addErrorMessage($user_error);
                 $resultContainer->setFailure();
             }
             finally {
-                $this->close();
+                $conn->close(); // close db connection
+                // $stmt->close(); // can only close statement if it was prepped?
                 return $resultContainer; 
             }
         }
