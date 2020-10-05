@@ -44,7 +44,7 @@
             $name = $_POST["trainer-query"];
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
-            $trainerView->trainerTableByName($name);
+            $trainerView->trainerTableByName($name, "pokemon_table.php");
         }
 
     ?>
