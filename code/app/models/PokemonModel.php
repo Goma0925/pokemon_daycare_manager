@@ -4,8 +4,8 @@
 
         public function getPokemonColNames() {
             $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Pokemon'";
-            $result = $this->handleQuery($sql); // other args are optional, read handleQuery
-            return $result;
+            $resultContainer  = $this->handleQuery($sql); // other args are optional, read handleQuery
+            return $resultContainer ;
         } 
 
         /** Get 1 or more pokemon 
@@ -30,7 +30,7 @@
                                         string $nickname = null,
                                         string $breedname = null,
                                         bool $active = true) {
-            $result; // declare return val
+            $resultContainer ; // declare return val
             /* Construct base_sql string */
             /* https://davidwalsh.name/php-shorthand-if-else-ternary-operators 
                (common for inline conditional concatentation)
@@ -42,7 +42,7 @@
                 $sql = $base_sql." WHERE pokemon_id = ?;";
                 $bindTypeStr = "i";
                 $bindArr = [$pokemon_id];
-                $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);
             }      
             else { // aggregate on all other *specified* column values
                 // https://www.w3schools.com/sql/sql_like.asp (sql LIKE)
@@ -80,18 +80,17 @@
                 else {
                     $sql = $base_sql.";"; // wrap up query and do not add current_level
                 }
-                $result = $this->handleQuery($sql,$bindTypeStr,$bindArr); // if no filtering added ^, 
+                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr); // if no filtering added ^, 
                                                                           // uses $sql = base_sql
             }       
-            return $result; 
+            return $resultContainer ; 
         }
 
         public function getAllActivePokemon() {
             /* Prepare args for query handler */
-            $sql = "SELECT pokemon_id, trainer_id, current_level,
-                    nickname, breedname FROM ActivePokemon";
-            $result = $this->handleQuery($sql);
-            return $result;
+            $sql = "SELECT * FROM ActivePokemon";
+            $resultContainer  = $this->handleQuery($sql);
+            return $resultContainer ;
         }
 
         /* Get pokemon by unique trainer information.
@@ -103,7 +102,6 @@
                                             string $email = null,
                                             $active = true) {                      
             // https://www.php.net/manual/en/functions.arguments.php - default args
-
             /**  Account for following errors:  
                 * Bad phone number form
                 * Bad email form                                 
@@ -112,13 +110,10 @@
                 * we just determine if any active pokemon with that
                 * trainer info exist, which is sufficient.) 
             */
-            
             // Preparing args for query handler calls
             $arg_list = [$trainer_id, $phone, $email];
-            $result; // default
-            $base_sql = "SELECT pokemon_id, trainer_id, current_level,
-            nickname, breedname FROM ".($active ? "ActivePokemon" : "Pokemon");
-
+            $resultContainer ; // default
+            $base_sql = "SELECT * FROM ".($active ? "ActivePokemon" : "InactivePokemon")." ";
             /** Go over all non-null, set args that are provided to see if any succeed.
                 * isset(): https://www.php.net/manual/en/function.isset.php
              * These are not in loop because binding varies
@@ -134,33 +129,33 @@
                 }
             }
             catch (Exception $e) {
-                echo "Exception caught: " . $e->getMessage();
                 return; 
             }
 
+            $resultContainer = null;
             if (isset($trainer_id)) {
                 // try
                 $sql = $base_sql."WHERE trainer_id = ?";
                 $bindTypeStr = "i";
                 $bindArr = [$trainer_id];
-                $result = $this->handleQuery($sql,$bindTypeStr,$bindArr); // return false if failed.
+                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr); // return false if failed.
             }
-            if (isset($phone) && mysqli_num_rows($result->get_mysqli_result()) == 0) { // updated from mysqli_num_rows($result)
+            if (isset($phone) && $resultContainer == null) { // updated from mysqli_num_rows($resultContainer )
                 // previous failed, try this
                 $sql = $base_sql."INNER JOIN USING (phone) WHERE phone = ?";
                 $bindTypeStr = "s";
                 $bindArr = [$phone];
-                $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);
             }
-            if (isset($email) && mysqli_num_rows($result->get_mysqli_result()) == 0) { // updated from mysqli_num_rows($result)
+            if (isset($email) && $resultContainer == null) { // updated from mysqli_num_rows($resultContainer )
                 // previous failed, try this
                 $sql = $base_sql."INNER JOIN USING (email) WHERE email = ?";
                 $bindTypeStr = "s";
                 $bindArr = [$email];
-                $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);
             }
 
-            return $result; // if result set empty at this point, bad search args.
+            return $resultContainer ;
         }
 
         /* assume autoincrement on pokemon? */
@@ -170,7 +165,8 @@
                     VALUES (?,?,?,?);";
             $bindTypeStr = "iiss";
             $bindArr = [$trainer_id, $current_level, $nickname, $breedname];
-            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                            
+            $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);    
+            return $resultContainer ;              
         }
 
         /** should we check if pokemon is active? */
@@ -181,7 +177,8 @@
                     USING (move_name) WHERE CurrentMoves.pokemon_id = ?;";
             $bindTypeStr = "i";
             $bindArr = [$pokemon_id];
-            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+            $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);    
+            return $resultContainer ;              
         }
 
         /* At this point, we have performed all necessary 
@@ -195,9 +192,8 @@
                                         WHERE move_name = ? && pokemon_id = ?;";
             $bindTypeStr = "ssi";
             $bindArr = [$new_move_name, $old_move_name, $pokemon_id];
-            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
-        
-            return $result;                                   
+            $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+            return $resultContainer ;                                   
         }
         public function addCurrentMove(int $pokemon_id, string $new_move_name) { 
             // define trigger/procedure for insertion (reinforcing degree)
@@ -205,8 +201,8 @@
                     VALUES (?,?);";
             $bindTypeStr = "si";
             $bindArr = [$new_move_name, $pokemon_id];
-            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
-            return $result;
+            $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+            return $resultContainer ;
             
         }
 

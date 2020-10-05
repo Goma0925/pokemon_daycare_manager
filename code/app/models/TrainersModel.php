@@ -62,25 +62,18 @@
         }
 
         public function addUser($name, $phone_number, $email){
-            $qryResultContainer = new ResultContainer();
             $sql = 'INSERT INTO Trainers (trainer_name, phone, email)
                         VALUE (?, ?, ?);
             ';
-            $stmt;
-            if (!$stmt = $this->connect()->prepare($sql)){
-                $qryResultContainer->addErrorMessage("Prepare statement failed");
-                $qryResultContainer->setFailure();
-            }
-            if (!$stmt->bind_param("sss", $name, $phone_number, $email)){
-                $qryResultContainer->addErrorMessage("Parameter binding failed");
-                $qryResultContainer->setFailure();
-            }
-            if (!$stmt->execute()){
-                $qryResultContainer->addErrorMessage("Query execution failed");
-                $qryResultContainer->setFailure();
-            };
-            $this->close();
-            return $qryResultContainer;
+            //Construct bind parameters
+            $bindTypeStr = "sss"; 
+            $bindArr = Array($name, $phone_number, $email);
+
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+
+            //Return the result container that contains a success flag and mysqli_result.
+            return $resultContainer;
         }
     }
 ?>
