@@ -66,7 +66,7 @@
                 // https://www.php.net/manual/en/function.error-log.php
                 // logs to /var/log/apache2 by default --> error.log
                 // use cat /var/log/apache2/error.log (NOTE: DO NOT EDIT THAT FILE)
-                error_log("Error (".$t.") occurred at ".date('Format String')."\n");
+                error_log($t);
 
                 // Something to output to user. 
                 $resultContainer->addErrorMessage($user_error);
@@ -74,7 +74,6 @@
             }
             finally {
                 $conn->close(); // close db connection
-                // $stmt->close(); // can only close statement if it was prepped?
                 return $resultContainer; 
             }
         }
