@@ -37,7 +37,7 @@
             */
             $base_sql = "SELECT pokemon_id, trainer_id, current_level,
                                 nickname, breedname
-                                FROM ".($active ? "ActivePokemon" : "Pokemon"); 
+                                FROM ".($active ? "ActivePokemon" : "InactivePokemon"); 
             if (isset($pokemon_id)) { // get unique pokemon
                 $sql = $base_sql." WHERE pokemon_id = ?;";
                 $bindTypeStr = "i";
