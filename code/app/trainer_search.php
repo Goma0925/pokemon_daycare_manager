@@ -19,21 +19,17 @@
         $commonView->navbar();
     ?>
     <div style="margin-left:5%;margin-right:5%; margin-top: 25px;">
-        <h1>Trainer Search</h1>
         <p>Temporary message: Hello guys! In the database, there are trainers named 'Satoshi', 'Jake', 'John'. Try looking them up!</p>
-        <p><a href="./trainer_registration.php" type="button" class="btn btn-secondary">Register new trainer</a></p>
+        <br>
+        <h1>Trainer Search</h1>
+        <form method="post">
+            <p>Search trainers: 
+                <input type="text" name="trainer-query">
+                <input type="submit" value="Search">
+                <a style="float:right" href="./trainer_registration.php" type="button" class="btn btn-secondary">Register new trainer</a>
+            </p>
+        </form>
     <?php 
-        echo PHP_VERSION;
-        echo '
-            <br>
-                <form method="post">
-                    <p>Search trainers: 
-                        <input type="text" name="trainer-query">
-                        <input type="submit" value="Search">
-                    </p>
-                </form>
-        ';  
-
         // Render table
         $trainerView = new TrainersView();
         if (isset($_POST["trainer-query"])){
