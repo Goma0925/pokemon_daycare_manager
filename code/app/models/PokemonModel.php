@@ -37,7 +37,7 @@
             */
             $base_sql = "SELECT pokemon_id, trainer_id, current_level,
                                 nickname, breedname
-                                FROM ".($active ? "ActivePokemon" : "Pokemon"); 
+                                FROM ".($active ? "ActivePokemon" : "InactivePokemon"); 
             if (isset($pokemon_id)) { // get unique pokemon
                 $sql = $base_sql." WHERE pokemon_id = ?;";
                 $bindTypeStr = "i";
@@ -117,7 +117,7 @@
             $arg_list = [$trainer_id, $phone, $email];
             $result; // default
             $base_sql = "SELECT pokemon_id, trainer_id, current_level,
-            nickname, breedname FROM ".($active ? "ActivePokemon" : "Pokemon");
+            nickname, breedname FROM ".($active ? "ActivePokemon" : "InactivePokemon");
 
             /** Go over all non-null, set args that are provided to see if any succeed.
                 * isset(): https://www.php.net/manual/en/function.isset.php
@@ -170,7 +170,8 @@
                     VALUES (?,?,?,?);";
             $bindTypeStr = "iiss";
             $bindArr = [$trainer_id, $current_level, $nickname, $breedname];
-            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                            
+            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);    
+            return $result;              
         }
 
         /** should we check if pokemon is active? */
@@ -181,7 +182,8 @@
                     USING (move_name) WHERE CurrentMoves.pokemon_id = ?;";
             $bindTypeStr = "i";
             $bindArr = [$pokemon_id];
-            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+            $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);    
+            return $result;              
         }
 
         /* At this point, we have performed all necessary 
@@ -196,7 +198,6 @@
             $bindTypeStr = "ssi";
             $bindArr = [$new_move_name, $old_move_name, $pokemon_id];
             $result = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
-        
             return $result;                                   
         }
         public function addCurrentMove(int $pokemon_id, string $new_move_name) { 
