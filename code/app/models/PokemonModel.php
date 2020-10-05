@@ -102,7 +102,6 @@
                                             string $email = null,
                                             $active = true) {                      
             // https://www.php.net/manual/en/functions.arguments.php - default args
-            if ($active){echo "<br>getPokemonByTrainer() active";}else{echo "getPokemonByTrainer() inactive<br>";}
             /**  Account for following errors:  
                 * Bad phone number form
                 * Bad email form                                 
@@ -130,7 +129,6 @@
                 }
             }
             catch (Exception $e) {
-                echo "Exception caught: " . $e->getMessage();
                 return; 
             }
 
@@ -138,7 +136,6 @@
             if (isset($trainer_id)) {
                 // try
                 $sql = $base_sql."WHERE trainer_id = ?";
-                echo "<br>".$sql;
                 $bindTypeStr = "i";
                 $bindArr = [$trainer_id];
                 $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr); // return false if failed.

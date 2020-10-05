@@ -24,27 +24,46 @@
             $stmt = null;
             /** *If anything fails, throw exception.
                 *If stmt causes error, we can use its attr 
-            **/
-            if (!$stmt = $this->connect()->prepare($sql)){
-                $resultContainer->setFailure();
-                $resultContainer->addErrorMessage("Database errror 001.");
-            };
-            if (!is_null($bindTypeStr) && !is_null($bindArr)) {
-                // https://wiki.php.net/rfc/argument_unpacking
-                if (!$stmt->bind_param($bindTypeStr,...$bindArr)){
-                    $resultContainer->setFailure();
-                    $resultContainer->addErrorMessage("Database errror 002.");
-                }
-            }
-            //Execute
-            if ($stmt->execute()){
-                //If the execution if successful, set the query result to resultContainer.
-                $result = $stmt->get_result(); // consult documentation: https://www.php.net/manual/en/mysqli-stmt.get-result.php
-                $resultContainer->set_mysqli_result($result);
-            } 
 
+                *error message in database:
+                    *Database error 001: Prepare statement is invalid.
+                    *Database error 002: Parameter binding to the prepared statement is invalid. 
+                    *                    Check param type, number, order, etc.
+                    *Database error 003: For some reason, the $stmt->execute() failed when executing the query.
+            **/
+                //Create prepared statement.
+                if (!$stmt = $this->connect()->prepare($sql)){
+                    $resultContainer->setFailure();
+                    $resultContainer->addErrorMessage("Database error 001 occured.");
+                };
+
+                //Bind parameters
+                if ($resultContainer->isSuccess()){
+                    if (!is_null($bindTypeStr) && !is_null($bindArr)) {
+                        // https://wiki.php.net/rfc/argument_unpacking
+                        $success_binding = $stmt->bind_param($bindTypeStr,...$bindArr);
+
+                        //Add a user error message 002 if binding failed.
+                        if (!$success_binding){
+                            $resultContainer->setFailure();
+                            $resultContainer->addErrorMessage("Database error 002 occured.");
+                        }
+                    }
+                }
+
+                //Execute
+                $success_executing = $stmt->execute();
+                if ($success_executing){
+                    //If the execution if successful, set the query result to resultContainer.
+                    $result = $stmt->get_result(); // consult documentation: https://www.php.net/manual/en/mysqli-stmt.get-result.php
+                    $resultContainer->set_mysqli_result($result);
+                }else{
+                    $resultContainer->setFailure();
+                    $resultContainer->addErrorMessage("Database errror 003 occured.");
+                }
+
+            //We might not need this portion of code since all the query error are handled above.
             if (!$resultContainer->isSuccess()){
-                echo "failed";
                 /* we have technical errors and user defined errors.
                    how should we handle technical errors? we probably
                    should return a general message to user because they
@@ -74,7 +93,7 @@
                 **/
                 $resultContainer->addErrorMessage($user_error);
                 $resultContainer->setFailure();
-            }                
+            }   
             $this->close();
             return $resultContainer; 
         }

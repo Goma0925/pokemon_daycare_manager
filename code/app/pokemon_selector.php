@@ -19,6 +19,7 @@
         $commonView->navbar();
     ?>
     <div style="margin-left:5%; margin-right:5%; margin-top: 25px;">
+        <h2>Select [Trainer name]'s pokemon to drop off or add a new pokemon</h2>
     <?php 
         $pokemonView = new PokemonView();
         if (isset($_GET["trainer"])){
@@ -31,6 +32,8 @@
         };
 
     ?>
+        <br>
+        <p><a style="float: right;" href="./trainer_registration.php" type="button" class="btn btn-secondary">Register new pokemon</a></p>
     </div>
 </body>
 </html>

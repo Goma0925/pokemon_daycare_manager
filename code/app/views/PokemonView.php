@@ -8,10 +8,6 @@
         }
 
         public function pokemonSelectionTable($trainer_id, $action, $show_active){
-            if ($show_active)
-                {echo "pokemonSelectionTable() Active";}
-            else
-                {echo "pokemonSelectionTable() Inactive";}
             $resultContainer = $this->pokemonModel->getPokemonByTrainer($trainer_id, null, null, $show_active);
             if ($resultContainer->isSuccess()){
                 echo '
