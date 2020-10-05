@@ -1,5 +1,5 @@
 <?php 
-    class Settings {//Make sure to use plural noun for the class nam
+    class Settings {
 
         public static function setup_debug(){
             ini_set('display_errors', 1);
