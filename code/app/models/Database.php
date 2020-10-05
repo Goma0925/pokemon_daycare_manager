@@ -21,21 +21,30 @@
         // https://www.php.net/manual/en/functions.arguments.php - default args
         public function handleQuery($sql, $bindTypeStr=null, $bindArr=null) {
             $resultContainer = new ResultContainer();
-            $stmt;
+            $stmt = null;
             /** *If anything fails, throw exception.
                 *If stmt causes error, we can use its attr 
             **/
-            try { 
-                $stmt = $this->connect()->prepare($sql);
-                if (!is_null($bindTypeStr) && !is_null($bindArr)) {
-                    // https://wiki.php.net/rfc/argument_unpacking
-                    $stmt->bind_param($bindTypeStr,...$bindArr); 
+            if (!$stmt = $this->connect()->prepare($sql)){
+                $resultContainer->setFailure();
+                $resultContainer->addErrorMessage("Database errror 001.");
+            };
+            if (!is_null($bindTypeStr) && !is_null($bindArr)) {
+                // https://wiki.php.net/rfc/argument_unpacking
+                if (!$stmt->bind_param($bindTypeStr,...$bindArr)){
+                    $resultContainer->setFailure();
+                    $resultContainer->addErrorMessage("Database errror 002.");
                 }
-                $stmt->execute(); 
+            }
+            //Execute
+            if ($stmt->execute()){
+                //If the execution if successful, set the query result to resultContainer.
                 $result = $stmt->get_result(); // consult documentation: https://www.php.net/manual/en/mysqli-stmt.get-result.php
                 $resultContainer->set_mysqli_result($result);
             } 
-            catch (Exception $e) {
+
+            if (!$resultContainer->isSuccess()){
+                echo "failed";
                 /* we have technical errors and user defined errors.
                    how should we handle technical errors? we probably
                    should return a general message to user because they
@@ -65,11 +74,9 @@
                 **/
                 $resultContainer->addErrorMessage($user_error);
                 $resultContainer->setFailure();
-            }
-            finally {
-                $this->close();
-                return $resultContainer; 
-            }
+            }                
+            $this->close();
+            return $resultContainer; 
         }
     }
 
