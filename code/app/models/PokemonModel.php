@@ -117,7 +117,7 @@
             $arg_list = [$trainer_id, $phone, $email];
             $result; // default
             $base_sql = "SELECT pokemon_id, trainer_id, current_level,
-            nickname, breedname FROM ".($active ? "ActivePokemon" : "Pokemon");
+            nickname, breedname FROM ".($active ? "ActivePokemon" : "InactivePokemon");
 
             /** Go over all non-null, set args that are provided to see if any succeed.
                 * isset(): https://www.php.net/manual/en/function.isset.php
