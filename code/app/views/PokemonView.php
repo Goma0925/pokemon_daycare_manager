@@ -56,7 +56,8 @@
                     ';
                 }
 
-            }else{
+            }
+            else{
                 foreach ($resultContainer->getErrorMessages() as $errorMessage){
                     echo "<p>".$errorMessage."</p>";
                 }

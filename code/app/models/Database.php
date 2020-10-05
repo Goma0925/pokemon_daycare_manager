@@ -1,10 +1,10 @@
 <?php 
     include_once 'utils/ResultContainer.php';
+    include_once 'utils/Status.php';
     // mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // includes try/catch
     class Database {
         private $conn;
         private function connect(){
-            // Deprecated: Use of handleQuery() is recommended. 
             $dbhost = "localhost";
             $dbuser = "ming";
             $dbpass = "password";
