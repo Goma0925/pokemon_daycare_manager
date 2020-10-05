@@ -145,8 +145,9 @@ CREATE TABLE FightEvents ( /* is this most recent? */
     REFERENCES Pokemon(pokemon_id)
 );
 
-CREATE VIEW ActivePokemon AS
-SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
-Pokemon.nickname, Pokemon.breedname FROM Pokemon INNER JOIN ServiceRecords
-USING (pokemon_id) WHERE ServiceRecords.end_time IS NULL; 
+CREATE VIEW ActivePokemon 
+    AS
+        SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
+        Pokemon.nickname, Pokemon.breedname FROM Pokemon INNER JOIN ServiceRecords
+        USING (pokemon_id) WHERE ServiceRecords.end_time IS NULL; 
 
