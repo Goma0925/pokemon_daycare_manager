@@ -12,7 +12,7 @@
             // $action: URI to jump after hitting select user button. The action value to put in HTML form.
             $resultContainer = $this->trainersModel->getTrainersByName($name);
             echo '
-            <form action="'.$action.'" method="view">
+            <form action="'.$action.'" method="GET">
                 <table class="table">
                     <thead>
                         <tr>

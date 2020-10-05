@@ -20,11 +20,10 @@
     ?>
     <div style="margin-left:5%;margin-right:5%; margin-top: 25px;">
         <p>Temporary message: Hello guys! In the database, there are trainers named 'Satoshi', 'Jake', 'John'. Try looking them up!</p>
-        <br>
-        <h1>Trainer Search</h1>
-        <form method="post">
-            <p>Search trainers: 
-                <input type="text" name="trainer-query">
+        <h2>Trainer Search</h2>
+        <form method="GET">
+            <p>Search trainers by name: 
+                <input type="text" name="trainer-name">
                 <input type="submit" value="Search">
                 <a style="float:right" href="./trainer_registration.php" type="button" class="btn btn-secondary">Register new trainer</a>
             </p>
@@ -32,8 +31,8 @@
     <?php 
         // Render table
         $trainerView = new TrainersView();
-        if (isset($_POST["trainer-query"])){
-            $name = $_POST["trainer-query"];
+        if (isset($_GET["trainer-name"])){
+            $name = $_GET["trainer-name"];
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
             $trainerView->trainerSelectionTableByName($name, "pokemon_selector.php");
