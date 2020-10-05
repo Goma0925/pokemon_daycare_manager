@@ -6,7 +6,7 @@
             // Set the title and link to show on navbar in the format
             // "Title" => "path/to/page.php"
             $this->page_links = array(
-                "Trainer" => "./trainer-search.php",
+                "Trainer" => "./trainer_search.php",
                 "Notifications" => "#",
                 "Service" => "#",
             );

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php   include_once 'views/CommonView.php';
+    <?php   
+            include_once 'utils/Settings.php';
+            Settings::setup_debug(); //Custom function that contains debug settings
+            include_once 'views/CommonView.php';
             include_once 'views/SomeView.php';
             include_once 'controllers/SomeContr.php';
     ?>

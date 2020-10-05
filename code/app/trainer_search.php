@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <?php   
+    <?php     
+        include_once 'utils/Settings.php';
+        Settings::setup_debug(); //Custom function that contains debug settings
         include_once 'views/CommonView.php';
         include_once 'views/TrainersView.php';
         include_once 'controllers/TrainersContr.php';
@@ -21,6 +23,7 @@
         <p>Temporary message: Hello guys! In the database, there are trainers named 'Satoshi', 'Jake', 'John'. Try looking them up!</p>
         <p><a href="./trainer_registration.php" type="button" class="btn btn-secondary">Register new trainer</a></p>
     <?php 
+        echo PHP_VERSION;
         echo '
             <br>
                 <form method="post">
@@ -37,7 +40,7 @@
             $name = $_POST["trainer-query"];
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
-            $trainerView->trainerTableByName($name, "pokemon_table.php");
+            $trainerView->trainerSelectionTableByName($name, "pokemon_selector.php");
         }
 
     ?>
