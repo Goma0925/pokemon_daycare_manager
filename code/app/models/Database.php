@@ -58,18 +58,18 @@
                 $user_error = "Database error has occurred.
                 Sorry for the inconvenience. Report to organization's 
                 tech support.";
-                echo $user_error;
+                // echo $user_error;
                 
                 // https://www.php.net/manual/en/mysqli-stmt.error.php
                 // echo $stmt->error; // the documentation contradicts itself, report
 
                 // https://www.php.net/manual/en/function.error-log.php
                 // logs to /var/log/apache2 by default --> error.log
-                // use cat /var/log/apache2/error.log (NOTE: DO NOT EDIT THAT FILE)
+                // use cat /var/log/apache2/error.log to see err (NOTE: DO NOT EDIT THAT FILE)
                 error_log($t);
 
                 // Something to output to user. 
-                $resultContainer->addErrorMessage($user_error);
+                $resultContainer->addErrorMessage($user_error); // not being output to user
                 $resultContainer->setFailure();
             }
             finally {
