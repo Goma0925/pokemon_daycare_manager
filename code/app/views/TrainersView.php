@@ -7,7 +7,9 @@
             $this->trainersModel = new TrainersModel();
         }
 
-        public function trainerTableByName($name){
+        public function trainerTableByName($name, $action){
+            // $name: Trainer's name
+            // $action: URI to jump after hitting select user button. The action value to put in HTML form.
             $resultContainer = $this->trainersModel->getTrainersByName($name);
             echo '
             <form method="post">
