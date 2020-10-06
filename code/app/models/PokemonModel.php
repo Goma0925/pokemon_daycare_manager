@@ -125,7 +125,7 @@
             
             try { // ensure an argument is provided
                 if (!isset($trainer_id) && !isset($phone) && $isset($email)) {
-                    throw new Exception("Error: 0 arguments provided");
+                    throw new Exception("Error: invalid arguments provided");
                 }
             }
             catch (Exception $e) {
