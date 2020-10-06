@@ -153,8 +153,8 @@
 
             
             // this poses a weird position for resultContainer 
-            // temp fix below:
-            $err_mssgs = Array();
+            // temp fix below (should be fixed now):
+            // $err_mssgs = Array();
             if (isset($trainer_id)) {
                 // try
                 $query->addToSql("WHERE trainer_id = ?");
@@ -187,9 +187,8 @@
                 $resultContainer->addErrorMessage("Email not found");
 
             }
-
             // final container to return; 
-            $resultContainer->mergeArrayErrorMessages($err_mssgs); 
+            // $resultContainer->mergeArrayErrorMessages($err_mssgs); 
             return $resultContainer;
         }
 

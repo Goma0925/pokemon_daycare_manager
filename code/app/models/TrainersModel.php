@@ -1,7 +1,6 @@
 <?php
     include_once 'models/Database.php';
     include_once 'utils/Query.php';
-
     class TrainersModel extends Database {
         public function getTrainersByName($name){
             $query = new Query();
