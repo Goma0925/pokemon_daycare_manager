@@ -115,12 +115,22 @@
         */
         public function handleQuery(ResultContainer &$resultContainer = null) {
 
+            /* 
+                Nnly merges if members not set manually via sets
+                We only care to merge if adders used to build arrays
+                for more complex querying
+            */
             $this->mergeAll(); // set final $sql and $bindTypeStr
-            // ^^ only merges bindTypeArr if bindTypeStr is not set manually
 
+            /* 
+                If resultContainer passed to handleQuery,
+                modify resultContainer by ref; do not return.
+            */
             $should_return = false;
 
-            // Declare vars
+            /* Determine if we handleQuery should
+               return or not 
+            */
             if (!isset($resultContainer)) {
                 $should_return = true;
                 $resultContainer = new ResultContainer();
