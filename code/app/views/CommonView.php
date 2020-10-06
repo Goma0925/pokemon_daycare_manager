@@ -8,7 +8,7 @@
             $this->page_links = array(
                 "Direcotry" => "#",
                 "Check in/out" => "search-trainer.php",
-                "Events" => "#",
+                "Events" => "select-pokemon-update.php",
                 "Analytics" => "#",
                 "Settings" => "#",
             );
