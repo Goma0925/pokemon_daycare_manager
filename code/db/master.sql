@@ -150,25 +150,29 @@ CREATE VIEW ActiveServiceRecords
     AS
         SELECT service_record_id, start_time, end_time, pokemon_id,
         trainer_id
+        FROM ServiceRecords
         WHERE end_time IS NULL; 
 
 CREATE VIEW InactiveServiceRecords 
     AS
         SELECT service_record_id, start_time, end_time, pokemon_id,
         trainer_id
+        FROM ServiceRecords
         WHERE end_time IS NOT NULL; 
 
 CREATE VIEW ActivePokemon 
     AS
         SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
-        Pokemon.nickname, Pokemon.breedname FROM Pokemon INNER JOIN ServiceRecords
+        Pokemon.nickname, Pokemon.breedname 
+        FROM Pokemon 
+        INNER JOIN ServiceRecords
         USING (pokemon_id) WHERE ServiceRecords.end_time IS NULL; 
+
 
 CREATE VIEW InactivePokemon 
     AS
         SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
-                Pokemon.nickname, Pokemon.breedname
-        FROM Pokemon 
-        LEFT JOIN ActivePokemon 
-        USING (pokemon_id)
-        WHERE ActivePokemon.pokemon_id IS NULL;
+        Pokemon.nickname, Pokemon.breedname 
+        FROM Pokemon INNER JOIN ServiceRecords
+        USING (pokemon_id) WHERE ServiceRecords.end_time IS NOT NULL; 
+

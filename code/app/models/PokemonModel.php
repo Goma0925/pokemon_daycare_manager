@@ -1,10 +1,13 @@
 <?php
     include_once 'models/Database.php';
+    include_once 'utils/Query.php';
     class PokemonModel extends Database { 
 
         public function getPokemonColNames() {
-            $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Pokemon'";
-            $resultContainer  = $this->handleQuery($sql); // other args are optional, read handleQuery
+            $query = new Query();
+            $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Pokemon';";
+            $query->setToSql($sql);
+            $resultContainer  = $query->handleQuery(); // other args are optional, read handleQuery
             return $resultContainer ;
         } 
 
@@ -30,7 +33,13 @@
                                         string $nickname = null,
                                         string $breedname = null,
                                         bool $active = true) {
-            $resultContainer ; // declare return val
+
+            $query = new Query();
+            // Declare vars
+            // $resultContainer = null; 
+            // $bindTypeStr = "";
+            // $bindArr = Array(); 
+            
             /* Construct base_sql string */
             /* https://davidwalsh.name/php-shorthand-if-else-ternary-operators 
                (common for inline conditional concatentation)
@@ -38,24 +47,28 @@
             $base_sql = "SELECT pokemon_id, trainer_id, current_level,
                                 nickname, breedname
                                 FROM ".($active ? "ActivePokemon" : "InactivePokemon"); 
+            $query.addToSql($base_sql);
+
             if (isset($pokemon_id)) { // get unique pokemon
-                $sql = $base_sql." WHERE pokemon_id = ?;";
-                $bindTypeStr = "i";
-                $bindArr = [$pokemon_id];
-                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+                $query->addToSql(" WHERE pokemon_id = ?;");
+                $query->addBindType("i");
+                $query->addBindArrElem($pokemon_id);
+                $resultContainer  = $query->handleQuery();
             }      
             else { // aggregate on all other *specified* column values
                 // https://www.w3schools.com/sql/sql_like.asp (sql LIKE)
-                $sql = $base_sql."WHERE breedname LIKE '?' && nickname LIKE '?'";
-
-                // Construct types for prepared statement bind type string
-                $bindTypeStr = "";
-                $bindArr = Array(); 
-
+                $query->addToSql("WHERE breedname LIKE '?' && nickname LIKE '?'");
                 // ALWAYS bind breedname, nickname; just conditionally use "%": ALL wildcard.
-                $bindTypeStr."ss"; // str breedname, str nickname
-                $bindArr[] = isset($breedname) ? $breedname : "%";
-                $bindArr[] = isset($nickname) ? $nickname : "%";
+
+                $query->setBindTypeStr("ss"); // str breedname, str nickname
+                $bindArr[] = isset($breedname) ? 
+                    $query->addBindArrElem($breedname) 
+                    : 
+                    $query->addBindArrElem("%");
+                $bindArr[] = isset($nickname) ? 
+                    $query->addBindArrElem($nickname) 
+                    : 
+                    $query->addBindArrElem("%");
 
                 /* Note (https://www.php.net/manual/en/function.array-push.php): 
                    $arr = Array();
@@ -67,30 +80,31 @@
                 */
                 // If $current_level specified, bind. Otherwise, do not. 
                 if (isset($current_level) && !isset($upper_current_level)) { // exact filtering
-                    $sql = $base_sql." && current_level = ?;"; 
-                    $bindTypeStr."i"; 
-                    $bindArr[] = $current_level; 
+                    $query->addToSql(" && current_level = ?;");
+                    $query->addBindType("i");
+                    $query->addBindArrElem($current_level);
                 }
                 elseif (isset($current_level) && isset($upper_current_level)) { // range filtering
-                    $sql = $base_sql." && (current_level >= ? && current_level <= ?);"; 
-                    $bindTypeStr."ii"; // one i for lowerbound, other for upperbound
-                    $bindArr[] = $current_level;
-                    $bindArr[] = $upper_current_level;
+                    $query->addToSql(" && (current_level >= ? && current_level <= ?);");
+                    $query->addBindType("ii");   
+                    $query->addBindArrElem($current_level);     
+                    $query->addBindArrElem($upper_current_level);             
                 }
                 else {
-                    $sql = $base_sql.";"; // wrap up query and do not add current_level
+                    $query->addToSql(";");
                 }
-                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr); // if no filtering added ^, 
-                                                                          // uses $sql = base_sql
+                $resultContainer  = $query->handleQuery(); 
             }       
-            return $resultContainer ; 
+            return $resultContainer; 
         }
 
         public function getAllActivePokemon() {
-            /* Prepare args for query handler */
-            $sql = "SELECT * FROM ActivePokemon";
-            $resultContainer  = $this->handleQuery($sql);
-            return $resultContainer ;
+            // Declare vars
+            $query = new Query();
+            $sql = "SELECT * FROM ActivePokemon;";
+            $query->setSql($sql);
+            $resultContainer  = $query->handleQuery();
+            return $resultContainer;
         }
 
         /* Get pokemon by unique trainer information.
@@ -110,10 +124,15 @@
                 * we just determine if any active pokemon with that
                 * trainer info exist, which is sufficient.) 
             */
-            // Preparing args for query handler calls
-            $arg_list = [$trainer_id, $phone, $email];
-            $resultContainer ; // default
+
+            $query = new Query();
+            // Declare vars
+            // $resultContainer = null; 
+            // $bindTypeStr = "";
+            // $bindArr = Array(); 
+
             $base_sql = "SELECT * FROM ".($active ? "ActivePokemon" : "InactivePokemon")." ";
+            $query->addToSql($base_sql);
             /** Go over all non-null, set args that are provided to see if any succeed.
                 * isset(): https://www.php.net/manual/en/function.isset.php
              * These are not in loop because binding varies
@@ -124,7 +143,7 @@
             */
             
             try { // ensure an argument is provided
-                if (!isset($trainer_id) && !isset($phone) && $isset($email)) {
+                if (!isset($trainer_id) && !isset($phone) && !isset($email)) {
                     throw new Exception("Error: invalid arguments provided");
                 }
             }
@@ -132,53 +151,70 @@
                 return; 
             }
 
-            $resultContainer = null;
+            
+            // this poses a weird position for resultContainer 
+            // temp fix below (should be fixed now):
+            // $err_mssgs = Array();
             if (isset($trainer_id)) {
                 // try
-                $sql = $base_sql."WHERE trainer_id = ?";
-                $bindTypeStr = "i";
-                $bindArr = [$trainer_id];
-                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr); // return false if failed.
+                $query->addToSql("WHERE trainer_id = ?");
+                $query->addBindType("i");
+                $query->addBindArrayElem($trainer_id);
+                $resultContainer = $query->handleQuery();
             }
-            if (isset($phone) && $resultContainer == null) { // updated from mysqli_num_rows($resultContainer )
+            if (isset($phone) && ($resultContainer->get_mysqli_result()->num_rows == 0)) { 
                 // previous failed, try this
-                $sql = $base_sql."INNER JOIN USING (phone) WHERE phone = ?";
-                $bindTypeStr = "s";
-                $bindArr = [$phone];
-                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+                // $err_mssgs[] = "TrainerID not found";
+                $resultContainer->addErrorMessage("Phone not found");
+                $query->removeLastAll(); // clears last sql, bindtype, bindtypestr
+                $query->addToSql("INNER JOIN USING (phone) WHERE phone = ?");
+                $query->addBindType("s");
+                $query->addBindArrElem($phone);
+                $query->handleQuery($resultContainer); // passed as ref
             }
-            if (isset($email) && $resultContainer == null) { // updated from mysqli_num_rows($resultContainer )
+            if (isset($email) && ($resultContainer->get_mysqli_result()->num_rows == 0)) { 
                 // previous failed, try this
-                $sql = $base_sql."INNER JOIN USING (email) WHERE email = ?";
-                $bindTypeStr = "s";
-                $bindArr = [$email];
-                $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);
+                // $err_mssgs[] = "Phone not found";
+                $resultContainer->addErrorMessage("Phone not found");
+                $query->removeLastAll();
+                $query->addToSql("INNER JOIN USING (email) WHERE email = ?");
+                $query->addBindType("s");
+                $query->addBindArrElem($email);
+                $query->handleQuery($resultContainer); // passed as ref
             }
+            if ($resultContainer->get_mysqli_result()->num_rows == 0) {
+                // $err_mssgs[] = "Email not found";
+                $resultContainer->addErrorMessage("Email not found");
 
-            return $resultContainer ;
+            }
+            // final container to return; 
+            // $resultContainer->mergeArrayErrorMessages($err_mssgs); 
+            return $resultContainer;
         }
 
-        /* assume autoincrement on pokemon? */
         public function addPokemon(int $trainer_id, int $current_level, 
                                    string $nickname, string $breedname) {
+            $query = new Query();
             $sql = "INSERT INTO Pokemon(trainer_id,current_level,nickname,breedname) 
                     VALUES (?,?,?,?);";
             $bindTypeStr = "iiss";
             $bindArr = [$trainer_id, $current_level, $nickname, $breedname];
-            $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);    
-            return $resultContainer ;              
+            $query->setAll($sql, $bindTypeStr, $bindArr);
+            $resultContainer  = $query->handleQuery();    
+            return $resultContainer;              
         }
 
-        /** should we check if pokemon is active? */
         public function getAllCurrentMoves(int $pokemon_id) {
              // Always contains move description, just slice as needed
+            $query = new Query();
             $sql = "SELECT CurrentMoves.move_name, Moves.move_description 
                     FROM CurrentMoves INNER JOIN Moves
                     USING (move_name) WHERE CurrentMoves.pokemon_id = ?;";
             $bindTypeStr = "i";
             $bindArr = [$pokemon_id];
-            $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);    
-            return $resultContainer ;              
+            $query->setAll($sql, $bindTypeStr, $bindArr);
+            $resultContainer = $query->handleQuery();    
+            return $resultContainer;              
         }
 
         /* At this point, we have performed all necessary 
@@ -188,21 +224,26 @@
         public function replaceCurrentMove(int $pokemon_id, 
                                            string $old_move_name, 
                                            string $new_move_name) {
+            $query = new Query();
             $sql = "UPDATE CurrentMoves SET move_name = ? 
                                         WHERE move_name = ? && pokemon_id = ?;";
             $bindTypeStr = "ssi";
             $bindArr = [$new_move_name, $old_move_name, $pokemon_id];
-            $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
+            $query->setAll($sql, $bindTypeStr, $bindArr);
+            $resultContainer  = $query->handleQuery();                                                                       
             return $resultContainer ;                                   
         }
+
         public function addCurrentMove(int $pokemon_id, string $new_move_name) { 
             // define trigger/procedure for insertion (reinforcing degree)
+            $query = new Query();
             $sql = "INSERT INTO CurrentMoves(move_name, pokemon_id) 
                     VALUES (?,?);";
             $bindTypeStr = "si";
             $bindArr = [$new_move_name, $pokemon_id];
-            $resultContainer  = $this->handleQuery($sql,$bindTypeStr,$bindArr);                                                                       
-            return $resultContainer ;
+            $query->setAll($sql, $bindTypeStr, $bindArr);
+            $resultContainer = $query>handleQuery();                                                                       
+            return $resultContainer;
             
         }
 

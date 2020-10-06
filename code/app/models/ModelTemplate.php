@@ -1,5 +1,7 @@
 <?php
-    include_once 'models/Database.php';
+    include_once 'models/Database.php'; // NOT SURE WE NEED THIS ANYMORE
+    include_once 'utils/Query.php'; // NEW
+ 
     class SomethingsModel extends Database { //Make sure to use plural noun for the class name
 
         // Always return ResultContainer to notify if the operation was successful + errors
@@ -8,9 +10,14 @@
         // views following that coding rule.
         // Doc for mysqli_result object: https://www.php.net/manual/en/class.mysqli-result.php
 
+
+        // *** READ utils/Query.php to see how to construct queries *** 
         public function someMethod(){
+            $query = new Query(); // NEW
             $sql = "..."; // some query
-            $resultContainer  = $this->handleQuery($sql); // returns ResultContainer
+            // $bindArr = [some arguments to bind to prepared stmt];
+            // $bindTypeStr = "types of arguments to bind"; // parallel to bindArr
+            $resultContainer  = $query->handleQuery(); // returns ResultContainer
             return $resultContainer; // return type ResultContainer
         }
     }

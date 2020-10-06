@@ -81,7 +81,13 @@
             return $this->errorMessages;
         }
 
-        public function mergeErrorMessages($resultContainer){
+        // quick fix for moment (should be fixed)
+        // add array of messages to one container
+        // public function mergeArrayErrorMessages($errMessages) { // do not wanna break your method below
+        //     $this->errorMessages = array_merge($this->errorMessages, $errMessages);
+        // }
+
+        public function mergeErrorMessages($resultContainer){ 
             //$resultContainer: Another ResultContainer instance.
             $this->errorMessages = array_merge($this->errorMessages, $resultContainer->errorMessages);
         }
