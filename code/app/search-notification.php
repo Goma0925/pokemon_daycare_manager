@@ -20,10 +20,13 @@
     ?>
     <div style="margin-left:5%;margin-right:5%; margin-top: 25px;">
         <p>Temporary message: Hello guys! check out the notifcations</p>
-        <h2>Events</h2>
-        <p><a href="dropoff-pokemon.php">Report Fights</a><p>
-        <p><a href="#">Report Eggs</a><p>
-        <p><a href="#">Report Move Aquisition</a><p>
+        <p> 
+
+            <a style="margin-right:10px; float:right" href="" type="button" class="btn btn-secondary">Report Fight</a>
+            <a style="float:right" href="dropoff-pokemon.php" type="button" class="btn btn-secondary">Report Egg</a>
+            <a style="float:right" href="dropoff-pokemon.php" type="button" class="btn btn-secondary">Report  Move Aquisition</a>
+        </p>
+        <h2>Latest Event report</h2>
         <form method="GET">
             <p>Latest events: 
                 <input type="submit" value="All" name="All-notifs">
