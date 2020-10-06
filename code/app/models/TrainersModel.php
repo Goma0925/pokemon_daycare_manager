@@ -7,7 +7,7 @@
             //This function returns all the trainer records that contain the name string
             //It ignores the distinction lowercase & uppercase.
             $sql = "SELECT * FROM Trainers WHERE UPPER(trainer_name) LIKE ?";
-            $bindArr = [$name];
+            $bindArr = ["%".$name."%"];
             $bindTypeStr = "s";
             $query->setAll($sql,$bindTypeStr,$bindArr);
             $res_container = $query->handleQuery(); // positional or explicitly state
