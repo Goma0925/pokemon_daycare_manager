@@ -35,7 +35,7 @@
                             ON (p.pokemon_id = m.pokemon_id)
                             INNER JOIN (Trainers)
                             ON (Trainers.trainer_id = Notifications.trainer_id);";
-
+            $query->setSql($sql); // ADDED
             $res_container = $query->handleQuery(); // ADDED
 
             return $res_container; 
