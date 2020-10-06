@@ -39,9 +39,20 @@
 
            Removers are also used in complex querying, sometimes alongside Add methods.
            PokemonModel getPokemonByTrainer() is a good example of these combined. 
+
+           Note: there are cases when methods accomplish the same goal. It really depends
+           on what you would like to do in those cases.
+           For instance, if you want to build bindTypeStr = "iii"
+           you could do setBindTypeStr("iii") or addBindType("i"),addBindType("i"),addBindType("i")
+           or addBindType("ii"), addBindType("i"), and so on. 
         */
 
         // Bind Type String representation
+        /*  setBindTypeStr sets the private member bindTypeStr string on class and 
+            addBindType adds to an array, which will later be merged. setBindTypeStr 
+            will not retain its previous state across calls, so if you use, use it once. 
+            addBindType is for more complex querying.
+        */
         public function addBindType($s_type) { // add a character to bind type arr
             $this->bindTypeArr[] = $s_type; 
         }

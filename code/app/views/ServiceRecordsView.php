@@ -13,22 +13,21 @@
             // make sure $input value matches a real column name
             // makesure rowheaders equals number of rows in table 
             // restrict method to post and get
-
             $field_info = $table_data->get_mysqli_result()->fetch_fields(); 
+            // var_dump($field_info)
             echo '
                 <form action="'.$action.'" method="'.$method.'">
                     <table class="table">
                         <thead>'; 
+                        echo '<tr>';
             foreach ($row_headers as $rhead) {
-                '
-                            <tr>
-                                <th scope="col">"'.$rhead.'"</th> 
-                            </tr>
-                        
+                echo '  
+                                <th scope="col">'.$rhead.'</th>        
                 ';
             }
+            echo '          </tr>';
             echo "     </thead>";
-            echo "      <tbody>";
+            echo "     <tbody>";
             while ($row = $table_data->get_mysqli_result()->fetch_assoc()) {
                 echo '
                             <tr>
@@ -38,24 +37,27 @@
                                         type="radio" name="'.strtolower($field_info[0]->table).'" 
                                         value="'.$row[$input_value].'"> 
                                     </div>
-                                </td>';
+                                </td>
+                            ';
                 foreach ($field_info as $f) {
                     echo '
-                                <td>"'.$row[$f->name].'"</td>
-                            </tr>';
+                                <td>'.$row[$f->name].'</td>
+                        ';
                 }
-                echo '  </tbody>
-                    </table>
-                </form>'; 
+                echo '          </tr>';
+
             }    
+            echo '  </tbody>
+                </table>
+            </form>'; 
         }
 
         public function init_serviceRecordsTable($action){
             //1. Get data from model
             $resultContainer = $this->serviceRecordsModel->getAllServiceRecords();
             if ($resultContainer->isSuccess()) {
-                buildTableForm("","get", ["Select","RecordID","Start Date", "End Date", "PokemonID", "TrainerID"],
-                                                        $resultContainer->get_mysqli_result(),"service_record_id"
+                $this->buildTableForm("","get", ["Select","RecordID","Start Date", "End Date", "PokemonID", "TrainerID"],
+                                                        $resultContainer,"service_record_id"
                               );
             }
             else {

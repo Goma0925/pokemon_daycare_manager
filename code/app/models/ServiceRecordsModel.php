@@ -97,7 +97,7 @@
             // $resultContainer = null;
             // $bindArr = Array();
             // $bindTypeStr = "";
-            // $s_where_conditions = [];
+            $s_where_conditions = [];
             
             // $base_sql = "SELECT service_record_id, start_time, end_time, pokemon_id,
             // trainer_id FROM ";

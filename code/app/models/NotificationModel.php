@@ -36,7 +36,7 @@
                             INNER JOIN (Trainers)
                             ON (Trainers.trainer_id = Notifications.trainer_id);";
 
-            $res_container = $this->handleQuery($sql); // ADDED
+            $res_container = $query->handleQuery($sql); // ADDED
 
             return $res_container; 
         }
