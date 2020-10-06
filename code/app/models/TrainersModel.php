@@ -1,7 +1,6 @@
 <?php
-    include_once 'models/Database.php';
     include_once 'utils/Query.php';
-    class TrainersModel extends Database {
+    class TrainersModel {
         public function getTrainersByName($name){
             $query = new Query();
             //This function returns all the trainer records that contain the name string

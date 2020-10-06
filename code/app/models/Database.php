@@ -1,5 +1,4 @@
 <?php 
-    
     include_once 'utils/Credentials.php';
     // mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT); // includes try/catch
     class Database {
@@ -13,5 +12,4 @@
             return $this->conn;
         }
     }
-
 ?>

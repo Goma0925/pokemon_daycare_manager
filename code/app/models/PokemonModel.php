@@ -1,7 +1,7 @@
 <?php
-    include_once 'models/Database.php';
+
     include_once 'utils/Query.php';
-    class PokemonModel extends Database { 
+    class PokemonModel { 
 
         public function getPokemonColNames() {
             $query = new Query();
