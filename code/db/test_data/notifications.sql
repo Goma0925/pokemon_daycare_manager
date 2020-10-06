@@ -13,15 +13,15 @@ INSERT INTO MoveEvents (notification_id, old_move_name, new_move_name, pokemon_i
     VALUES 
         (3,"Fire Punch","Blaze", 1);
 
-SELECT Notifications.date_created, 
-        p.breedname,
-        m.old_move_name,
-        m.new_move_name,
-        Trainers.trainer_name  
-    FROM MoveEvents AS m
-    INNER JOIN (Notifications) 
-    ON (m.notification_id = Notifications.notification_id)
-    INNER JOIN (Pokemon AS p)
-    ON (p.pokemon_id = m.pokemon_id)
-    INNER JOIN (Trainers)
-    ON (Trainers.trainer_id = Notifications.trainer_id);
+INSERT INTO Fights (fight_description)
+    VALUES 
+        ("This is a fake description");
+
+
+INSERT INTO FightEvents (notification_id, pokemon_id, fight_id)
+    VALUES 
+        (2,1,1);
+
+
+
+

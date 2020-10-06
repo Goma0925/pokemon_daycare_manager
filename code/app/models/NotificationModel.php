@@ -4,7 +4,12 @@
         public function getAllNotifcations(){
             //This function returns all the trainer records that contain the name string
             //It ignores the distinction lowercase & uppercase.
-            $sql = "SELECT * FROM Notifications";
+            $sql = "SELECT n.date_created, 
+                            t.trainer_name,
+                            n.notification_id
+                        FROM Notifications AS n
+                        INNER JOIN (Trainers AS t)
+                        ON (n.trainer_id = t.trainer_id);";
             $res_container = $this->handleQuery($sql); // positional or explicitly state
             return $res_container; 
         }
@@ -30,13 +35,25 @@
             return $res_container; 
         }
 
-        public function getFightNotifcations($name){
+        public function getFightNotifcations(){
             //This function returns all the trainer records that contain the name string
             //It ignores the distinction lowercase & uppercase.
-            $sql = "SELECT * FROM Trainers  WHERE UPPER(trainer_name) LIKE ?";
-            $bindArr = [$name];
-            $bindStr = "s";
-            $res_container = $this->handleQuery($sql,$bindStr,$bindArr); // positional or explicitly state
+            $sql = "SELECT Notifications.date_created, 
+                            Notifications.notification_id,
+                            p.breedname,
+                            f1.fight_description,
+                            Trainers.trainer_name 
+                        FROM FightEvents AS f
+                        INNER JOIN (Notifications)
+                        ON (f.notification_id = Notifications.notification_id)
+                        INNER JOIN (Trainers)
+                        ON (Trainers.trainer_id = Notifications.trainer_id)
+                        INNER JOIN (Pokemon AS p)
+                        ON (p.pokemon_id = f.pokemon_id)
+                        INNER JOIN (Fights AS f1)
+                        ON (f.fight_id = f1.fight_id);";
+
+            $res_container = $this->handleQuery($sql); // positional or explicitly state
             return $res_container; 
         }
 

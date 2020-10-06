@@ -27,6 +27,7 @@
                 <input type="submit" value="All" name="All-notifs">
                 <input type="submit" value="Eggs" name="Egg-notifs">
                 <input type="submit" value="Moves" name="Move-notifs">
+                <input type="submit" value="Fights" name="Fight-notifs">
             </p>
         </form>
 
@@ -51,6 +52,12 @@
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
             $notificationView->CreateMoveTable();
+        }
+        if (isset($_GET["Fight-notifs"])){
+            
+            //Render trainer table. This function matches all the trainers whose name contains partial/entire
+            //string of the $name. It ignores the difference between lowercase and uppercase.
+            $notificationView->CreateFightTable();
         }
         
     ?>

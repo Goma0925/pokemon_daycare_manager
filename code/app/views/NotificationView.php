@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">Select</th>   
-                                <th scope="col">id</th>
+                                <th scope="col">Trainer</th>
                                 <th scope="col">date created</th>
                                
                             </tr>
@@ -29,10 +29,10 @@
                     echo '  <tr>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="trainer" value="'.$row["trainer_id"].'">
+                                        <input class="form-check-input" type="radio" name="trainer" value="'.$row["notification_id"].'">
                                     </div>
                                 </td>
-                                <td>'.$row["trainer_id"].'</td>
+                                <td>'.$row["trainer_name"].'</td>
                                 <td>'.$row["date_created"].'</td>
                             </tr>
                     ';
@@ -52,7 +52,7 @@
                 //Render "not found" message if no records were found.
                 if ($resultContainer->get_mysqli_result()->num_rows==0){
                     echo '
-                            <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
+                            <p width="100%" style="text-align: center;">Could not fetch data".</p>
                     ';
                 }
             }
@@ -77,9 +77,10 @@
                             <tr>
                                 <th scope="col">Select</th>   
                                 <th scope="col">Date Created</th>
+                                <th scope="col">Trainer</th>
                                 <th scope="col">Parent 1</th>
                                 <th scope="col">Parent 2</th>
-                                <th scope="col">Trainer</th>
+                               
                                
                             </tr>
                         </thead>
@@ -93,9 +94,10 @@
                                     </div>
                                 </td>
                                 <td>'.$row["date_created"].'</td>
+                                <td>'.$row["trainer_name"].'</td>
                                 <td>'.$row["parent1"].'</td>
                                 <td>'.$row["parent2"].'</td>
-                                <td>'.$row["trainer_name"].'</td>
+                                
                             </tr>
                     ';
                 }
@@ -114,7 +116,7 @@
                 //Render "not found" message if no records were found.
                 if ($resultContainer->get_mysqli_result()->num_rows==0){
                     echo '
-                            <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
+                            <p width="100%" style="text-align: center;">Could not fetch Egg data".</p>
                     ';
                 }
             }
@@ -140,10 +142,11 @@
                             <tr>
                                 <th scope="col">Select</th>   
                                 <th scope="col">Date Created</th>
+                                <th scope="col">Trainer</th>
                                 <th scope="col">Pokemon</th>
                                 <th scope="col">Old Move</th>
                                 <th scope="col">New Move</th>
-                                <th scope="col">Trainer</th>
+                                
 
                                
                             </tr>
@@ -158,10 +161,11 @@
                                     </div>
                                 </td>
                                 <td>'.$row["date_created"].'</td>
+                                <td>'.$row["trainer_name"].'</td>
                                 <td>'.$row["breedname"].'</td>
                                 <td>'.$row["old_move_name"].'</td>
                                 <td>'.$row["new_move_name"].'</td>
-                                <td>'.$row["trainer_name"].'</td>
+                                
                             </tr>
                     ';
                 }
@@ -180,7 +184,71 @@
                 //Render "not found" message if no records were found.
                 if ($resultContainer->get_mysqli_result()->num_rows==0){
                     echo '
-                            <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
+                            <p width="100%" style="text-align: center;">Could not fetch Move data".</p>
+                    ';
+                }
+            }
+            else {
+                foreach ($resultContainer->getErrorMessages() as $errorMessage){
+                    echo "<p>".$errorMessage."</p>";
+                }
+            }
+        }
+
+
+
+
+        public function CreateFightTable(){
+            // $name: Trainer's name
+            // $action: URI to jump after hitting select user button. The action value to put in HTML form.
+            $resultContainer = $this->notificationModel->getFightNotifcations();
+            if ($resultContainer->isSuccess()) {
+                echo '
+                <form action="search-notification.php" method="GET">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Select</th>   
+                                <th scope="col">Date Created</th>
+                                <th scope="col">Trainer</th>
+                                <th scope="col">Pokemon</th>
+                                <th scope="col">Description</th>
+
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                    ';
+                while ($row = $resultContainer->get_mysqli_result()->fetch_assoc()) {
+                    echo '  <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="trainer" value="'.$row["notification_id"].'">
+                                    </div>
+                                </td>
+                                <td>'.$row["date_created"].'</td>
+                                <td>'.$row["trainer_name"].'</td>
+                                <td>'.$row["breedname"].'</td>
+                                <td>'.$row["fight_description"].'</td>
+                            </tr>
+                    ';
+                }
+                echo '
+                        </tbody>
+                    </table>';
+                if ($resultContainer->get_mysqli_result()->num_rows!=0){
+                    echo '
+                        <input type="submit" value="Select trainer">
+                    ';
+                }
+                echo '
+                </form>
+                ';
+
+                //Render "not found" message if no records were found.
+                if ($resultContainer->get_mysqli_result()->num_rows==0){
+                    echo '
+                            <p width="100%" style="text-align: center;">Could not fetch Fight data".</p>
                     ';
                 }
             }
@@ -225,12 +293,7 @@
 
 
 
-
-
-
-
-
-        /*
+ /*       
         public function trainerRegistrationForm(){
             echo '
             <form action="" method="post">
