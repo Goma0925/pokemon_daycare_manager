@@ -1,8 +1,20 @@
 <?php
-    include_once 'models/Database.php';
-    class ServiceRecordsModel extends Database { //Make sure to use plural noun for the class name
+    include_once 'utils/Query.php';
+    class ServiceRecordsModel { //Make sure to use plural noun for the class name
+
+        public function getServiceRecordColNames() {
+            $query = new Query();
+
+            // Call handler
+            $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'ServiceRecords'";
+            $query->addToSql($sql);
+            $resultContainer  = $query->handleQuery(); 
+            return $resultContainer;
+        } 
 
         public function startService(int $trainer_id, int $pokemon_id, string $start_date = null) {
+            // Declare vars
+            $query = new Query();
             try {
                 if (!isset($trainer_id) || !isset($pokemon_id)) { // we can just infer date otherwise
                     throw new Exception("Error: insufficient arguments provided");  
@@ -11,8 +23,12 @@
                 $sql = "INSERT INTO ServiceRecords(start_time, pokemon_id, trainer_id) 
                                VALUES (?,?,?);"; 
                 $bindArr = [$start_date, $pokemon_id, $trainer_id];
-                $bindStr = "sii";
-                $resultContainer  = $this->handleQuery($sql); // returns ResultContainer
+                $bindTypeStr = "sii";
+                // $query->setBindArr([$start_date, $pokemon_id, $trainer_id]);
+                // $query->addToSql($sql);
+                // $query->setBindStr("sii");
+                $query->setAll($sql, $bindTypeStr, $bindArr);
+                $resultContainer  = $query->handleQuery(); // returns ResultContainer
                 return $resultContainer; // return type ResultContainer
             }
             catch (Exception $e) {
@@ -22,15 +38,23 @@
 
         public function endService(string $end_date, int $service_record_id) {
             try {
+                // Declare vars
+                $query = new Query();
                 if (!isset($end_date) || !isset($service_record_id)) {
                     throw new Exception("Error: insufficient arguments provided");  
                 } 
-                $base_sql = "UPDATE ActiveServiceRecords 
-                            SET end_time = ? WHERE service_record_id = ?"; 
-                                        // Declare query assembling vars
+                $sql = "UPDATE ActiveServiceRecords 
+                            SET end_time = ? WHERE service_record_id = ?;"; 
                 $bindArr = [$end_date, $service_record_id];
-                $bindStr = "si";
-                $resultContainer  = $this->handleQuery($sql); // returns ResultContainer
+                $bindTypeStr = "si";
+                // $query->addToSql("UPDATE ActiveServiceRecords 
+                //                  SET end_time = ? WHERE service_record_id = ?;");
+                // $query->setBindArr([$end_date, $service_record_id]);
+                // $query->setBindTypeStr("si");
+                $query->setAll($sql, $bindTypeStr, $bindArr);
+
+                // $resultContainer = $this->handleQuery($sql,$bindTypeStr,$bindArr); // returns ResultContainer
+                $resultContainer = $query>handleQuery(); // returns ResultContainer
                 return $resultContainer; // return type ResultContainer
             }
             catch (Exception $e) { // we will not return if this function is not called correctly
@@ -65,63 +89,88 @@
                                           $date_range = null,
                                           $active_degree = 1
                                           ) {
-            $base_sql = "SELECT service_record_id, start_time, end_time, pokemon_id,
-            trainer_id FROM ";
+
+            $query = new Query();
+            // Declare query assembling vars
+
+            // $resultContainer = null;
+            // $bindArr = Array();
+            // $bindTypeStr = "";
+            $s_where_conditions = [];
+            
+            // $base_sql = "SELECT service_record_id, start_time, end_time, pokemon_id,
+            // trainer_id FROM ";
+
+            $query->addToSql("SELECT service_record_id, start_time, end_time, pokemon_id,
+            trainer_id FROM ");
 
             // Setting the table for correct active degree
-            if ($active_degree = 0) { // inactive only
-                $base_sql."InactiveServiceRecords";
+            if ($active_degree == 0) { // inactive only
+                // $base_sql = $base_sql."InactiveServiceRecords";
+                $query->addToSql("InactiveServiceRecords");
             }
-            elseif ($active_degree = 1) { // active only
-                $base_sql."ActiveServiceRecords";
+            elseif ($active_degree == 1) { // active only
+                // $base_sql = $base_sql."ActiveServiceRecords";
+                $query->addToSql("ActiveServiceRecords");
             }
-            elseif ($active_degree = 2) { // both inactive and active
-                $base_sql."ServiceRecords";
+            elseif ($active_degree == 2) { // both inactive and active
+                // $base_sql = $base_sql."ServiceRecords";
+                $query->addToSql("ServiceRecords");
+                
             }
             else {
                 // If time, define custom exception handler (this one is developer spec)
                 throw new Exception("Invalid argument for '$active_degree'.");
             }
 
-            // Declare query assembling vars
-            $bindArr = [];
-            $bindStr = "";
-            $s_where_conditions = [];
-
             // Start assembling query
             if (isset($service_record_id)) { // search by service_record_id
                 $s_where_conditions[] = "service_record_id = ?";
-                $bindArr[] = $service_record_id;
-                $bindStr."i";
+                // $bindArr[] = $service_record_id;
+                // $bindStr = $bindStr."i";
+                $query->addBindArrElem($service_record_id);
+                $query->addBindType("i");
             }
             else {
                 if (isset($pokemon_id)) {
                     $s_where_conditions[] = "pokemon_record_id = ?";
-                    $bindArr[] = $pokemon_id;
-                    $bindStr."i";
+                    // $bindArr[] = $pokemon_id;
+                    // $bindStr = $bindStr."i";
+                    $query->addBindArrElem($pokemon_id);
+                    $query->addBindType("i");
                 }
+
                 if (isset($trainer_id)) {
                     $s_where_conditions[] = "trainer_id = ?";
-                    $bindArr[] = $trainer_id;
-                    $bindStr."i";
+                    // $bindArr[] = $trainer_id;
+                    // $bindStr = $bindStr."i";
+                    $query->addBindArrElem($trainer_id);
+                    $query->addBindType("i");
                 }         
+
                 // if (isset($start_date)) { // leave out for now
                 //     // $s_where_conditions[] = "start_time = ?"; // what type?
                 //     // $bindArr[] = $start_date;
                 //     // $bindStr."s";
                 //     echo "Do stuff";
                 // } 
-            }
-            // Append conditions to base_sql
-            $n_conditions = count($s_where_conditions)-1;
-            for($n = 0; $n < $n_conditions-1; $n++) { // add last condition with &&
-                $base_sql.$condition." && ";
-            }
-            // Add last condition condition to base_sql
-            $base_sql.$s_where_conditions[$n_conditions].";";
 
-            // Get final results and return to caller
-            $resultContainer  = $this->handleQuery($base_sql, $bindStr, $bindArr); // returns ResultContainer
+                // Append conditions to base_sql
+                $n_conditions = count($s_where_conditions)-1;
+                if ($n_conditions >= 0) {
+                    for($n = 0; $n < $n_conditions-1; $n++) { // add last condition with &&
+                        // $base_sql = $base_sql.$condition." && ";
+                        $query->addToSql($s_where_conditions[$n]." && ");
+                    }
+                    // Add last condition condition to base_sql
+                    // $base_sql = $base_sql.$s_where_conditions[$n_conditions]; 
+                    $query->addToSql($base_sql.$s_where_conditions[$n_conditions]);    
+   
+                }           
+            }
+            // $base_sql = $base_sql.";"; 
+            $query->addToSql(";");    
+            $resultContainer = $query->handleQuery(); // returns ResultContainer
             return $resultContainer; // return type ResultContainer
         }
            

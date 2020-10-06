@@ -41,7 +41,7 @@
                 echo '
                         </tbody>
                     </table>';
-                if ($resultContainer->get_mysqli_result()->num_rows!=0){
+                if ($resultContainer->get_mysqli_result()->num_rows != 0){
                     echo '
                         <input type="submit" value="Select trainer">
                     ';

@@ -6,9 +6,17 @@
             // Set the title and link to show on navbar in the format
             // "Title" => "path/to/page.php"
             $this->page_links = array(
+<<<<<<< HEAD
                 "Trainer" => "search-trainer.php",
                 "Notifications" => "search-notification.php",
                 "Service" => "#",
+=======
+                "Direcotry" => "#",
+                "Check in/out" => "search-trainer.php",
+                "Events" => "select-pokemon-update.php",
+                "Analytics" => "#",
+                "Settings" => "#",
+>>>>>>> 3ef7df643bb58d157217379d740c4da11369f5e9
             );
         }
 

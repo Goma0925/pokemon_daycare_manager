@@ -1,7 +1,11 @@
 <?php
     include_once 'models/Database.php';
+    include_once 'utils/Query.php';
+
     class NotificationModel extends Database {
         public function getAllNotifcations(){
+            $query = new Query(); // ADDED
+
             //This function returns all the trainer records that contain the name string
             //It ignores the distinction lowercase & uppercase.
             $sql = "SELECT n.date_created, 
@@ -10,11 +14,17 @@
                         FROM Notifications AS n
                         INNER JOIN (Trainers AS t)
                         ON (n.trainer_id = t.trainer_id);";
-            $res_container = $this->handleQuery($sql); // positional or explicitly state
+
+            $query->setSql($sql); // ADDED
+
+            $res_container = $query->handleQuery(); // ADDED
+
             return $res_container; 
         }
 
         public function getMoveNotifcations(){
+            $query = new Query(); // ADDED
+
             //This function returns all the trainer records that contain the name string
             //It ignores the distinction lowercase & uppercase.
             $sql = "SELECT Notifications.date_created,
@@ -30,8 +40,9 @@
                             ON (p.pokemon_id = m.pokemon_id)
                             INNER JOIN (Trainers)
                             ON (Trainers.trainer_id = Notifications.trainer_id);";
+            $query->setSql($sql); // ADDED
+            $res_container = $query->handleQuery(); // ADDED
 
-            $res_container = $this->handleQuery($sql); // positional or explicitly state
             return $res_container; 
         }
 
@@ -53,11 +64,19 @@
                         INNER JOIN (Fights AS f1)
                         ON (f.fight_id = f1.fight_id);";
 
-            $res_container = $this->handleQuery($sql); // positional or explicitly state
+
+            $query = new Query(); // ADDED
+
+
+            $query->setAll($sql); // ADDED
+
+            $res_container = $query->handleQuery(); // ADDED
+
             return $res_container; 
         }
 
         public function getEggNotifcations(){
+            $query = new Query();
             //This function returns all the trainer records that contain the name string
             //It ignores the distinction lowercase & uppercase.
             $sql = "SELECT Notifications.date_created, 
@@ -74,7 +93,11 @@
                     ON (p2.pokemon_id = e.mother)
                     INNER JOIN (Trainers)
                     ON (Trainers.trainer_id = Notifications.trainer_id);";
-            $res_container = $this->handleQuery($sql); // positional or explicitly state
+
+            $query->setSql($sql); // ADDED
+
+            $res_container = $query->handleQuery(); // ADDED
+            
             return $res_container; 
         }
 
