@@ -1,8 +1,7 @@
 <?php
-    include_once 'models/Database.php'; // NOT SURE WE NEED THIS ANYMORE
     include_once 'utils/Query.php'; // NEW
  
-    class SomethingsModel extends Database { //Make sure to use plural noun for the class name
+    class SomethingsModel { //Make sure to use plural noun for the class name
 
         // Always return ResultContainer to notify if the operation was successful + errors
         // ResultContainer(); //Custom error container. See utils/ResultContainer.php

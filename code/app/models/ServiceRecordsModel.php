@@ -1,7 +1,6 @@
 <?php
-    // include_once 'models/Database.php'; // we already extend database, we also never use its methods here
     include_once 'utils/Query.php';
-    class ServiceRecordsModel extends Database { //Make sure to use plural noun for the class name
+    class ServiceRecordsModel { //Make sure to use plural noun for the class name
 
         public function getServiceRecordColNames() {
             $query = new Query();
