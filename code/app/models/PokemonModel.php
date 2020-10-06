@@ -159,7 +159,7 @@
                 // try
                 $query->addToSql("WHERE trainer_id = ?");
                 $query->addBindType("i");
-                $query->addBindArrayElem($trainer_id);
+                $query->addBindArrElem($trainer_id);
                 $resultContainer = $query->handleQuery();
             }
             if (isset($phone) && ($resultContainer->get_mysqli_result()->num_rows == 0)) { 
