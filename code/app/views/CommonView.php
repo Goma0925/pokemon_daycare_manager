@@ -7,7 +7,7 @@
             // "Title" => "path/to/page.php"
             $this->page_links = array(
                 "Trainer" => "search-trainer.php",
-                "Notifications" => "#",
+                "Notifications" => "search-notification.php",
                 "Service" => "#",
             );
         }
