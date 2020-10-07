@@ -21,7 +21,7 @@
     <div style="margin-left:5%;margin-right:5%; margin-top: 25px;">
         <p>Temporary message: Hello guys! check out the notifcations</p>
         <p> 
-            <form action="dropoff-pokemon.php" method="GET">
+            <form action="select-pokemon.php" method="GET">
                 <input type="hidden" value="true" name="active">
                 <input type="hidden" value="true" name="select-all">
                 <button type="submit" style="margin-left: 10px; float:right" value="fight-update" name="redirect-to" type="button" class="btn btn-secondary">Report Fight</button>
