@@ -293,9 +293,9 @@
 
 
 
- /*       
-        public function trainerRegistrationForm(){
-            echo '
+      
+        public function eggeventRegistrationForm(){
+            echo '<br><br>
             <form action="" method="post">
                 <div class="form-group">
                     <label for="name-form">Trainer name</label>
@@ -303,10 +303,13 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <p>Email: <input type="email" class="form-control" name="email" placeholder="Email" required></p>
+                        <p>Date <input type="datetime-local" class="form-control" name="eventdatetime" placeholder="Date and Time" required></p>
                     </div>
                     <div class="col">
-                        <p>Phone: <input type="text" class="form-control" name="phone" placeholder="XXX-XXX-XXXX" required></p>
+                        <p>Parent 1: <input type="number" class="form-control" name="parent1" placeholder="Pokemon ID" required></p>
+                    </div>
+                    <div class="col">
+                        <p>Parent 2: <input type="number" class="form-control" name="parent2" placeholder="Pokemon ID" required></p>
                     </div>
                 </div>
                 <input type="submit">
@@ -316,6 +319,6 @@
 
         public function registrationSuccessMessage(){
             echo "<p>Successfully registered a new trainer!</p>";
-        }*/
+        }
     }
 ?>
