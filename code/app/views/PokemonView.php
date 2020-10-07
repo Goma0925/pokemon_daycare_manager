@@ -69,19 +69,17 @@
                             </tr>
                     ';
                 }
-                echo '
-                        </tbody>
-                    </table>';
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
-                    echo '
-                        <input type="submit" value="Select pokemon">
+                    echo '  
+                            <tr>
+                                <td colspan="3"><button type="submit" style="float: right;margin-right:20px;" class="btn btn-info">Select</button></td>
+                            </tr>
                     ';
                 }
-
-                //Close the form
                 echo '
-                </form>
-                ';
+                        </tbody>
+                    </table>
+                </form>';
     
                 //Render "not found" message if no records were found.
                 if ($resultContainer->get_mysqli_result()->num_rows==0){

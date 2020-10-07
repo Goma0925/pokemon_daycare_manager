@@ -43,6 +43,7 @@
             //Define form names and values to set in the selection table form.
             $form_params = Array(
                 "redirect-to"=>"check-in-confirmation", //This is used to route pages in select-pokemon.php
+                "active"=> "false" //Request to show the inactive pokemon in select-pokemon.php
             );
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name and renders a table in a HTML form, from which you can select a single trainer.

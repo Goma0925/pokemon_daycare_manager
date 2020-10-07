@@ -19,7 +19,14 @@
         $commonView->navbar();
     ?>
     <div style="margin-left:5%; margin-right:5%; margin-top: 25px;">
-        <h2>Please select a pokemon:</h2><br>
+        <h2>Please select a pokemon:
+            <?php 
+                if ($_GET["redirect-to"] == "check-in-confirmation"){
+                    //Render a button to register a new pokemon for check-in flow.
+                    echo '<a style="float: right; margin-bottom:10px;" href="./register-pokemon.php" type="button" class="btn btn-secondary">Register new pokemon</a>';
+                }
+            ?>
+        </h2><br>
     <?php
         //A. Construct header
 
@@ -58,14 +65,15 @@
                     $pokemonView->pokemonSelectionTableAll($show_active_pokemon, $action, $method, $form_params);
                 break;
 
-                case "check-in-confirmation": //Form action attribute to send the form request to.
+                case "check-in-confirmation": 
                     //if the trainer param specifies a particular trainer, render pokemon of the trainer
-                    $action = "add_service_record.php"; //Send the pokemon selection post data here.
+                    $action = "add-service-record.php"; //Send the pokemon selection post data here.
                     $trainer_id = $_GET["trainer"];
                     $form_params = Array(
                         "trainer_id"=>$trainer_id,
                     );//This can be modified if you want to add HTML form values in PokemonSelectionTable
                     $pokemonView->pokemonSelectionTableByTrainer($trainer_id, $show_active_pokemon, $action, $method, $form_params);
+
                 break;
             }
 
@@ -75,8 +83,6 @@
         };
 
     ?>
-        <br>
-        <p><a style="float: right;" href="./register-pokemon.php" type="button" class="btn btn-secondary">Register new pokemon</a></p>
     </div>
 </body>
 </html>

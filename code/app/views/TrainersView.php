@@ -49,24 +49,19 @@
                             </tr>
                     ';
                 }
-                echo '
-                        </tbody>
-                    </table>';
-                if ($resultContainer->get_mysqli_result()->num_rows != 0){
-                    echo '
-                        <input type="submit" value="Select trainer">
-                    ';
-                }
-                echo '
-                </form>
-                ';
 
                 //Render "not found" message if no records were found.
-                if ($resultContainer->get_mysqli_result()->num_rows==0){
-                    echo '
-                            <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
+                if ($resultContainer->get_mysqli_result()->num_rows!=0){
+                    echo '  
+                            <tr>
+                                <td colspan="4"><button type="submit" style="float: right;margin-right:20px;" class="btn btn-info">Select</button></td>
+                            </tr>
                     ';
                 }
+                echo '
+                        </tbody>
+                    </table>
+                </form>';
             }
             else {
                 foreach ($resultContainer->getErrorMessages() as $errorMessage){
