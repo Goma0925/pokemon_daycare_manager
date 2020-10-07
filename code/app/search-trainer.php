@@ -33,9 +33,21 @@
         $trainerView = new TrainersView();
         if (isset($_GET["trainer-name"])){
             $name = $_GET["trainer-name"];
+
+            //Define where to direct the request of trainer selection table's form.
+            $action = "select-pokemon.php";
+
+            // Define the method by which the trainer selection table sends its request.
+            $method = "GET";
+
+            //Define form names and values to set in the selection table form.
+            $form_params = Array(
+                "redirect-to"=>"check-in-confirmation", //This is used to route pages in select-pokemon.php
+            );
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
-            //string of the $name. It ignores the difference between lowercase and uppercase.
-            $trainerView->trainerSelectionTableByName($name, "select-pokemon.php");
+            //string of the $name and renders a table in a HTML form, from which you can select a single trainer.
+            //For the string name search, it ignores the difference between lowercase and uppercase.
+            $trainerView->trainerSelectionTableByName($name, $action, $method, $form_params);
         }
 
     ?>
