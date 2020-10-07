@@ -52,7 +52,7 @@
                 //Render "not found" message if no records were found.
                 if ($resultContainer->get_mysqli_result()->num_rows==0){
                     echo '
-                            <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
+                            <p width="100%" style="text-align: center;">No matching record found for any events.</p>
                     ';
                 }
             }
@@ -114,7 +114,7 @@
                 //Render "not found" message if no records were found.
                 if ($resultContainer->get_mysqli_result()->num_rows==0){
                     echo '
-                            <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
+                            <p width="100%" style="text-align: center;">No matching record found for new eggs.</p>
                     ';
                 }
             }
@@ -180,7 +180,7 @@
                 //Render "not found" message if no records were found.
                 if ($resultContainer->get_mysqli_result()->num_rows==0){
                     echo '
-                            <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
+                            <p width="100%" style="text-align: center;">No matching record found for new moves.</p>
                     ';
                 }
             }
