@@ -107,6 +107,15 @@
             return $resultContainer;
         }
 
+        public function getAllInactivePokemon() {
+            // Declare vars
+            $query = new Query();
+            $sql = "SELECT * FROM InactivePokemon;";
+            $query->setSql($sql);
+            $resultContainer  = $query->handleQuery();
+            return $resultContainer;
+        }
+
         /* Get pokemon by unique trainer information.
            All arguments provided may be tried. The first
            criteria to return a result with more than 0 rows will be

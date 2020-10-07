@@ -7,6 +7,7 @@
         include_once 'views/CommonView.php';
         include_once 'views/NotificationView.php';
         include_once 'controllers/NotificationContr.php';
+        include_once 'views/InputErrorView.php';
     ?>
     <?php   
         $commonView = new CommonView();
@@ -19,7 +20,7 @@
         $commonView->navbar();
     ?>
     <div style="margin-left:5%;margin-right:5%; margin-top: 25px;">
-        <p>Temporary message: Hello guys! check out the notifcations</p>
+        <p>Adding Event</p>
         <p> 
             <form action="register-notification.php" method="GET">
                 <input type="hidden" value="true" name="active">
@@ -29,43 +30,41 @@
                 <button type="submit" style="margin-left: 10px;float:right" value="move-update" name="addMove" type="button" class="btn btn-secondary">Report New Move</button>
             </form>
         </p>
-        <h2>Latest Event Report</h2>
-        <form method="GET">
-            <p>Filter by: 
-                <input type="submit" value="All" name="All-notifs">
-                <input type="submit" value="Eggs" name="Egg-notifs">
-                <input type="submit" value="Moves" name="Move-notifs">
-                <input type="submit" value="Fights" name="Fight-notifs">
-            </p>
-        </form>
+
 
     <?php 
         
         // Render table
         $notificationView = new NotificationView();
-        if (isset($_GET["All-notifs"])){
-            
+        $inputErrorView = new InputErrorView();
+        $notificationContr = new NotificationContr();
+        if (isset($_GET["addEgg"])){
+            if (isset($_POST["name"])) {
+                $resultContainer = $notificationContr->addEggEvent($_POST["name"], $_POST["eventdatetime"], $_POST["parent1"], $_POST["parent2"]);
+                if ($resultContainer->isSuccess()){
+                    
+                }else{
+                    $errorMessages = $resultContainer->getErrorMessages();
+                    $inputErrorView->errorBox($errorMessages);
+                }
+
+                
+            }
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
-            $notificationView->CreateAllTable();
+            $notificationView -> eggeventRegistrationForm();
         }
-        if (isset($_GET["Egg-notifs"])){
+        if (isset($_GET["addMove"])){
             
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
-            $notificationView->CreateEggTable();
+            echo 'move';
         }
-        if (isset($_GET["Move-notifs"])){
+        if (isset($_GET["addFight"])){
             
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
-            $notificationView->CreateMoveTable();
-        }
-        if (isset($_GET["Fight-notifs"])){
-            
-            //Render trainer table. This function matches all the trainers whose name contains partial/entire
-            //string of the $name. It ignores the difference between lowercase and uppercase.
-            $notificationView->CreateFightTable();
+            echo 'fight';
         }
         
     ?>

@@ -7,14 +7,24 @@
             $this->trainersModel = new TrainersModel();
         }
 
-
-        public function trainerSelectionTableByName($name, $action){
-            // $name: Trainer's name
-            // $action: URI to jump after hitting select user button. The action value to put in HTML form.
+        public function trainerSelectionTableByName($name, $action, $method, $form_params){
+            //        $name: Trainer's name
+            //      $action: URI to jump after hitting select user button. The action value to put in HTML form.
+            //      $method: Method type to send the form with. GET, POST, etc.
+            // $form_params: An array of (name, value) pairs of form parameters to send with the HTML form.
             $resultContainer = $this->trainersModel->getTrainersByName($name);
             if ($resultContainer->isSuccess()) {
                 echo '
-                <form action="'.$action.'" method="GET">
+                <form action="'.$action.'" method="'.$method.'">';
+
+                //Render hidden input based on $form_params
+                foreach ($form_params as $name=>$value){
+                    echo '
+                    <input type="hidden" name="'.$name.'" value="'.$value.'">
+                    ';
+                };
+                
+                echo '
                     <table class="table">
                         <thead>
                             <tr>
@@ -29,8 +39,8 @@
                 while ($row = $resultContainer->get_mysqli_result()->fetch_assoc()) {
                     echo '  <tr>
                                 <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="trainer" value="'.$row["trainer_id"].'">
+                                    <div class="form-check">                                     
+                                       <input class="form-check-input" type="radio" name="trainer" value="'.$row["trainer_id"].'" required>
                                     </div>
                                 </td>
                                 <td>'.$row["trainer_name"].'</td>
@@ -39,24 +49,19 @@
                             </tr>
                     ';
                 }
-                echo '
-                        </tbody>
-                    </table>';
-                if ($resultContainer->get_mysqli_result()->num_rows != 0){
-                    echo '
-                        <input type="submit" value="Select trainer">
-                    ';
-                }
-                echo '
-                </form>
-                ';
 
                 //Render "not found" message if no records were found.
-                if ($resultContainer->get_mysqli_result()->num_rows==0){
-                    echo '
-                            <p width="100%" style="text-align: center;">No matching record found for "'.$name.'".</p>
+                if ($resultContainer->get_mysqli_result()->num_rows!=0){
+                    echo '  
+                            <tr>
+                                <td colspan="4"><button type="submit" style="float: right;margin-right:20px;" class="btn btn-info">Select</button></td>
+                            </tr>
                     ';
                 }
+                echo '
+                        </tbody>
+                    </table>
+                </form>';
             }
             else {
                 foreach ($resultContainer->getErrorMessages() as $errorMessage){
