@@ -35,7 +35,7 @@
             $name = $_GET["trainer-name"];
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
-            $trainerView->trainerSelectionTableByName($name, "dropoff-pokemon.php");
+            $trainerView->trainerSelectionTableByName($name, "select-pokemon.php");
         }
 
     ?>

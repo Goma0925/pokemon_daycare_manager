@@ -11,7 +11,7 @@
                 "Service" => "#",
                 "Direcotry" => "#",
                 "Check in/out" => "search-trainer.php",
-                "Events" => "select-pokemon-update.php",
+                "Events" => "search-notification.php",
                 "Analytics" => "#",
                 "Settings" => "#",
             );

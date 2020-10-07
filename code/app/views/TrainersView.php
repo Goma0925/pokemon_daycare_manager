@@ -7,7 +7,7 @@
             $this->trainersModel = new TrainersModel();
         }
 
-        public function trainerSelectionTableByName($name, $action){
+        public function trainerSelectionTableByName($name, $action, $param){
             // $name: Trainer's name
             // $action: URI to jump after hitting select user button. The action value to put in HTML form.
             $resultContainer = $this->trainersModel->getTrainersByName($name);
@@ -29,6 +29,7 @@
                     echo '  <tr>
                                 <td>
                                     <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="redirect-to" value="new-service-record-confirmation">
                                         <input class="form-check-input" type="radio" name="trainer" value="'.$row["trainer_id"].'">
                                     </div>
                                 </td>
