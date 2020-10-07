@@ -21,14 +21,17 @@
     <div style="margin-left:5%;margin-right:5%; margin-top: 25px;">
         <p>Temporary message: Hello guys! check out the notifcations</p>
         <p> 
-
-            <a style="margin-right:10px; float:right" href="" type="button" class="btn btn-secondary">Report Fight</a>
-            <a style="float:right" href="dropoff-pokemon.php" type="button" class="btn btn-secondary">Report Egg</a>
-            <a style="float:right" href="dropoff-pokemon.php" type="button" class="btn btn-secondary">Report  Move Aquisition</a>
+            <form action="dropoff-pokemon.php" method="GET">
+                <input type="hidden" value="true" name="active">
+                <input type="hidden" value="true" name="select-all">
+                <button type="submit" style="margin-left: 10px; float:right" value="fight-update" name="redirect-to" type="button" class="btn btn-secondary">Report Fight</button>
+                <button type="submit" style="margin-left: 10px;float:right" value="egg-update" name="redirect-to" type="button" class="btn btn-secondary">Report Egg</button>
+                <button type="submit" style="margin-left: 10px;float:right" value="move-update" name="redirect-to" type="button" class="btn btn-secondary">Report New Move</button>
+            </form>
         </p>
-        <h2>Latest Event report</h2>
+        <h2>Latest Event Report</h2>
         <form method="GET">
-            <p>Latest events: 
+            <p>Filter by: 
                 <input type="submit" value="All" name="All-notifs">
                 <input type="submit" value="Eggs" name="Egg-notifs">
                 <input type="submit" value="Moves" name="Move-notifs">
