@@ -84,6 +84,9 @@
         public function removeLastSql() {
             $removed = array_pop($this->sqlArr);
         }
+        public function getSqlArr() {
+            return $this->sqlArr;
+        }
 
 
         // USEFUL METHODS for common repitition

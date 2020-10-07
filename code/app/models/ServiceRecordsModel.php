@@ -87,8 +87,7 @@
                                           int $trainer_id = null, 
                                           int $pokemon_id = null, 
                                           $date_range = null,
-                                          $active_degree = 1
-                                          ) {
+                                          $active_degree = 1) {
 
             $query = new Query();
             // Declare query assembling vars
@@ -107,15 +106,15 @@
             // Setting the table for correct active degree
             if ($active_degree == 0) { // inactive only
                 // $base_sql = $base_sql."InactiveServiceRecords";
-                $query->addToSql("InactiveServiceRecords");
+                $query->addToSql("InactiveServiceRecords ");
             }
             elseif ($active_degree == 1) { // active only
                 // $base_sql = $base_sql."ActiveServiceRecords";
-                $query->addToSql("ActiveServiceRecords");
+                $query->addToSql("ActiveServiceRecords ");
             }
             elseif ($active_degree == 2) { // both inactive and active
                 // $base_sql = $base_sql."ServiceRecords";
-                $query->addToSql("ServiceRecords");
+                $query->addToSql("ServiceRecords ");
                 
             }
             else {
@@ -123,27 +122,24 @@
                 throw new Exception("Invalid argument for '$active_degree'.");
             }
 
+            if (isset($service_record_id) || isset($pokemon_id) || isset($trainer_id)) {
+                $query->addToSql("WHERE ");    
+            }
             // Start assembling query
             if (isset($service_record_id)) { // search by service_record_id
-                $s_where_conditions[] = "service_record_id = ?";
-                // $bindArr[] = $service_record_id;
-                // $bindStr = $bindStr."i";
+                $query->addToSql("service_record_id = ?");
                 $query->addBindArrElem($service_record_id);
                 $query->addBindType("i");
             }
             else {
                 if (isset($pokemon_id)) {
-                    $s_where_conditions[] = "pokemon_record_id = ?";
-                    // $bindArr[] = $pokemon_id;
-                    // $bindStr = $bindStr."i";
+                    $s_where_conditions[] = "pokemon_id = ?";
                     $query->addBindArrElem($pokemon_id);
                     $query->addBindType("i");
                 }
-
                 if (isset($trainer_id)) {
+
                     $s_where_conditions[] = "trainer_id = ?";
-                    // $bindArr[] = $trainer_id;
-                    // $bindStr = $bindStr."i";
                     $query->addBindArrElem($trainer_id);
                     $query->addBindType("i");
                 }         
@@ -163,12 +159,11 @@
                         $query->addToSql($s_where_conditions[$n]." && ");
                     }
                     // Add last condition condition to base_sql
-                    // $base_sql = $base_sql.$s_where_conditions[$n_conditions]; 
-                    $query->addToSql($base_sql.$s_where_conditions[$n_conditions]);    
+                    $query->addToSql($s_where_conditions[$n_conditions]);    
    
                 }           
             }
-            // $base_sql = $base_sql.";"; 
+            // var_dump($query->getSqlArr());
             $query->addToSql(";");    
             $resultContainer = $query->handleQuery(); // returns ResultContainer
             return $resultContainer; // return type ResultContainer
@@ -180,6 +175,7 @@
         }
 
         public function getServiceRecordsByTrainerID($trainer_id, $active_degree = 2) {
+            echo $active_degree;
             return $this->getServiceRecords(null,$trainer_id,null,null,$active_degree);    
         }
 
@@ -193,7 +189,7 @@
 
         // GET ALLS
         public function getAllActiveServiceRecords() {
-            return $this->getServiceRecords();
+            return $this->getServiceRecords(null,null,null,null,1);
         }
 
         public function getAllInactiveServiceRecords() {
