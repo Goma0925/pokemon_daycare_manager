@@ -2,7 +2,7 @@
     include_once 'models/Database.php';
     include_once 'utils/Query.php';
 
-    class NotificationModel extends Database {
+    class NotificationModel {
         public function getAllNotifcations(){
             $query = new Query(); // ADDED
 

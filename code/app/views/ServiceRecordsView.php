@@ -1,12 +1,15 @@
 <?php
     include 'models/ServiceRecordsModel.php';
+    include 'models/TrainersModel.php';
 
     class ServiceRecordsView { //Make sure to use plural noun for the class name
         private $serviceRecordsModel;
+        private $trainersModel;
         public function __construct() {
             //Make sure you don' put the $ sign in front of the variable name when using $this keyword!
             // e.g:   $this->trainersModel = new TrainersModel();
             $this->serviceRecordsModel = new ServiceRecordsModel();
+            $this->trainersModel = new TrainersModel();
         }
 
         public function buildTableForm($action, $method, $row_headers, $table_data, $input_value) {
@@ -52,19 +55,52 @@
             </form>'; 
         }
 
-        public function init_serviceRecordsTable($action){
+        public function buildServiceRecordsTable($action, string $by = null, $value = null, $status = null){
             //1. Get data from model
-            $resultContainer = $this->serviceRecordsModel->getAllServiceRecords();
-            if ($resultContainer->isSuccess()) {
-                $this->buildTableForm("","get", ["Select","RecordID","Start Date", "End Date", "PokemonID", "TrainerID"],
-                                                        $resultContainer,"service_record_id"
-                              );
+            $resultContainer; 
+            $status = intval($status);
+            if (!empty($value)) {
+                $criteria = $by; 
+                if (strpos($criteria, 'id') !== false) { $value = intval($value); }
+                switch ($criteria) {
+                    case "trainer_id":
+                        $resultContainer = $this->serviceRecordsModel->getServiceRecordsByTrainerID($value, $status);
+                        break;
+                    case "service_record_id":
+                        $resultContainer = $this->serviceRecordsModel->getServiceRecordByID($value, $status);
+                        break;
+                    case "pokemon_id":
+                        $resultContainer = $this->serviceRecordsModel->getServiceRecordsByPokemonID($value, $status);
+                        break;
+                  }
             }
             else {
-                echo "Some error has occurred.";
+                switch ($status) {
+                    case 0:
+                        $resultContainer = $this->serviceRecordsModel->getAllInactiveServiceRecords();
+                    break;
+                    case 1:
+                        $resultContainer = $this->serviceRecordsModel->getAllActiveServiceRecords();
+
+                    break;
+                    case 2:
+                        $resultContainer = $this->serviceRecordsModel->getAllServiceRecords();
+                    break; 
+                }
             }
 
-            //2. Render HTML 
+            if ($resultContainer->isSuccess()) { // will render based on what was set above
+                // var_dump($resultContainer->get_mysqli_result());
+                $this->buildTableForm($action,"get", 
+                    ["Edit","RecordID","Start Date", "End Date", "PokemonID", "TrainerID"],
+                    $resultContainer,"service_record_id");
+            }
+            else { // do not render at all (maybe render some error, just depends)
+                var_dump($resultContainer->getErrorMessages());
+            } 
         }
+
+
+ 
     }
 ?>
