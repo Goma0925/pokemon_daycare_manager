@@ -85,7 +85,7 @@
                                         string $email = null,
                                         string $phone = null) {
             $query = new Query();
-            $base_sql = "SELECT trainer_id, email, phone FROM Trainers"; 
+            $base_sql = "SELECT trainer_id, email, phone, trainer_name FROM Trainers"; 
             $query->addToSql($base_sql);
 
             if (isset($trainer_id)) { // get unique pokemon
