@@ -23,7 +23,7 @@
         <p> 
             <form action="select-pokemon.php" method="GET">
                 <input type="hidden" value="true" name="active">
-                <input type="hidden" value="true" name="select-all">
+                <input type="hidden" value="all" name="trainer">
                 <button type="submit" style="margin-left: 10px; float:right" value="fight-update" name="redirect-to" type="button" class="btn btn-secondary">Report Fight</button>
                 <button type="submit" style="margin-left: 10px;float:right" value="egg-update" name="redirect-to" type="button" class="btn btn-secondary">Report Egg</button>
                 <button type="submit" style="margin-left: 10px;float:right" value="move-update" name="redirect-to" type="button" class="btn btn-secondary">Report New Move</button>
