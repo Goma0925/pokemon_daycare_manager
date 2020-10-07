@@ -47,7 +47,7 @@
             $base_sql = "SELECT pokemon_id, trainer_id, current_level,
                                 nickname, breedname
                                 FROM ".($active ? "ActivePokemon" : "InactivePokemon"); 
-            $query.addToSql($base_sql);
+            $query->addToSql($base_sql);
 
             if (isset($pokemon_id)) { // get unique pokemon
                 $query->addToSql(" WHERE pokemon_id = ?;");
