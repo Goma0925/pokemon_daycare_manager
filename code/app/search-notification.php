@@ -20,12 +20,18 @@
     ?>
     <div style="margin-left:5%;margin-right:5%; margin-top: 25px;">
         <p>Temporary message: Hello guys! check out the notifcations</p>
-        <h2>Events</h2>
-        <p><a href="dropoff-pokemon.php">Report Fights</a><p>
-        <p><a href="#">Report Eggs</a><p>
-        <p><a href="#">Report Move Aquisition</a><p>
+        <p> 
+            <form action="select-pokemon.php" method="GET">
+                <input type="hidden" value="true" name="active">
+                <input type="hidden" value="true" name="select-all">
+                <button type="submit" style="margin-left: 10px; float:right" value="fight-update" name="redirect-to" type="button" class="btn btn-secondary">Report Fight</button>
+                <button type="submit" style="margin-left: 10px;float:right" value="egg-update" name="redirect-to" type="button" class="btn btn-secondary">Report Egg</button>
+                <button type="submit" style="margin-left: 10px;float:right" value="move-update" name="redirect-to" type="button" class="btn btn-secondary">Report New Move</button>
+            </form>
+        </p>
+        <h2>Latest Event Report</h2>
         <form method="GET">
-            <p>Latest events: 
+            <p>Filter by: 
                 <input type="submit" value="All" name="All-notifs">
                 <input type="submit" value="Eggs" name="Egg-notifs">
                 <input type="submit" value="Moves" name="Move-notifs">

@@ -31,6 +31,10 @@
             echo "<p>Error: No trainer specified</p>";
         };
 
+        if (isset($_GET["redirect-to"])){
+            echo "Hello";
+        }
+
     ?>
         <br>
         <p><a style="float: right;" href="./register-pokemon.php" type="button" class="btn btn-secondary">Register new pokemon</a></p>
