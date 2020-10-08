@@ -61,7 +61,7 @@
                     echo '  <tr>
                                 <td>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="pokemon" value="'.$row["trainer_id"].'" required>
+                                        <input class="form-check-input" type="radio" name="pokemon" value="'.$row["pokemon_id"].'" required>
                                     </div>
                                 </td>
                                 <td>'.$row["nickname"].'</td>

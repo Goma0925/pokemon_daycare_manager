@@ -154,7 +154,7 @@
                     <h1 class="display-4">Check-In Complete!</h1>
                     <p class="lead">The check-in has been recorded. Go to Check-In/Out tab to check out the customer.</p>
                     <hr class="my-4">
-                    <p class="lead">
+                    <p class="lead" style="float:right;">
                         <a class="btn btn-info" href="select-pokemon.php?redirect-to=check-in-confirmation&active=false&trainer='.$trainer_id.'" role="button">Check-in other pokemon</a>
                     </p>
                 </div>';

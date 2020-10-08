@@ -19,7 +19,7 @@
                 if (!isset($trainer_id) || !isset($pokemon_id)) { // we can just infer date otherwise
                     throw new Exception("Error: insufficient arguments provided");  
                 } 
-                !isset($start_date) ? (new DateTime())->format('Y-m-d H:i:s') : $start_date; 
+                $start_date = !isset($start_date) ? date('Y-m-d H:i:s') : $start_date; 
                 $sql = "INSERT INTO ServiceRecords(start_time, pokemon_id, trainer_id) 
                                VALUES (?,?,?);"; 
                 $bindArr = [$start_date, $pokemon_id, $trainer_id];
@@ -36,13 +36,16 @@
             }
         }
 
-        public function endService(string $end_date, int $service_record_id) {
+        public function endService(string $end_date=null, int $service_record_id) {
             try {
                 // Declare vars
                 $query = new Query();
-                if (!isset($end_date) || !isset($service_record_id)) {
+                if (!isset($end_date)){
+                    $end_date = date('Y-m-d H:i:s');
+                }
+                if (!isset($service_record_id)) {
                     throw new Exception("Error: insufficient arguments provided");  
-                } 
+                }
                 $sql = "UPDATE ActiveServiceRecords 
                             SET end_time = ? WHERE service_record_id = ?;"; 
                 $bindArr = [$end_date, $service_record_id];
