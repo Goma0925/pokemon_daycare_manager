@@ -7,6 +7,8 @@
             $this->notificationModel = new NotificationModel();
         }
 
+
+         // used to create the All Events Table
         public function CreateAllTable(){
             // $name: Trainer's name
             // $action: URI to jump after hitting select user button. The action value to put in HTML form.
@@ -64,7 +66,7 @@
         }
 
 
-
+         // used to create the Egg Event Table
         public function CreateEggTable(){
             // $name: Trainer's name
             // $action: URI to jump after hitting select user button. The action value to put in HTML form.
@@ -129,7 +131,7 @@
 
 
 
-
+         // used to create the Move Event Table
         public function CreateMoveTable(){
             // $name: Trainer's name
             // $action: URI to jump after hitting select user button. The action value to put in HTML form.
@@ -197,7 +199,7 @@
 
 
 
-
+        // used to create the Fight Event Table
         public function CreateFightTable(){
             // $name: Trainer's name
             // $action: URI to jump after hitting select user button. The action value to put in HTML form.
@@ -293,14 +295,11 @@
 
 
 
-      
+        // create the EggEvent form in register-notification.php
         public function eggeventRegistrationForm(){
             echo '<br><br>
             <form action="" method="post">
-                <div class="form-group">
-                    <label for="name-form">Trainer name</label>
-                    <input type="text" class="form-control" id="name-form" name="name" placeholder="Enter name" required>
-                </div>
+
                 <div class="row">
                     <div class="col">
                         <p>Date <input type="datetime-local" class="form-control" name="eventdatetime" placeholder="Date and Time" required></p>
@@ -317,13 +316,12 @@
             ';
         }
 
+        
+        // create the FightEvent form in register-notification.php
         public function fighteventRegistrationForm(){
             echo '<br><br>
             <form action="" method="post">
-                <div class="form-group">
-                    <label for="name-form">Trainer name</label>
-                    <input type="text" class="form-control" id="name-form" name="name" placeholder="Enter name" required>
-                </div>
+
                 <div class="row">
                     <div class="col">
                         <p>Date <input type="datetime-local" class="form-control" name="eventdatetime" placeholder="Date and Time" required></p>
@@ -342,6 +340,7 @@
             ';
         }
 
+        // general success message
         public function registrationSuccessMessage(){
             echo "<p>Successfully registered a new event!</p>";
         }

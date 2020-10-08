@@ -39,8 +39,8 @@
         $inputErrorView = new InputErrorView();
         $notificationContr = new NotificationContr();
         if (isset($_GET["addEgg"])){
-            if (isset($_POST["name"])) {
-                $resultContainer = $notificationContr->addEggEvent($_POST["name"], $_POST["eventdatetime"], $_POST["parent1"], $_POST["parent2"]);
+            if (isset($_POST["parent1"])) {
+                $resultContainer = $notificationContr->addEggEvent($_POST["eventdatetime"], $_POST["parent1"], $_POST["parent2"]);
                 if ($resultContainer->isSuccess()){
                     $notificationView->registrationSuccessMessage();
                 }else{
@@ -61,8 +61,8 @@
             echo 'move';
         }
         if (isset($_GET["addFight"])){
-            if (isset($_POST["name"])) {
-                $resultContainer = $notificationContr->addFightEvent($_POST["name"], $_POST["pokemon"], $_POST["description"],$_POST["eventdatetime"]);
+            if (isset($_POST["pokemon"])) {
+                $resultContainer = $notificationContr->addFightEvent( $_POST["pokemon"], $_POST["description"],$_POST["eventdatetime"]);
                 if ($resultContainer->isSuccess()){
                     $notificationView->registrationSuccessMessage();
                 }else{
