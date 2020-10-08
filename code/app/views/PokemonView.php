@@ -13,10 +13,11 @@
                 //  $trainer_id: The ID of owner trainer of the pokemon you intend to get. 
                 //      $action: The "action" value in HTML form. Determines where to send the form request.
                 // $show_active: If set true, it will select the trainer's pokemon that are "active",
-                //               meaning they are in daycare.
-                // $form_params: An array of (name, value) pairs of form parameters to send with the HTML form.
+                //                  meaning they are in daycare.
+                // $form_params: An array of (name, value) pairs of additional form parameters to send with the HTML form.
             $resultContainer = $this->pokemonModel->getPokemonByTrainer($trainer_id, null, null, $show_active);
             $this->pokemonSelectionTable($resultContainer, $action, $method, $form_params);
+            return $resultContainer;
         }
 
         public function pokemonSelectionTableAll(bool $show_active, string $action, string $method, Array $form_params=Array()){
@@ -24,8 +25,8 @@
             // It renders all the pokemon that are either inactive or active.
                 //      $action: The "action" value in HTML form. Determines where to send the form request.
                 // $show_active: If set true, it will select the trainer's pokemon that are "active",
-                //               meaning they are in daycare.
-                // $form_params: An array of (name, value) pairs of form parameters to send with the HTML form.
+                //                  meaning they are in daycare.
+                // $form_params: An array of (name, value) pairs of additional form parameters to send with the HTML form.
             $resultContainer;
             if ($show_active){
                 $resultContainer = $this->pokemonModel->getAllActivePokemon();
@@ -33,9 +34,11 @@
                 $resultContainer = $this->pokemonModel->getAllInactivePokemon();
             }
             $this->pokemonSelectionTable($resultContainer, $action, $method, $form_params);
+            return $resultContainer;
         }
 
         private function pokemonSelectionTable(ResultContainer $resultContainer, string $action, string $method, Array $form_params){
+            //Private support function to render the body of the pokemon selection table.
             if ($resultContainer->isSuccess()){
                 echo '
                 <form action="'.$action.'" method="'.$method.'">';
@@ -167,6 +170,8 @@
             
             </div> <!-- row.//-->
             ';
+            //Just return a plain result container
+            return new ResultContainer();
         }
 
         public function registrationSuccessBox(
@@ -188,15 +193,15 @@
                     <p><b>Nickname</b>:'.$nickname.'</p>
                     <p><b>Breedname</b>:'.$breedname.'</p>
                     <p><b>Level</b>:'.$level.'</p>';
-            for ($i=0; $i<count($move_name); $i++){
+            for ($i=0; $i<count($move_names); $i++){
                 echo 
-                    '<p><b>Moves-'.$i.'</b>:'.$move_name.'</p>';
+                    '<p><b>Moves-'.$i.'</b>:'.$move_names[$i].'</p>';
             }
 
             echo   '<a class="btn btn-info" href="'.$check_in_link.'?trainer='.$trainer_id.'&pokemon='.$pokemon_id.'" role="button">Check-In Pokémon</a>
                 </p>
             </div>';
-
+            return new ResultContainer;
         }
     }
 ?>

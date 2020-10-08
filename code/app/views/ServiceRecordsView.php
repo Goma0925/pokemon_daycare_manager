@@ -175,7 +175,7 @@
             if ($pokemonReContainer->isSuccess() && $trainerReContainer->isSuccess()){
                 $pokemon_record = $pokemonReContainer->get_mysqli_result()->fetch_assoc();
                 $pokemon_nickname = $pokemon_record? $pokemon_record["nickname"]: "Pokemon name not found";
-                $pokemon_breed = $pokemon_record? $pokemon_record["breedname"]: "Pokemon name not found";
+                $pokemon_breed = $pokemon_record? $pokemon_record["breedname"]: "Unknown breed";
 
                 $trainer_record = $trainerReContainer->get_mysqli_result()->fetch_assoc();
                 $trainer_name = $trainer_record? $trainer_record["trainer_name"]: "No trainer name found";

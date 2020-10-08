@@ -29,9 +29,11 @@
         $form_params = Array();
 
         if (isset($_GET["trainer"])){
+            //Handle the first GET to render pokemon form.
             $trainer_id = $_GET["trainer"];
             $pokemonView->pokemonRegistrationForm($trainer_id, $action, $method, $form_params);
         }else if (isset($_POST["trainer"])){
+            //Handle POST request of new pokemon
             $trainer_id = $_POST["trainer"];
 
             $form_params = Array();
@@ -54,19 +56,22 @@
                 $move_names[] = $_POST["move-4"];
             };
 
-            $resultContPokemon = $pokemonContr->addPokemon($_POST["trainer"], $_POST["level"], $_POST["nickname"], $_POST["breedname"],
+            $resultAddPokemon = $pokemonContr->addPokemon($_POST["trainer"], $_POST["level"], $_POST["nickname"], $_POST["breedname"],
                                                             $move_names);
-            if (!$resultContPokemon->isSuccess()){
-                $errorMessages = $resultContPokemon->getErrorMessages();
+            if (!$resultAddPokemon->isSuccess()){
+                $errorMessages = $resultAddPokemon->getErrorMessages();
                 $inputErrorView->errorBox($errorMessages);
                 $pokemonView->pokemonRegistrationForm($trainer_id, $action, $method, $form_params);
             }else{
                 //On success, display success message
                 $check_in_link = "add-service-record.php";
-                $pokemonView->registrationSuccessBox($_POST["trainer"], $_POST["pokemon"], $_POST["level"], $_POST["nickname"], $_POST["breedname"],
+                //Get the pokemon id of pokemon that has just been created.
+                $pokemon_id = $resultAddPokemon->getSuccessValues()["pokemon_id"];
+                $pokemonView->registrationSuccessBox($_POST["trainer"], $pokemon_id, $_POST["level"], $_POST["nickname"], $_POST["breedname"],
                 $move_names, $check_in_link);
             }
         }else{
+            //Show error for requests that are neither GET nor POST.
             $inputErrorView->errorBox(Array("Error: Invalid request. Please start from the beginning."));
         }
 

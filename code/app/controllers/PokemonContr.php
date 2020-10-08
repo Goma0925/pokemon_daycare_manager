@@ -22,7 +22,7 @@
                 $resultAddPokemon = $this->pokemonModel->addPokemon($trainer_id, $level, $nickname, $breedname);
                 if ($resultAddPokemon->isSuccess()){
                     //Get the pokemon you just added 
-                    echo "Just added:".$pokemon_id;
+                    $resultAddPokemon->setSuccessValue("pokemon_id", $pokemon_id);
                     $resultAddCurrMove = $this->pokemonModel->addCurrentMoves($pokemon_id, $move_names);
     
                     if (!$resultAddCurrMove->isSuccess()){
