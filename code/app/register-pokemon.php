@@ -30,10 +30,17 @@
 
         if (isset($_GET["trainer"])){
             $trainer_id = $_GET["trainer"];
+            if (isset($_GET["redirect_to"])){
+                $form_params["redirect-to"] = $_GET["redirect-to"];
+            }
             $pokemonView->pokemonRegistrationForm($trainer_id, $action, $method, $form_params);
         }else if (isset($_POST["trainer"])){
-            echo "Post";
             $trainer_id = $_POST["trainer"];
+
+            $form_params = Array();
+            if (isset($_POST["redirect_to"])){
+                $form_params["redirect-to"] = $_POST["redirect-to"];
+            }
 
             //GET move names from POST
             $move_names = Array();
@@ -41,13 +48,13 @@
                 $move_names[] = $_POST["move-1"];
             };
             if ($_POST["move-2"]!=""){
-                $move_names[] = $_POST["move-1"];
+                $move_names[] = $_POST["move-2"];
             }
             if ($_POST["move-3"]!=""){
-                $move_names[] = $_POST["move-1"];
+                $move_names[] = $_POST["move-3"];
             }
             if ($_POST["move-4"]!=""){
-                $move_names[] = $_POST["move-1"];
+                $move_names[] = $_POST["move-4"];
             };
 
             $resultContPokemon = $pokemonContr->addPokemon($_POST["trainer"], $_POST["level"], $_POST["nickname"], $_POST["breedname"],
@@ -56,9 +63,13 @@
                 $errorMessages = $resultContPokemon->getErrorMessages();
                 $inputErrorView->errorBox($errorMessages);
                 $pokemonView->pokemonRegistrationForm($trainer_id, $action, $method, $form_params);
+            }else{
+                //On success, display success message
+                $pokemonView->registrationSuccessBox($_POST["trainer"], $_POST["level"], $_POST["nickname"], $_POST["breedname"],
+                $move_names);
             }
         }else{
-            echo "Nothing";
+            $inputErrorView->errorBox(Array("Error: Invalid request. Please start from the beginning."));
         }
 
     ?>

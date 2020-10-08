@@ -70,7 +70,7 @@
             }
         }
 
-        public function trainerRegistrationForm(){
+        public function trainerRegistrationForm(int $trainer_id, int $pokemon_id){
             echo '
             <form action="" method="post">
                 <div class="form-group">
@@ -90,8 +90,16 @@
             ';
         }
 
-        public function registrationSuccessMessage(){
-            echo "<p>Successfully registered a new trainer!</p>";
+        public function registrationSuccessBox(){
+            echo '
+            <div class="jumbotron">
+                <h1 class="display-4">Check-In Complete!</h1>
+                <p class="lead">The trainer is registered successfully.</p>
+                <hr class="my-4">
+                <p class="lead" style="float:right;">
+                    <a class="btn btn-info" href="register-pokemon.php?redirect-to=check-in-confirmation&trainer='.$trainer_id.'" role="button">Register pokemon</a>
+                </p>
+            </div>';
         }
     }
 ?>
