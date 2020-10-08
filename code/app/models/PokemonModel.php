@@ -6,7 +6,7 @@
         public function getPokemonColNames() {
             $query = new Query();
             $sql = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Pokemon';";
-            $query->setToSql($sql);
+            $query->setSql($sql);
             $resultContainer  = $query->handleQuery(); // other args are optional, read handleQuery
             return $resultContainer ;
         } 

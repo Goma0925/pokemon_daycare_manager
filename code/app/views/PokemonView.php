@@ -1,5 +1,6 @@
 <?php
     include 'models/PokemonModel.php';
+    include 'views/MoveIndexView.php';
 
     class PokemonView { //Make sure to use plural noun for the class name
         private $pokemonModel;
@@ -94,6 +95,68 @@
                     echo "<p>".$errorMessage."</p>";
                 }
             }
+        }
+
+        public function pokemonRegistrationForm(int $trainer_id){
+            //Renders a pokemon registration form
+
+            echo '
+            <div class="row justify-content-center">
+            <div class="col-md-6">
+            <div class="card">
+            <header class="card-header">
+                <h4 class="card-title mt-2">Register Pokémon</h4>
+            </header>
+            <article class="card-body">
+            <form>
+                <div class="form-group row">
+                    <label for="nickname" class="col-3 col-form-label">Nick name</label>
+                    <div class="col-9">
+                    <input class="form-control" type="text" value="" id="nickname">
+                    </div>
+                    <label for="species" class="col-4 col-form-label"></label>
+                    <small class="form-text text-muted">Nick name should be less than 17 characters.</small>
+                </div>
+                <div class="form-group row">
+                    <label for="species" class="col-3 col-form-label">Species</label>
+                    <div class="col-9">
+                      <input class="form-control" type="text" value="" name="breedname" id="species">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="level" class="col-3 col-form-label">Level</label>
+                    <div class="col-9">
+                        <input class="form-control" type="number" name="level" value="1" min="1" max="100" id="level">
+                    </div>
+                    <label for="species" class="col-4 col-form-label"></label>
+                    <small class="form-text text-muted">Level should be between 1-100.</small>
+                </div>';
+            //Render move dropdown boxes
+            $MoveIndexView = new MoveIndexView();
+            for($i=0;$i<4;$i++){
+                echo '
+                <div class="form-group row">
+                    <label for="example-text-input" class="col-3 col-form-label">Move '.($i+1).'</label>
+                    <div class="col-9">
+                ';
+                $MoveIndexView->moveDropdownBox("move", $i+1);
+                echo '
+                    </div>
+                </div>
+                ';
+            }
+            echo '
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Register  </button>
+                </div> <!-- form-group// -->      
+            </form>
+            </article> <!-- card-body end .// -->
+            <div class="border-top card-body text-center"><a href="select-pokemon.php?active=false&redirect-to=check-in-confirmation&trainer='.$trainer_id.'">Go back and select from database</a></div>
+            </div> <!-- card.// -->
+            </div> <!-- col.//-->
+            
+            </div> <!-- row.//-->
+            ';
         }
     }
 ?>
