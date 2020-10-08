@@ -24,7 +24,7 @@
         public function addServiceRecord($start_time = null, 
                                         $pokemon_id,
                                         $trainer_id) {
-            $resultContainer;  
+            $resultContainer = new ResultContainer();  
             try { 
                 $dt = isset($start_time) ? 
                     DateTime::createFromFormat("Y-m-d H:i:s'", $start_time) 
@@ -34,13 +34,14 @@
                     throw new Exception("Bad date format!"); 
                 }
                 else {
-                    $res = $serviceRecordsModel->startService($trainer_id,$pokemon_id,$start_time);
-                    return $res->isSuccess();
+                    $resultContainer->mergeErrorMessages($this->serviceRecordsModel->startService($trainer_id,$pokemon_id,$start_time));
+                    return $resultContainer;
                 }
             }
             catch (Exception $e) { // We control datetime format with form, so this should
                                    // not happen. 
-                return false; // gracefully return (do not want to harm children calls)
+                $res->isFailure();
+                return $resultContainer; // gracefully return (do not want to harm children calls)
             }
         }
 

@@ -93,8 +93,5 @@
         public function registrationSuccessMessage(){
             echo "<p>Successfully registered a new trainer!</p>";
         }
-
-        
-    
     }
 ?>

@@ -70,7 +70,7 @@
                     $action = "add-service-record.php"; //Send the pokemon selection post data here.
                     $trainer_id = $_GET["trainer"];
                     $form_params = Array(
-                        "trainer_id"=>$trainer_id,
+                        "trainer"=>$trainer_id,
                     );//This can be modified if you want to add HTML form values in PokemonSelectionTable
                     $pokemonView->pokemonSelectionTableByTrainer($trainer_id, $show_active_pokemon, $action, $method, $form_params);
 
