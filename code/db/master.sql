@@ -173,6 +173,7 @@ CREATE VIEW InactivePokemon
     AS
         SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
         Pokemon.nickname, Pokemon.breedname 
-        FROM Pokemon INNER JOIN ServiceRecords
-        USING (pokemon_id) WHERE ServiceRecords.end_time IS NOT NULL; 
+        FROM Pokemon 
+        LEFT JOIN ServiceRecords
+        USING (pokemon_id) WHERE ServiceRecords.end_time IS NULL; 
 
