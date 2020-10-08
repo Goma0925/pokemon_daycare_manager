@@ -6,7 +6,9 @@
             echo "implement";
         }
 
-
+        public function getAllMoves(){
+            
+        }
 
     }
 ?>
