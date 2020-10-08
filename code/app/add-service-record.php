@@ -31,9 +31,8 @@
             $form_params = Array();
             $serviceRecordsView->checkInConfirmationBox($_GET["trainer"], $_GET["pokemon"], $action, $method, $form_params);
         }
-
         // After the user clicks Check In button, it'll send a post to insert a service record.
-        else if (isset($_POST)){
+        else if (isset($_POST["trainer"]) && isset($_POST["pokemon"])){
             $resultContainer = $serviceRecordsContr->addServiceRecord($start_time = null,  $pokemon_id=$_POST["pokemon"], $trainer_id=$_POST["trainer"]);
             if ($resultContainer->isSuccess()){
                 $serviceRecordsView->checkInCompletionBox($_POST["trainer"], $_POST["trainer_name"], $_POST["pokemon_nickname"]);
@@ -41,6 +40,9 @@
                 $errorMessages = $resultContainer->getErrorMessages();
                 $inputErrorView->errorBox($errorMessages);
             }
+        }else{
+            $errorMessages = Array("Invalid request. Please try again from the beginning.");
+            $inputErrorView->errorBox($errorMessages);
         }
     ?>
     </div>
