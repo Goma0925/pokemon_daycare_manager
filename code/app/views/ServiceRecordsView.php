@@ -3,17 +3,20 @@
 
 
 <script>
-function updateValue(element,col,id) {
-    var selector = ("#").concat(col.concat(id));
-    var new_val = element.innerText.concat("|",id).concat("|",col);
-    $(selector).attr("value",new_val);
-}
+    $(document).ready(function () {
+        $('.updaters').hide(); //hide the submit button by default
+    });
 
-// $("#services").submit(function (event) {
-//     alert( "Handler for .submit() called." );
-//     // event.preventDefault();
-//     console.log("submitting");
-// }); 
+    function updateValue(element,col,id) {
+        console.log("called");
+        var selector = ("#").concat(col.concat(id));
+        var new_val = element.innerText.concat("|",id).concat("|",col);
+        $(selector).attr("value",new_val);
+        if (new_val) {
+            $('input#'.concat(id)).show();
+        }
+       
+    }
 </script>
 
 
@@ -57,7 +60,7 @@ function updateValue(element,col,id) {
                         <td>
                             <input type="hidden" 
                                 id="start_time'.$id.'" 
-                                name="res[0]" value="default"
+                                name="res[]" value="default"
                             >
                             <div contenteditable="true" onBlur=updateValue(this,"start_time"","'.$id.'")>
                                 '.$row["start_time"].'
@@ -66,7 +69,7 @@ function updateValue(element,col,id) {
                         <td>
                             <input type="hidden" 
                                 id="end_time'.$id.'" 
-                                name="res[1]" value="default"
+                                name="res[]" value="default"
                             >
                             <div contenteditable="true" onBlur=updateValue(this,"end_time","'.$id.'")> 
                                 '.$row["end_time"].'
@@ -79,8 +82,10 @@ function updateValue(element,col,id) {
                         <td>
                             <div>
                                 <input 
+                                    class = "updaters"
                                     id="'.$id.'"
                                     type="submit"  
+                                    visibility="hidden"
                                     name="'.$id.'"
                                 > 
                             </div>
