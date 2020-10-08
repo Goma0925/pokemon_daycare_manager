@@ -30,9 +30,6 @@
 
         if (isset($_GET["trainer"])){
             $trainer_id = $_GET["trainer"];
-            if (isset($_GET["redirect_to"])){
-                $form_params["redirect-to"] = $_GET["redirect-to"];
-            }
             $pokemonView->pokemonRegistrationForm($trainer_id, $action, $method, $form_params);
         }else if (isset($_POST["trainer"])){
             $trainer_id = $_POST["trainer"];
@@ -65,8 +62,9 @@
                 $pokemonView->pokemonRegistrationForm($trainer_id, $action, $method, $form_params);
             }else{
                 //On success, display success message
-                $pokemonView->registrationSuccessBox($_POST["trainer"], $_POST["level"], $_POST["nickname"], $_POST["breedname"],
-                $move_names);
+                $check_in_link = "add-service-record.php";
+                $pokemonView->registrationSuccessBox($_POST["trainer"], $_POST["pokemon"], $_POST["level"], $_POST["nickname"], $_POST["breedname"],
+                $move_names, $check_in_link);
             }
         }else{
             $inputErrorView->errorBox(Array("Error: Invalid request. Please start from the beginning."));

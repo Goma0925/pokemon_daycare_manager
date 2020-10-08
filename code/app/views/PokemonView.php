@@ -170,7 +170,7 @@
         }
 
         public function registrationSuccessBox(
-            int $trainer_id, int $level, string $nickname,
+            int $trainer_id, int $pokemon_id, int $level, string $nickname,
             string $breedname, Array $move_names, string $check_in_link){
             // Render a message box to show the success of pokemon registration and a button to 
             // proceed to check-in the pokemon.
@@ -185,8 +185,15 @@
                 <h1 class="display-4">Pokémon is registered successfully.</h1>
                 <hr class="my-4">
                 <p class="lead" style="float:right;">
-                    <p><b>Nickname</b></p>
-                    <a class="btn btn-info" href="register-pokemon.php?redirect-to=check-in-confirmation&trainer='.$trainer_id.'" role="button">Check-In Pokémon</a>
+                    <p><b>Nickname</b>:'.$nickname.'</p>
+                    <p><b>Breedname</b>:'.$breedname.'</p>
+                    <p><b>Level</b>:'.$level.'</p>';
+            for ($i=0; $i<count($move_name); $i++){
+                echo 
+                    '<p><b>Moves-'.$i.'</b>:'.$move_name.'</p>';
+            }
+
+            echo   '<a class="btn btn-info" href="'.$check_in_link.'?trainer='.$trainer_id.'&pokemon='.$pokemon_id.'" role="button">Check-In Pokémon</a>
                 </p>
             </div>';
 
