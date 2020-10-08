@@ -13,6 +13,8 @@
             return $res_container; 
         }
 
+
+
         public function emailExists($email){
             $query = new Query();
             $sql = "SELECT trainer_id
@@ -77,6 +79,41 @@
 
             //Return the result container that contains a success flag and mysqli_result.
             return $resultContainer;
+        }
+
+        public function getTrainerByAttr(int $trainer_id = null,
+                                        string $email = null,
+                                        string $phone = null) {
+            $query = new Query();
+            $base_sql = "SELECT trainer_id, email, phone, trainer_name FROM Trainers"; 
+            $query->addToSql($base_sql);
+
+            if (isset($trainer_id)) { // get unique pokemon
+                $query->addToSql(" WHERE trainer_id = ?;");
+                $query->addBindType("i");
+                $query->addBindArrElem($trainer_id);
+            } 
+            elseif (isset($email)) {
+                $query->addToSql("WHERE email LIKE '?';");
+                $query->setBindTypeStr("s");
+                $bindArr[] = isset($email) ? 
+                    $query->addBindArrElem($email) 
+                    : 
+                    $query->addBindArrElem("%");
+            }    
+            elseif (isset($phone)) { 
+                $query->addToSql("WHERE phone LIKE '?';");
+                $query->setBindTypeStr("s");
+                $bindArr[] = isset($phone) ? 
+                    $query->addBindArrElem($phone) 
+                    : 
+                    $query->addBindArrElem("%");
+            }      
+            else {
+                throw new Exception("Invalid arguments");
+            } 
+            $resultContainer  = $query->handleQuery();
+            return $resultContainer; 
         }
     }
 ?>

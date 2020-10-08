@@ -12,6 +12,16 @@
             return $resultContainer;
         } 
 
+
+        public function updateAServiceRecord($data,$id,$col) {
+            $query = new Query();
+            $query->setSql("UPDATE ServiceRecords
+                            SET ".$col." = '".$data."' WHERE service_record_id = ?;");
+            $query->setBindArr([$id]);
+            $query->setBindTypeStr("i");
+            $query->handleQuery();
+        }
+
         public function startService(int $trainer_id, int $pokemon_id, string $start_date = null) {
             // Declare vars
             $query = new Query();
@@ -19,7 +29,7 @@
                 if (!isset($trainer_id) || !isset($pokemon_id)) { // we can just infer date otherwise
                     throw new Exception("Error: insufficient arguments provided");  
                 } 
-                !isset($start_date) ? (new DateTime())->format('Y-m-d H:i:s') : $start_date; 
+                $start_date = !isset($start_date) ? date('Y-m-d H:i:s') : $start_date; 
                 $sql = "INSERT INTO ServiceRecords(start_time, pokemon_id, trainer_id) 
                                VALUES (?,?,?);"; 
                 $bindArr = [$start_date, $pokemon_id, $trainer_id];
@@ -36,13 +46,16 @@
             }
         }
 
-        public function endService(string $end_date, int $service_record_id) {
+        public function endService(string $end_date=null, int $service_record_id) {
             try {
                 // Declare vars
                 $query = new Query();
-                if (!isset($end_date) || !isset($service_record_id)) {
+                if (!isset($end_date)){
+                    $end_date = date('Y-m-d H:i:s');
+                }
+                if (!isset($service_record_id)) {
                     throw new Exception("Error: insufficient arguments provided");  
-                } 
+                }
                 $sql = "UPDATE ActiveServiceRecords 
                             SET end_time = ? WHERE service_record_id = ?;"; 
                 $bindArr = [$end_date, $service_record_id];
@@ -87,35 +100,24 @@
                                           int $trainer_id = null, 
                                           int $pokemon_id = null, 
                                           $date_range = null,
-                                          $active_degree = 1
-                                          ) {
+                                          $active_degree = 1) {
 
             $query = new Query();
             // Declare query assembling vars
-
-            // $resultContainer = null;
-            // $bindArr = Array();
-            // $bindTypeStr = "";
             $s_where_conditions = [];
             
-            // $base_sql = "SELECT service_record_id, start_time, end_time, pokemon_id,
-            // trainer_id FROM ";
-
             $query->addToSql("SELECT service_record_id, start_time, end_time, pokemon_id,
             trainer_id FROM ");
 
             // Setting the table for correct active degree
             if ($active_degree == 0) { // inactive only
-                // $base_sql = $base_sql."InactiveServiceRecords";
-                $query->addToSql("InactiveServiceRecords");
+                $query->addToSql("InactiveServiceRecords ");
             }
             elseif ($active_degree == 1) { // active only
-                // $base_sql = $base_sql."ActiveServiceRecords";
-                $query->addToSql("ActiveServiceRecords");
+                $query->addToSql("ActiveServiceRecords ");
             }
             elseif ($active_degree == 2) { // both inactive and active
-                // $base_sql = $base_sql."ServiceRecords";
-                $query->addToSql("ServiceRecords");
+                $query->addToSql("ServiceRecords ");
                 
             }
             else {
@@ -123,37 +125,26 @@
                 throw new Exception("Invalid argument for '$active_degree'.");
             }
 
+            if (isset($service_record_id) || isset($pokemon_id) || isset($trainer_id)) {
+                $query->addToSql("WHERE ");    
+            }
             // Start assembling query
             if (isset($service_record_id)) { // search by service_record_id
-                $s_where_conditions[] = "service_record_id = ?";
-                // $bindArr[] = $service_record_id;
-                // $bindStr = $bindStr."i";
+                $query->addToSql("service_record_id = ?");
                 $query->addBindArrElem($service_record_id);
                 $query->addBindType("i");
             }
             else {
                 if (isset($pokemon_id)) {
-                    $s_where_conditions[] = "pokemon_record_id = ?";
-                    // $bindArr[] = $pokemon_id;
-                    // $bindStr = $bindStr."i";
+                    $s_where_conditions[] = "pokemon_id = ?";
                     $query->addBindArrElem($pokemon_id);
                     $query->addBindType("i");
                 }
-
                 if (isset($trainer_id)) {
                     $s_where_conditions[] = "trainer_id = ?";
-                    // $bindArr[] = $trainer_id;
-                    // $bindStr = $bindStr."i";
                     $query->addBindArrElem($trainer_id);
                     $query->addBindType("i");
                 }         
-
-                // if (isset($start_date)) { // leave out for now
-                //     // $s_where_conditions[] = "start_time = ?"; // what type?
-                //     // $bindArr[] = $start_date;
-                //     // $bindStr."s";
-                //     echo "Do stuff";
-                // } 
 
                 // Append conditions to base_sql
                 $n_conditions = count($s_where_conditions)-1;
@@ -163,12 +154,10 @@
                         $query->addToSql($s_where_conditions[$n]." && ");
                     }
                     // Add last condition condition to base_sql
-                    // $base_sql = $base_sql.$s_where_conditions[$n_conditions]; 
-                    $query->addToSql($base_sql.$s_where_conditions[$n_conditions]);    
+                    $query->addToSql($s_where_conditions[$n_conditions]);    
    
                 }           
             }
-            // $base_sql = $base_sql.";"; 
             $query->addToSql(";");    
             $resultContainer = $query->handleQuery(); // returns ResultContainer
             return $resultContainer; // return type ResultContainer
@@ -193,7 +182,7 @@
 
         // GET ALLS
         public function getAllActiveServiceRecords() {
-            return $this->getServiceRecords();
+            return $this->getServiceRecords(null,null,null,null,1);
         }
 
         public function getAllInactiveServiceRecords() {

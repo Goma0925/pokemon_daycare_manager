@@ -3,7 +3,12 @@
         public function errorBox($errorMessages){
             // Prints string in the given array.
             foreach ($errorMessages as $message){
-                echo "<p style='color:red;'>".$message."</p>";
+                echo 
+                '
+                <div class="alert alert-danger" role="alert">
+                    '.$message.'
+                </div>
+                ';
             }
         }
     }

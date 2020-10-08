@@ -84,6 +84,9 @@
         public function removeLastSql() {
             $removed = array_pop($this->sqlArr);
         }
+        public function getSqlArr() {
+            return $this->sqlArr;
+        }
 
 
         // USEFUL METHODS for common repitition
@@ -186,7 +189,7 @@
                 // https://www.php.net/manual/en/function.error-log.php
                 // logs to /var/log/apache2 by default --> error.log
                 // use cat /var/log/apache2/error.log to see err (NOTE: DO NOT EDIT THAT FILE)
-                error_log($t."START( ".$this->sql."| bindtype: ".var_dump($this->bindTypeStr)."| binarr: ".var_dump($this->bindArr).")DONE.");
+                error_log($t."START( ".$this->sql."| bindtype: ".$this->bindTypeStr."| binarr: ".var_dump($this->bindArr).")DONE.");
 
                 // Something to output to user. 
                 $resultContainer->addErrorMessage($user_error); // not being output to user
@@ -195,6 +198,7 @@
             finally {
                 $this->conn->close(); // close db connection
                 if ($should_return) {
+                    // error_log("START( ".$this->sql."| bindtype: ".$this->bindTypeStr."| binarr: ".var_dump($this->bindArr).")DONE.");
                     return $resultContainer; 
                 } 
                 // otherwise, we just modified the container's reference
