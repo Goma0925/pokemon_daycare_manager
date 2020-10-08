@@ -23,7 +23,7 @@
             <?php 
                 if ($_GET["redirect-to"] == "check-in-confirmation"){
                     //Render a button to register a new pokemon for check-in flow.
-                    echo '<a style="float: right; margin-bottom:10px;" href="./register-pokemon.php" type="button" class="btn btn-secondary">Register new pokemon</a>';
+                    echo '<a style="float: right; margin-bottom:10px;" href="./register-pokemon.php?trainer='.$_GET["trainer"].'" type="button" class="btn btn-secondary">Register new pokemon</a>';
                 }
             ?>
         </h2><br>
