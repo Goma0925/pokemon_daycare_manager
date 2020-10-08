@@ -1,3 +1,25 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('.updaters').hide(); //hide the submit button by default
+    });
+
+    function updateValue(element,col,id) {
+        console.log("called");
+        var selector = ("#").concat(col.concat(id));
+        var new_val = element.innerText.concat("|",id).concat("|",col);
+        $(selector).attr("value",new_val);
+        if (new_val) {
+            $('input#'.concat(id)).show();
+        }
+       
+    }
+</script>
+
+
 <?php
     include_once 'models/ServiceRecordsModel.php';
     include_once 'models/TrainersModel.php';
@@ -13,45 +35,65 @@
             $this->trainersModel = new TrainersModel();
         }
 
-        public function buildTableForm($action, $method, $row_headers, $table_data, $input_value) {
-            // make sure $input value matches a real column name
-            // makesure rowheaders equals number of rows in table 
-            // restrict method to post and get
-            $field_info = $table_data->get_mysqli_result()->fetch_fields(); 
-            // var_dump($field_info)
-            echo '
-                <form action="'.$action.'" method="'.$method.'">
-                    <table class="table">
-                        <thead>'; 
-                        echo '<tr>';
-            foreach ($row_headers as $rhead) {
-                echo '  
-                                <th scope="col">'.$rhead.'</th>        
-                ';
-            }
-            echo '          </tr>';
-            echo "     </thead>";
-            echo "     <tbody>";
-            while ($row = $table_data->get_mysqli_result()->fetch_assoc()) {
-                echo '
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" 
-                                        type="radio" name="'.strtolower($field_info[0]->table).'" 
-                                        value="'.$row[$input_value].'"> 
-                                    </div>
-                                </td>
-                            ';
-                foreach ($field_info as $f) {
-                    echo '
-                                <td>'.$row[$f->name].'</td>
-                        ';
-                }
-                echo '          </tr>';
 
+        // CODE LOOKS UGLY, BUT IT BUILDS THE SERVICE RECORDS TABLE WITH EDITABLE DATE FIELDS 
+        public function buildTableForm($action, $method, $row_headers, $table_data, $input_value) {
+            $field_info = $table_data->get_mysqli_result()->fetch_fields(); 
+            echo '
+                <form id="services" action="'.$action.'" method="'.$method.'">
+                    <table class="table">
+                        <thead>
+                            <th scope="col">RecordID</th>      
+                            <th scope="col">Start Date</th>     
+                            <th scope="col">End Date</th>  
+                            <th scope="col">PokemonID</th>  
+                            <th scope="col">TrainerID</th> 
+                            <th scope="col">Save/Update</th> 
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+            while ($row = $table_data->get_mysqli_result()->fetch_assoc()) { // for each row in table
+                $id = $row["service_record_id"]; // unique service id
+                echo '<tr> 
+                        <td>'.$row["service_record_id"].'</td>
+                        <td>
+                            <input type="hidden" 
+                                id="start_time'.$id.'" 
+                                name="res[]" value="default"
+                            >
+                            <div contenteditable="true" onBlur=updateValue(this,"start_time"","'.$id.'")>
+                                '.$row["start_time"].'
+                            </div>
+                        </td>
+                        <td>
+                            <input type="hidden" 
+                                id="end_time'.$id.'" 
+                                name="res[]" value="default"
+                            >
+                            <div contenteditable="true" onBlur=updateValue(this,"end_time","'.$id.'")> 
+                                '.$row["end_time"].'
+                            </div>
+                        </td>
+                       
+                        </td>
+                        <td>'.$row["pokemon_id"].'</td>
+                        <td>'.$row["trainer_id"].'</td>
+                        <td>
+                            <div>
+                                <input 
+                                    class = "updaters"
+                                    id="'.$id.'"
+                                    type="submit"  
+                                    visibility="hidden"
+                                    name="'.$id.'"
+                                > 
+                            </div>
+                        </td>
+                    </tr>';
             }    
-            echo '  </tbody>
+            echo 
+            '       </tbody>
                 </table>
             </form>'; 
         }
@@ -92,8 +134,8 @@
 
             if ($resultContainer->isSuccess()) { // will render based on what was set above
                 // var_dump($resultContainer->get_mysqli_result());
-                $this->buildTableForm($action,"get", 
-                    ["Edit","RecordID","Start Date", "End Date", "PokemonID", "TrainerID"],
+                $this->buildTableForm("service-search.php","post", 
+                    ["RecordID","Start Date", "End Date", "PokemonID", "TrainerID","Save/Update"],
                     $resultContainer,"service_record_id");
             }
             else { // do not render at all (maybe render some error, just depends)

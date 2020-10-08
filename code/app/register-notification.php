@@ -42,7 +42,7 @@
             if (isset($_POST["name"])) {
                 $resultContainer = $notificationContr->addEggEvent($_POST["name"], $_POST["eventdatetime"], $_POST["parent1"], $_POST["parent2"]);
                 if ($resultContainer->isSuccess()){
-                    
+                    $notificationView->registrationSuccessMessage();
                 }else{
                     $errorMessages = $resultContainer->getErrorMessages();
                     $inputErrorView->errorBox($errorMessages);
@@ -61,10 +61,21 @@
             echo 'move';
         }
         if (isset($_GET["addFight"])){
+            if (isset($_POST["name"])) {
+                $resultContainer = $notificationContr->addFightEvent($_POST["name"], $_POST["pokemon"], $_POST["description"],$_POST["eventdatetime"]);
+                if ($resultContainer->isSuccess()){
+                    $notificationView->registrationSuccessMessage();
+                }else{
+                    $errorMessages = $resultContainer->getErrorMessages();
+                    $inputErrorView->errorBox($errorMessages);
+                }
+
+                
+            }
             
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
-            echo 'fight';
+            $notificationView -> fighteventRegistrationForm();
         }
         
     ?>
