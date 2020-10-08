@@ -73,7 +73,7 @@
             $this->success_values[$key] = $value;
         }
 
-        public function getSuccessVal($key, $value){
+        public function getSuccessVal(){
             return $this->success_values;
         }
 
