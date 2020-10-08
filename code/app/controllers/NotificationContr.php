@@ -6,14 +6,12 @@
             $this->notificationModel = new NotificationModel();
         }
 
-        public function addEggEvent($name, $eventDateTime, $parent1, $parent2){
+        // adding an egg event
+        public function addEggEvent($eventDateTime, $parent1, $parent2){
             $result = new ResultContainer();
 
             //Input format validation.
-            if (strlen($name) > 16){
-                $result->setFailure();
-                $result->addErrorMessage("Name has to be less than 16 characters.");
-            }
+
             if (preg_match("/^[1-9]\d{2}-\d{3}-\d{4}/", $eventDateTime)){
                 $result->setFailure();
                 $result->addErrorMessage("Must be a valid date and time");
@@ -25,27 +23,20 @@
 
 
             //Next, check for existance of trainer / pokemon trainer pairs
-            $trainerExists = $this->notificationModel->trainerExists($name);
-            if (!$trainerExists){
+            $parent1TrainerID = $this->notificationModel->getTrainerIdByPokemon($parent1);
+            $parent2TrainerID = $this->notificationModel->getTrainerIdByPokemon($parent2);
+
+            if ($parent1TrainerID != $parent2TrainerID) {
                 $result->setFailure();
-                $result->addErrorMessage("Trainer '".$name."' is not valid");
-            }
-            $parent1Exists = $this->notificationModel->trainerPokemonPairExists($name, $parent1);
-            if (!$parent1Exists){
-                $result->setFailure();
-                $result->addErrorMessage("Parent 1 '".$parent1."' does not exists.");
+                $result->addErrorMessage("The trainer for the two pokemon are not the same");
             }
 
-            $parent2Exists = $this->notificationModel->trainerPokemonPairExists($name, $parent2);
-            if (!$parent2Exists){
-                $result->setFailure();
-                $result->addErrorMessage("Parent 2 '".$parent2."' does not exists.");
-            }
+            
 
-            //If all validations pass, insert n egg event to the database.
+            //If all validations pass, insert an egg event to the database.
             if ($result->isSuccess()){
                 // get trainer id
-                $trainerID = $this->notificationModel->getTrainerId($name);
+                $trainerID = $this->notificationModel->getTrainerIdByPokemon($parent2);
                
                 $realDateTime = str_replace("T", " ", $eventDateTime);
 
@@ -72,14 +63,12 @@
         }
 
 
-        public function addFightEvent($name, $pokemonID, $description, $eventDateTime){
+        // adding a fight event
+        public function addFightEvent($pokemonID, $description, $eventDateTime){
             $result = new ResultContainer();
 
             //Input format validation.
-            if (strlen($name) > 16){
-                $result->setFailure();
-                $result->addErrorMessage("Name has to be less than 16 characters.");
-            }
+
             if (preg_match("/^[1-9]\d{2}-\d{3}-\d{4}/", $eventDateTime)){
                 $result->setFailure();
                 $result->addErrorMessage("Must be a valid date and time");
@@ -91,24 +80,10 @@
 
 
 
-            //Next, check for existance of trainer / pokemon trainer pairs
-            $trainerExists = $this->notificationModel->trainerExists($name);
-            if (!$trainerExists){
-                $result->setFailure();
-                $result->addErrorMessage("Trainer '".$name."' is not valid");
-            }
-            $pokemonExists = $this->notificationModel->trainerPokemonPairExists($name, $pokemonID);
-            if (!$pokemonExists){
-                $result->setFailure();
-                $result->addErrorMessage("Pokemon ID '".$pokemonID."' does not exists.");
-            }
-
-
-
-            //If all validations pass, insert n egg event to the database.
+            //If all validations pass, insert an Fight event to the database.
             if ($result->isSuccess()){
                 // get trainer id
-                $trainerID = $this->notificationModel->getTrainerId($name);
+                $trainerID = $this->notificationModel->getTrainerIdByPokemon($pokemonID);
                
                 $realDateTime = str_replace("T", " ", $eventDateTime);
 
@@ -130,7 +105,7 @@
                 // get notification id
                 $notifID = $this->notificationModel->getNotificationID($trainerID, $realDateTime);
                 $fightID = $this->notificationModel->getFightID($description);
-                // add egg event
+                // add fight event
                 $queryResult2 = $this->notificationModel->addFightEvent($notifID, $pokemonID, $fightID);
                 if (!$queryResult2->isSuccess()){
                     $result->setFailure();
