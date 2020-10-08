@@ -317,8 +317,33 @@
             ';
         }
 
+        public function fighteventRegistrationForm(){
+            echo '<br><br>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="name-form">Trainer name</label>
+                    <input type="text" class="form-control" id="name-form" name="name" placeholder="Enter name" required>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>Date <input type="datetime-local" class="form-control" name="eventdatetime" placeholder="Date and Time" required></p>
+                    </div>
+                    <div class="col">
+                        <p>Pokemon ID: <input type="number" class="form-control" name="pokemon" placeholder="Pokemon ID" required></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>Description of Event: <input type="text" class="form-control" name="description" placeholder="Fight Description" required></p>
+                    </div>
+                </div>
+                <input type="submit">
+            </form>
+            ';
+        }
+
         public function registrationSuccessMessage(){
-            echo "<p>Successfully registered a new trainer!</p>";
+            echo "<p>Successfully registered a new event!</p>";
         }
     }
 ?>

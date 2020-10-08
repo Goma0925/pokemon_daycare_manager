@@ -148,9 +148,37 @@
         }
 
 
-        /* start of adding notification */
+        public function getFightId($description){
+            $query = new Query();
+            $sql = "SELECT fight_id
+                        FROM Fights
+                        WHERE fight_description = ?;";
+            //Construct bind parameters
+            $bindTypeStr = "s"; 
+            $bindArr = Array($description);
+            $query->setAll($sql,$bindTypeStr,$bindArr);
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $query->handleQuery();                
+            if (!$resultContainer->isSuccess()){
+                $result->setFailure();
+                $result->mergeErrorMessages($queryResult); //Retriving errors from model.
+            };
+            $row = $resultContainer->get_mysqli_result()->fetch_assoc();
+            
 
-        
+            return $row["fight_id"];
+        }
+
+
+
+
+
+
+
+
+
+
+        /* start of adding notification */
 
         public function addNotification($trainerID, $dateTime){
             $query = new Query();
@@ -160,6 +188,23 @@
             //Construct bind parameters
             $bindTypeStr = "is"; 
             $bindArr = Array($trainerID, $dateTime);
+            $query->setAll($sql,$bindTypeStr,$bindArr);
+
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $query->handleQuery();
+
+            //Return the result container that contains a success flag and mysqli_result.
+            return $resultContainer;
+        }
+
+        public function addFight($description){
+            $query = new Query();
+            $sql = 'INSERT INTO Fights (fight_description)
+                        VALUE (?);
+            ';
+            //Construct bind parameters
+            $bindTypeStr = "s"; 
+            $bindArr = Array($description);
             $query->setAll($sql,$bindTypeStr,$bindArr);
 
             //Send query to database. Refer to utils/ResultContainer.php for its contents.
@@ -187,6 +232,22 @@
             return $resultContainer;
         }
 
+        public function addFightEvent($notifID, $pokemonID, $fightID){
+            $query = new Query();
+            $sql = 'INSERT INTO FightEvents (notification_id, pokemon_id, fight_id)
+                        VALUE (?, ?, ?);
+            ';
+            //Construct bind parameters
+            $bindTypeStr = "iii"; 
+            $bindArr = Array($notifID, $pokemonID, $fightID);
+            $query->setAll($sql,$bindTypeStr,$bindArr);
+
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $query->handleQuery();
+
+            //Return the result container that contains a success flag and mysqli_result.
+            return $resultContainer;
+        }
 
 
 
