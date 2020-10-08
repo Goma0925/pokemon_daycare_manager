@@ -6,9 +6,7 @@
 function updateValue(element,col,id) {
     var selector = ("#").concat(col.concat(id));
     var new_val = element.innerText.concat("|",id).concat("|",col);
-    console.log($(selector).attr("value"));
     $(selector).attr("value",new_val);
-    console.log($(selector).attr("value"));
 }
 
 // $("#services").submit(function (event) {
@@ -34,62 +32,63 @@ function updateValue(element,col,id) {
             $this->trainersModel = new TrainersModel();
         }
 
+
+        // CODE LOOKS UGLY, BUT IT BUILDS THE SERVICE RECORDS TABLE WITH EDITABLE DATE FIELDS 
         public function buildTableForm($action, $method, $row_headers, $table_data, $input_value) {
             $field_info = $table_data->get_mysqli_result()->fetch_fields(); 
             echo '
                 <form id="services" action="'.$action.'" method="'.$method.'">
                     <table class="table">
-                        <thead>'; 
-                        echo '<tr>';
-            foreach ($row_headers as $rhead) {
-                echo '  
-                                <th scope="col">'.$rhead.'</th>        
-                ';
-            }
-            echo '          </tr>';
-            echo "     </thead>";
-            echo "     <tbody>";
-            while ($row = $table_data->get_mysqli_result()->fetch_assoc()) {
-                echo '
-                            <tr>';                
-                foreach ($field_info as $f) {
-                    if ($f->name == "start_time" || $f->name == "end_time") {
-                        $id = $row[$input_value];
-                        $unique = $f->name.$row[$input_value];                        
-                        echo '
-                            <td>
-                                <input type="hidden" id="'.$unique.'" name="res[]" value="default">
-                                <div contenteditable="true" 
-                                    edit_type="click"
-                                    onBlur=updateValue(this,"'.$f->name.'","'.$id.'")
-                                    > '.$row[$f->name].
-                                '</div>
-                            </td>
-                        ';
+                        <thead>
+                            <th scope="col">RecordID</th>      
+                            <th scope="col">Start Date</th>     
+                            <th scope="col">End Date</th>  
+                            <th scope="col">PokemonID</th>  
+                            <th scope="col">TrainerID</th> 
+                            <th scope="col">Save/Update</th> 
+                            </tr>
+                        </thead>
+                        <tbody>';
 
-                    } 
-                    else {
-                        echo '
-                            <td>'.$row[$f->name].'</td>
-                        ';
-                    }
-
-
-                }
-                echo '
-                            <td>
-                                <div>
-                                    <input 
-                                    id="'.$row[$input_value].'"
-                                        type="submit"  
-                                        name="'.$row[$input_value].'"
-                                        > 
-                                </div>
-                            </td>';
-                echo '   </tr>';
-
+            while ($row = $table_data->get_mysqli_result()->fetch_assoc()) { // for each row in table
+                $id = $row["service_record_id"]; // unique service id
+                echo '<tr> 
+                        <td>'.$row["service_record_id"].'</td>
+                        <td>
+                            <input type="hidden" 
+                                id="start_time'.$id.'" 
+                                name="res[0]" value="default"
+                            >
+                            <div contenteditable="true" onBlur=updateValue(this,"start_time"","'.$id.'")>
+                                '.$row["start_time"].'
+                            </div>
+                        </td>
+                        <td>
+                            <input type="hidden" 
+                                id="end_time'.$id.'" 
+                                name="res[1]" value="default"
+                            >
+                            <div contenteditable="true" onBlur=updateValue(this,"end_time","'.$id.'")> 
+                                '.$row["end_time"].'
+                            </div>
+                        </td>
+                       
+                        </td>
+                        <td>'.$row["pokemon_id"].'</td>
+                        <td>'.$row["trainer_id"].'</td>
+                        <td>
+                            <div>
+                                <input 
+                                    id="'.$id.'"
+                                    type="submit"  
+                                    name="'.$id.'"
+                                > 
+                            </div>
+                        </td>
+                    </tr>';
             }    
-            echo '  </tbody>
+            echo 
+            '       </tbody>
                 </table>
             </form>'; 
         }

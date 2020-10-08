@@ -141,7 +141,6 @@
                     $query->addBindType("i");
                 }
                 if (isset($trainer_id)) {
-
                     $s_where_conditions[] = "trainer_id = ?";
                     $query->addBindArrElem($trainer_id);
                     $query->addBindType("i");
@@ -159,7 +158,6 @@
    
                 }           
             }
-            // var_dump($query->getSqlArr());
             $query->addToSql(";");    
             $resultContainer = $query->handleQuery(); // returns ResultContainer
             return $resultContainer; // return type ResultContainer
