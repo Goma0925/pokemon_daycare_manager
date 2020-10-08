@@ -90,6 +90,9 @@
         public function mergeErrorMessages($resultContainer){ 
             //$resultContainer: Another ResultContainer instance.
             $this->errorMessages = array_merge($this->errorMessages, $resultContainer->errorMessages);
+            if (!$resultContainer->isSuccess()){
+                $this->isSuccess = false;
+            }
         }
     }
 ?>

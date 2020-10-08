@@ -97,9 +97,8 @@
             }
         }
 
-        public function pokemonRegistrationForm(int $trainer_id){
+        public function pokemonRegistrationForm(int $trainer_id, string $action, string $method, Array $form_params){
             //Renders a pokemon registration form
-
             echo '
             <div class="row justify-content-center">
             <div class="col-md-6">
@@ -108,11 +107,22 @@
                 <h4 class="card-title mt-2">Register Pokémon</h4>
             </header>
             <article class="card-body">
-            <form>
+            <form method="'.$method.'" action="'.$action.'">';
+            //Render hidden input based on $form_params
+            foreach ($form_params as $name=>$value){
+                echo '
+                <input type="hidden" name="'.$name.'" value="'.$value.'">
+                ';
+            };
+            //Add trainer_id
+            echo '
+                <input type="hidden" name="trainer" value="'.$trainer_id.'">';
+
+            echo '
                 <div class="form-group row">
-                    <label for="nickname" class="col-3 col-form-label">Nick name</label>
+                    <label for="nickname" class="col-3 col-form-label">Nickname</label>
                     <div class="col-9">
-                    <input class="form-control" type="text" value="" id="nickname">
+                    <input class="form-control" type="text" value="" name="nickname" required>
                     </div>
                     <label for="species" class="col-4 col-form-label"></label>
                     <small class="form-text text-muted">Nick name should be less than 17 characters.</small>
@@ -120,13 +130,13 @@
                 <div class="form-group row">
                     <label for="species" class="col-3 col-form-label">Species</label>
                     <div class="col-9">
-                      <input class="form-control" type="text" value="" name="breedname" id="species">
+                      <input class="form-control" type="text" value="" name="breedname" id="species" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="level" class="col-3 col-form-label">Level</label>
                     <div class="col-9">
-                        <input class="form-control" type="number" name="level" value="1" min="1" max="100" id="level">
+                        <input class="form-control" type="number" name="level" value="1" min="1" max="100" id="level" required>
                     </div>
                     <label for="species" class="col-4 col-form-label"></label>
                     <small class="form-text text-muted">Level should be between 1-100.</small>

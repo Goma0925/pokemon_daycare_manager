@@ -243,18 +243,51 @@
             return $resultContainer ;                                   
         }
 
-        public function addCurrentMove(int $pokemon_id, string $new_move_name) { 
+        public function addCurrentMoves(int $pokemon_id, Array $new_move_names) { 
             // define trigger/procedure for insertion (reinforcing degree)
             $query = new Query();
-            $sql = "INSERT INTO CurrentMoves(move_name, pokemon_id) 
-                    VALUES (?,?);";
-            $bindTypeStr = "si";
-            $bindArr = [$new_move_name, $pokemon_id];
+            $sql = "INSERT INTO CurrentMoves(move_name, pokemon_id) VALUES ";
+            $bindArr = Array();
+            $bindTypeStr = "";
+
+            for ($i=0; $i<count($new_move_names); $i++){
+                //Construct SQL
+                $query->addBindType("i");
+                // If not last element, add ','
+                if ($i != count($new_move_names)-1){
+                    $sql = $sql."(?,?),";
+                }else{
+                    $sql = $sql.'(?,?);' ;
+                }
+
+                //Construct bind type str
+                $bindTypeStr = $bindTypeStr."si";
+
+                //Construct bind paramters
+                $bindArr[] = $new_move_names[$i];
+                $bindArr[] = $pokemon_id;
+            }
+            echo "<br>SQL:".$sql;
+            echo "<br>bind:".$bindTypeStr;
+            echo "<br>bind item:";
+            foreach ($bindArr as $item){
+                echo $item.", ";
+            }
+
             $query->setAll($sql, $bindTypeStr, $bindArr);
-            $resultContainer = $query>handleQuery();                                                                       
+
+            $resultContainer  = $query->handleQuery();    
+                                                                  
             return $resultContainer;
             
         }
 
+        public function getNextPokemonId(){
+            $sql = 'SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = "daycare" AND TABLE_NAME = "Pokemon";';
+            $query = new Query();
+            $query->setSql($sql);
+            $resultContainer  = $query->handleQuery(); // other args are optional, read handleQuery
+            return $resultContainer ;
+        }
     }
 ?>

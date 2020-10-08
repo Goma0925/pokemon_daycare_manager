@@ -4,7 +4,7 @@
 
     class NotificationModel extends Database {
         
-        // start of query fnctions
+        // start of query functions
         public function getAllNotifcations(){
             $query = new Query(); // ADDED
 
@@ -24,6 +24,7 @@
             return $res_container; 
         }
 
+        // start of "get stuff from database" methods
         public function getMoveNotifcations(){
             $query = new Query(); // ADDED
 
@@ -47,6 +48,7 @@
 
             return $res_container; 
         }
+
 
         public function getFightNotifcations(){
             //This function returns all the trainer records that contain the name string
@@ -77,6 +79,7 @@
             return $res_container; 
         }
 
+
         public function getEggNotifcations(){
             $query = new Query();
             //This function returns all the trainer records that contain the name string
@@ -104,7 +107,7 @@
         }
 
 
-
+        // get a trainer_id from trainer_name
         public function getTrainerId($name){
             $query = new Query();
             $sql = "SELECT trainer_id
@@ -126,6 +129,31 @@
             return $row["trainer_id"];
         }
 
+
+        // used to get a trainer_id from a pokemon_id
+        public function getTrainerIdByPokemon($pokemonID){
+            $query = new Query();
+            $sql = "SELECT trainer_id
+                        FROM Pokemon
+                        WHERE pokemon_id = ?;";
+            //Construct bind parameters
+            $bindTypeStr = "s"; 
+            $bindArr = Array($pokemonID);
+            $query->setAll($sql,$bindTypeStr,$bindArr);
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $query->handleQuery();                
+            if (!$resultContainer->isSuccess()){
+                $result->setFailure();
+                $result->mergeErrorMessages($queryResult); //Retriving errors from model.
+            };
+            $row = $resultContainer->get_mysqli_result()->fetch_assoc();
+            
+
+            return $row["trainer_id"];
+        }
+
+
+        // used to get a notiifcation_id off of a trainer_id and a date_created
         public function getNotificationId($notif_id, $datetime){
             $query = new Query();
             $sql = "SELECT notification_id
@@ -148,6 +176,7 @@
         }
 
 
+        // used to get a fight_id off of a fight_description
         public function getFightId($description){
             $query = new Query();
             $sql = "SELECT fight_id
@@ -180,6 +209,7 @@
 
         /* start of adding notification */
 
+        // add general notification
         public function addNotification($trainerID, $dateTime){
             $query = new Query();
             $sql = 'INSERT INTO Notifications (trainer_id, date_created)
@@ -197,6 +227,7 @@
             return $resultContainer;
         }
 
+        // adding to Fights table
         public function addFight($description){
             $query = new Query();
             $sql = 'INSERT INTO Fights (fight_description)
@@ -214,7 +245,7 @@
             return $resultContainer;
         }
 
-
+        // adding to EggEvents table
         public function addEggEvent($notifID, $parent1, $parent2){
             $query = new Query();
             $sql = 'INSERT INTO EggEvents (notification_id, father, mother)
@@ -232,6 +263,7 @@
             return $resultContainer;
         }
 
+        // adding to FightEvents Table
         public function addFightEvent($notifID, $pokemonID, $fightID){
             $query = new Query();
             $sql = 'INSERT INTO FightEvents (notification_id, pokemon_id, fight_id)
@@ -249,7 +281,10 @@
             return $resultContainer;
         }
 
-        /* start of Exists functions */
+/*
+        
+        
+        // check trainer exists from trainer_name
         public function trainerExists($name){
             $query = new Query();
             $sql = "SELECT trainer_id
@@ -274,7 +309,7 @@
             }
         }
 
-
+        // check trainer/pokemon pair exists from trainer_name and 
         public function trainerPokemonPairExists($name, $pokemon){
             $query = new Query();
             $sql = "SELECT Trainers.trainer_id, Pokemon.pokemon_id
@@ -303,7 +338,7 @@
 
         }
 
-
+*/
 
 
     }
