@@ -13,12 +13,24 @@
         } 
 
 
-        public function updateAServiceRecord($data,$id,$col) {
+        public function updateAServiceRecord($start_time, $end_time,$id) {
             $query = new Query();
-            $query->setSql("UPDATE ServiceRecords
-                            SET ".$col." = '".$data."' WHERE service_record_id = ?;");
-            $query->setBindArr([$id]);
-            $query->setBindTypeStr("i");
+            $query->addToSql("UPDATE ServiceRecords SET start_time = ?");
+            $query->addBindType("s");
+            $query->addBindArrElem($start_time);
+            if ($end_time != "") {
+                $query->addToSql(", end_time = ?");
+                $query->addBindType("s");
+                $query->addBindArrElem($end_time);
+            }
+            $query->addToSql(" WHERE service_record_id = ?");
+            $query->addBindType("i");
+            $query->addBindArrElem($id);
+
+            // $query->printSqlArr();
+            // $query->printBindTypeArr();
+            // $query->printBindArr();
+    
             $query->handleQuery();
         }
 

@@ -62,6 +62,9 @@
         public function removeLastBindType() {
             $removed = array_pop($this->bindTypeArr);
         }
+        public function printBindTypeArr() {
+            var_dump($this->bindTypeArr);
+        }
 
         // Parameter binding representation
         public function addBindArrElem($param) { // add single element
@@ -69,6 +72,9 @@
         }
         public function setBindArr($bindArr) { // add series of elements
             $this->bindArr = $bindArr; 
+        }
+        public function printBindArr() {
+            var_dump($this->bindArr);
         }
         public function removeLastBindArr() {
             $removed = array_pop($this->bindArr);
@@ -84,8 +90,8 @@
         public function removeLastSql() {
             $removed = array_pop($this->sqlArr);
         }
-        public function getSqlArr() {
-            return $this->sqlArr;
+        public function printSqlArr() {
+            var_dump($this->sqlArr);
         }
 
 

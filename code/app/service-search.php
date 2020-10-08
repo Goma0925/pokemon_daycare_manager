@@ -85,8 +85,8 @@
                 }
             }
             
-            if (isset($_POST["res"])) {
-                $res = $serviceRecordsContr->updateServiceRecord($_POST["res"]);
+            if (isset($_POST["start"]) && isset($_POST["end"]) && isset($_POST["service_id"])) {
+                $res = $serviceRecordsContr->updateServiceRecord($_POST["start"],$_POST["end"],$_POST["service_id"]);
             }
     
         ?>

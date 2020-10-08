@@ -47,25 +47,21 @@
 
 
         // Update service record in database 
-        public function updateServiceRecord($res) {
-
-            // do some validation and error checking !!
-            // check if actual date
-
+        public function updateServiceRecord($start,$end,$service_ids) {
+            $length = sizeof($service_ids);
             // var_dump($res);
-            foreach($res as $val) {
-                if ($val != "default") {
-                    // var_dump($val);
-                    $data_id_col = explode("|", $val);
-                    $data = $data_id_col[0];
-                    $id = $data_id_col[1];
-                    $col= $data_id_col[2];
-                    $result = $this->serviceRecordsModel->updateAServiceRecord($data,$id,$col);
+            for ($i = 0; $i < $length ; $i++) {
+                $start_time = str_replace("T"," ",$start[$i]);
+                $end_time = "";
+                if ($end[$i] != "") { 
+                    $end_time = str_replace("T"," ",$end[$i]);
                 }
+                $service_record_id = $service_ids[$i];
+                // var_dump($start_time);
+                // var_dump($end_time);
+                $result = $this->serviceRecordsModel->updateAServiceRecord($start_time, $end_time, $service_record_id);
             }
-            return true; 
         }
-
     }
 
 ?>

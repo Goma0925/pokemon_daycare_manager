@@ -3,20 +3,20 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('.updaters').hide(); //hide the submit button by default
-    });
+    // $(document).ready(function () {
+    //     $('.updaters').hide(); //hide the submit button by default
+    // });
 
-    function updateValue(element,col,id) {
-        console.log("called");
-        var selector = ("#").concat(col.concat(id));
-        var new_val = element.innerText.concat("|",id).concat("|",col);
-        $(selector).attr("value",new_val);
-        if (new_val) {
-            $('input#'.concat(id)).show();
-        }
+    // function updateValue(element,col,id) {
+    //     console.log("called");
+    //     var selector = ("#").concat(col.concat(id));
+    //     var new_val = element.innerText.concat("|",id).concat("|",col);
+    //     $(selector).attr("value",new_val);
+    //     if (new_val) {
+    //         $('input#'.concat(id)).show();
+    //     }
        
-    }
+    // }
 </script>
 
 
@@ -52,28 +52,48 @@
                             </tr>
                         </thead>
                         <tbody>';
-
+                    //     <div contenteditable="true" onBlur=updateValue(this,"end_time","'.$id.'")> 
+                    //     '.$row["end_time"].'
+                    // </div>
+                //     <input type="hidden" 
+                //     id="end_time'.$id.'" 
+                //     name="res[]" value="default"
+                //     <input type="hidden" 
+                //     id="start_time'.$id.'" 
+                //     name="res[]" value="default"
+                // >
+                // <div contenteditable="true" onBlur=updateValue(this,"start_time"","'.$id.'")>
+                //     '.$row["start_time"].'
+                // </div>
+                // >
             while ($row = $table_data->get_mysqli_result()->fetch_assoc()) { // for each row in table
                 $id = $row["service_record_id"]; // unique service id
+
+                $date_end = $row["end_time"];
+                $date_strt = $row["start_time"];
+
+                $temp_start_date = DateTime::createFromFormat('Y-m-d H:i:s', $date_strt);
+                $temp_start_date_out = $temp_start_date->format('Y-m-d H:i:s');
+                $start = str_replace(" ","T",$temp_start_date_out);
+
+                $end;
+                if ($date_end != NULL) {
+                    $temp_end_date = DateTime::createFromFormat('Y-m-d H:i:s', $date_end);
+                    $temp_end_date_out = $temp_end_date->format('Y-m-d H:i:s');
+                    $end = str_replace(" ","T",$temp_end_date_out);
+                }
+                else {
+                    $end = null;
+                }
+    
                 echo '<tr> 
                         <td>'.$row["service_record_id"].'</td>
+                        <input type="hidden" name="service_id[]" value="'.$id.'">
                         <td>
-                            <input type="hidden" 
-                                id="start_time'.$id.'" 
-                                name="res[]" value="default"
-                            >
-                            <div contenteditable="true" onBlur=updateValue(this,"start_time"","'.$id.'")>
-                                '.$row["start_time"].'
-                            </div>
+                            <input type="datetime-local"  name="start[]" value="'.$start.'" >
                         </td>
                         <td>
-                            <input type="hidden" 
-                                id="end_time'.$id.'" 
-                                name="res[]" value="default"
-                            >
-                            <div contenteditable="true" onBlur=updateValue(this,"end_time","'.$id.'")> 
-                                '.$row["end_time"].'
-                            </div>
+                            <input type="datetime-local"  name="end[]" value="'.$end.'" >
                         </td>
                        
                         </td>
