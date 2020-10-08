@@ -46,10 +46,20 @@
 
 
         // Update service record in database 
-        public function updateServiceRecord($service_record_id) {
+        public function updateServiceRecord($res) {
+            // var_dump($res);
+            foreach($res as $val) {
+                if ($res != "default") {
+                    $data_id_col = explode("|", $val);
+                    $data = $data_id_col[0];
+                    $id = $data_id_col[1];
+                    $col= $data_id_col[2];
+                    $result = $this->serviceRecordsModel->updateAServiceRecord($data,$id,$col);
+                }
+            }
             return true; 
         }
-        
+
     }
 
 ?>

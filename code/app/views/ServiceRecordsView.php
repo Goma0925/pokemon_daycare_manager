@@ -1,3 +1,24 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<script>
+function updateValue(element,col,id) {
+    var selector = ("#").concat(col.concat(id));
+    var new_val = element.innerText.concat("|",id).concat("|",col);
+    console.log($(selector).attr("value"));
+    $(selector).attr("value",new_val);
+    console.log($(selector).attr("value"));
+}
+
+// $("#services").submit(function (event) {
+//     alert( "Handler for .submit() called." );
+//     // event.preventDefault();
+//     console.log("submitting");
+// }); 
+</script>
+
+
 <?php
     include 'models/ServiceRecordsModel.php';
     include 'models/TrainersModel.php';
@@ -13,13 +34,9 @@
         }
 
         public function buildTableForm($action, $method, $row_headers, $table_data, $input_value) {
-            // make sure $input value matches a real column name
-            // makesure rowheaders equals number of rows in table 
-            // restrict method to post and get
             $field_info = $table_data->get_mysqli_result()->fetch_fields(); 
-            // var_dump($field_info)
             echo '
-                <form action="'.$action.'" method="'.$method.'">
+                <form id="services" action="'.$action.'" method="'.$method.'">
                     <table class="table">
                         <thead>'; 
                         echo '<tr>';
@@ -33,21 +50,42 @@
             echo "     <tbody>";
             while ($row = $table_data->get_mysqli_result()->fetch_assoc()) {
                 echo '
-                            <tr>
-                                <td>
-                                    <div class="form-check">
-                                        <input class="form-check-input" 
-                                        type="radio" name="'.strtolower($field_info[0]->table).'" 
-                                        value="'.$row[$input_value].'"> 
-                                    </div>
-                                </td>
-                            ';
+                            <tr>';                
                 foreach ($field_info as $f) {
-                    echo '
-                                <td>'.$row[$f->name].'</td>
+                    if ($f->name == "start_time" || $f->name == "end_time") {
+                        $id = $row[$input_value];
+                        $unique = $f->name.$row[$input_value];                        
+                        echo '
+                            <td>
+                                <input type="hidden" id="'.$unique.'" name="res[]" value="default">
+                                <div contenteditable="true" 
+                                    edit_type="click"
+                                    onBlur=updateValue(this,"'.$f->name.'","'.$id.'")
+                                    > '.$row[$f->name].
+                                '</div>
+                            </td>
                         ';
+
+                    } 
+                    else {
+                        echo '
+                            <td>'.$row[$f->name].'</td>
+                        ';
+                    }
+
+
                 }
-                echo '          </tr>';
+                echo '
+                            <td>
+                                <div>
+                                    <input 
+                                    id="'.$row[$input_value].'"
+                                        type="submit"  
+                                        name="'.$row[$input_value].'"
+                                        > 
+                                </div>
+                            </td>';
+                echo '   </tr>';
 
             }    
             echo '  </tbody>
@@ -91,8 +129,8 @@
 
             if ($resultContainer->isSuccess()) { // will render based on what was set above
                 // var_dump($resultContainer->get_mysqli_result());
-                $this->buildTableForm($action,"get", 
-                    ["Edit","RecordID","Start Date", "End Date", "PokemonID", "TrainerID"],
+                $this->buildTableForm("service-search.php","post", 
+                    ["RecordID","Start Date", "End Date", "PokemonID", "TrainerID","Save/Update"],
                     $resultContainer,"service_record_id");
             }
             else { // do not render at all (maybe render some error, just depends)

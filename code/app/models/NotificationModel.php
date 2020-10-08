@@ -188,10 +188,6 @@
         }
 
 
-
-
-
-
         /* start of Exists functions */
         public function trainerExists($name){
             $query = new Query();

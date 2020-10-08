@@ -12,6 +12,16 @@
             return $resultContainer;
         } 
 
+
+        public function updateAServiceRecord($data,$id,$col) {
+            $query = new Query();
+            $query->setSql("UPDATE ServiceRecords
+                            SET ".$col." = '".$data."' WHERE service_record_id = ?;");
+            $query->setBindArr([$id]);
+            $query->setBindTypeStr("i");
+            $query->handleQuery();
+        }
+
         public function startService(int $trainer_id, int $pokemon_id, string $start_date = null) {
             // Declare vars
             $query = new Query();
@@ -91,29 +101,19 @@
 
             $query = new Query();
             // Declare query assembling vars
-
-            // $resultContainer = null;
-            // $bindArr = Array();
-            // $bindTypeStr = "";
             $s_where_conditions = [];
             
-            // $base_sql = "SELECT service_record_id, start_time, end_time, pokemon_id,
-            // trainer_id FROM ";
-
             $query->addToSql("SELECT service_record_id, start_time, end_time, pokemon_id,
             trainer_id FROM ");
 
             // Setting the table for correct active degree
             if ($active_degree == 0) { // inactive only
-                // $base_sql = $base_sql."InactiveServiceRecords";
                 $query->addToSql("InactiveServiceRecords ");
             }
             elseif ($active_degree == 1) { // active only
-                // $base_sql = $base_sql."ActiveServiceRecords";
                 $query->addToSql("ActiveServiceRecords ");
             }
             elseif ($active_degree == 2) { // both inactive and active
-                // $base_sql = $base_sql."ServiceRecords";
                 $query->addToSql("ServiceRecords ");
                 
             }
@@ -144,13 +144,6 @@
                     $query->addBindType("i");
                 }         
 
-                // if (isset($start_date)) { // leave out for now
-                //     // $s_where_conditions[] = "start_time = ?"; // what type?
-                //     // $bindArr[] = $start_date;
-                //     // $bindStr."s";
-                //     echo "Do stuff";
-                // } 
-
                 // Append conditions to base_sql
                 $n_conditions = count($s_where_conditions)-1;
                 if ($n_conditions >= 0) {
@@ -175,7 +168,6 @@
         }
 
         public function getServiceRecordsByTrainerID($trainer_id, $active_degree = 2) {
-            echo $active_degree;
             return $this->getServiceRecords(null,$trainer_id,null,null,$active_degree);    
         }
 

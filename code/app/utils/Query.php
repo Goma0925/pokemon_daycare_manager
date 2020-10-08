@@ -198,6 +198,8 @@
             finally {
                 $this->conn->close(); // close db connection
                 if ($should_return) {
+                    error_log("START( ".$this->sql."| bindtype: ".var_dump($this->bindTypeStr)."| binarr: ".var_dump($this->bindArr).")DONE.");
+
                     return $resultContainer; 
                 } 
                 // otherwise, we just modified the container's reference
