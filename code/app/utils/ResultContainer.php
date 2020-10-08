@@ -67,13 +67,21 @@
             return $this->isSuccess;
         }
 
-        public function setSuccessVal($key, $value){
+        public function setSuccessValue($key, $value){
             // Add a value you want to communicate about the successful operation.
             // It is stored in an associative array with key & value.
             $this->success_values[$key] = $value;
         }
 
-        public function getSuccessVal(){
+        public function setSuccessValues($key, Array $values){
+            // Add a value you want to communicate about the successful operation.
+            // It is stored in an associative array with key & value.
+            foreach ($values as $value){
+                $this->success_values[$key] = $value;
+            }
+        }
+
+        public function getSuccessValues(){
             return $this->success_values;
         }
 
