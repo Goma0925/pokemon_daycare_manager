@@ -46,9 +46,11 @@
         private $errorMessages;
         private $isSuccess;
         private $mysqli_result;
+        private $success_values; //Used to carry any values caused by a successful operation.
 
         public function __construct() {
             $this->errorMessages = Array();
+            $this->success_values = Array();
             $this->isSuccess = true;
             $this->mysqli_result = null;
         }
@@ -63,6 +65,24 @@
 
         public function isSuccess(){
             return $this->isSuccess;
+        }
+
+        public function setSuccessValue($key, $value){
+            // Add a value you want to communicate about the successful operation.
+            // It is stored in an associative array with key & value.
+            $this->success_values[$key] = $value;
+        }
+
+        public function setSuccessValues($key, Array $values){
+            // Add a value you want to communicate about the successful operation.
+            // It is stored in an associative array with key & value.
+            foreach ($values as $value){
+                $this->success_values[$key] = $value;
+            }
+        }
+
+        public function getSuccessValues(){
+            return $this->success_values;
         }
 
         public function set_mysqli_result($mysqli_result){
