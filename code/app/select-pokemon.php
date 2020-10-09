@@ -5,6 +5,7 @@
             include_once 'utils/Settings.php';
             Settings::setup_debug(); //Custom function that contains debug settings
             include_once 'views/CommonView.php';
+            include_once 'views/InputErrorView.php';
             include_once 'views/PokemonView.php';
     ?>
     <?php   
@@ -21,7 +22,7 @@
     <div style="margin-left:5%; margin-right:5%; margin-top: 25px;">
         <h2>Please select a pokemon:
             <?php 
-                if ($_GET["redirect-to"] == "check-in-confirmation"){
+                if ($_GET["redirect-to"] == "check-in-pokemon"){
                     //Render a button to register a new pokemon for check-in flow.
                     echo '<a style="float: right; margin-bottom:10px;" href="./register-pokemon.php?trainer='.$_GET["trainer"].'" type="button" class="btn btn-secondary">Register new pokemon</a>';
                 }
@@ -32,14 +33,17 @@
 
 
         $pokemonView = new PokemonView();
+        $inputErrorView = new InputErrorView();
         //B. Show pokemon using pokemon selection table.
         if (isset($_GET)){
             //1. Determine if it shows active or inactive pokemon
             $show_active_pokemon;
             if ($_GET["active"] == "true"){
                 $show_active_pokemon = true;
-            }else{
+            }else if($_GET["active"] == "false"){
                 $show_active_pokemon = false;
+            }else{
+                $inputErrorView->errorBox(Array("Invalid Request"));
             };
 
             //2. Define the method of pokemon selection table's form on submission.
@@ -73,7 +77,7 @@
 
         }else{
             //If this shows on UI, redirect-to parameter is not provided in URL.
-            echo "<p>Error: Invalid request. </p>";
+            $inputErrorView->errorBox(Array("Invalid Request"));
         };
 
     ?>

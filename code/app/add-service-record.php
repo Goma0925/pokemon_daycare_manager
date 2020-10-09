@@ -31,7 +31,7 @@
             $action = "add-service-record.php";
             $method = "POST";
             $form_params = Array();
-            $resultContainer = $serviceRecordsView->confirmationBox($is_checkin, $_GET["trainer"], $_GET["pokemon"], $action, $method, $form_params);
+            $resultContainer = $serviceRecordsView->checkInConfirmationBox($_GET["trainer"], $_GET["pokemon"], $action, $method, $form_params);
             //When given invalid trainer or pokemon ID in GET params, show error messages.
             if ($resultContainer->isSuccess()){
                 $errorMessages = $resultContainer->getErrorMessages();
@@ -42,8 +42,7 @@
         else if (isset($_POST["trainer"]) && isset($_POST["pokemon"])){
             $resultContainer = $serviceRecordsContr->addServiceRecord($start_time = null,  $pokemon_id=$_POST["pokemon"], $trainer_id=$_POST["trainer"]);
             if ($resultContainer->isSuccess()){
-                $is_checkin = true;
-                $serviceRecordsView->completionBox($is_checkin, $_POST["trainer"], $_POST["trainer_name"], $_POST["pokemon_nickname"]);
+                $serviceRecordsView->checkIncompletionBox($_POST["trainer"], $_POST["trainer_name"], $_POST["pokemon_nickname"]);
             }else{
                 $errorMessages = $resultContainer->getErrorMessages();
                 $inputErrorView->errorBox($errorMessages);

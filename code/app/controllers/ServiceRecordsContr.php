@@ -1,14 +1,18 @@
 <?php 
     include_once 'models/ServiceRecordsModel.php';
     include_once 'models/TrainersModel.php';
+    include_once 'models/PokemonModel.php';
     include_once 'utils/ResultContainer.php';
     class ServiceRecordsContr {//Make sure to use plural noun for the class nam
         private $serviceRecordsModel;
+        private $trainersModel;
+        private $pokemonModel;
         public function __construct() {
             //Make sure you don' put the $ sign in front of the variable name when using $this keyword!
             //eg:  $this->trainersModel = new TrainersModel();
             $this->serviceRecordsModel = new ServiceRecordsModel();
             $this->trainersModel = new TrainersModel();
+            $this->pokemonModel = new PokemonModel();
         }
 
         
@@ -26,22 +30,71 @@
             //Set current date time if not set. 
             $dt = !isset($start_time) ? date('Y-m-d H:i:s') : $start_date; 
 
-            $resultContainer = $this->trainersModel->getTrainerByPokemon($pokemon_id);
-            if ($resultContainer->isSuccess()){
- 
-                //Check if the incoming data of the pokemon's owner is the incoming trainer.
-                $owner_record = $resultContainer->get_mysqli_result()->fetch_assoc();
-                if ($owner_record==null){
-                    $resultContainer->setFailure();
-                    $resultContainer->addErrorMessage("Pokémon does not exist.");
-                }
-                $owner_id = $owner_record? $owner_record["trainer_id"]:"No trainer found";
-                if ($owner_id != $trainer_id){
-                    $resultContainer->setFailure();
-                    $resultContainer->addErrorMessage("Only the owner of the Pokémon can check-in his/her Pokémon.");
-                }
+            $resultContainer = new ResultContainer(); //ResultContainer for all validation errors.
 
-                //Check if the trainer has less than 2 active services.
+            //Check if the trainer exists
+            if (true){ //Always execute this.
+                $trainerByIdResult = $this->trainersModel->getTrainerByAttr(
+                                                        $trainer_id, //int $trainer_id
+                                                        null,        //string $email
+                                                        null);       //string $phone
+                if ($trainerByIdResult->isSuccess()){
+                    if ($trainerByIdResult->get_mysqli_result()->num_rows < 1){
+                        $resultContainer->setFailure();
+                        $resultContainer->addErrorMessage("Trainer does not exist.");
+                    }
+                }
+                else{
+                    // Database error
+                    $resultContainer->setFailure();
+                    $resultContainer->mergeErrorMessages($trainerByIdResult);
+                }
+            }
+            //Check if the incoming data of the pokemon's owner is the incoming trainer & 
+            //if the pokemon exists.
+            if ($resultContainer->isSuccess()){
+                $pokemonByTrainerResult = $this->trainersModel->getTrainerByPokemon($pokemon_id);
+                if ($pokemonByTrainerResult->isSuccess()){
+                    $owner_record = $pokemonByTrainerResult->get_mysqli_result()->fetch_assoc();
+                    if ($owner_record==null){
+                        $resultContainer->setFailure();
+                        
+                        $resultContainer->addErrorMessage("Pokémon does not exist.");
+                    }
+                    $owner_id = $owner_record? $owner_record["trainer_id"]:"-1";
+                    if ($owner_id != $trainer_id){
+                        $resultContainer->setFailure();
+                        
+                        $resultContainer->addErrorMessage("Only the owner of the Pokémon can check-in his/her Pokémon.");
+                    }
+                }else{
+                    // Database error
+                    $resultContainer->setFailure();
+                    $resultContainer->mergeErrorMessages($pokemonByTrainerResult);
+                    
+                }
+            }
+            //Check the pokemon is not active already.
+            if ($resultContainer->isSuccess()){
+                $activePokemonResult = $this->pokemonModel->getAllActivePokemon();
+                if ($activePokemonResult->isSuccess()){
+                    $done = false;
+                    while ($row = $activePokemonResult->get_mysqli_result()->fetch_assoc()){
+                        if ($row["pokemon_id"] == $pokemon_id){
+                            $resultContainer->setFailure();
+                        }
+                    }
+                    if (!$resultContainer->isSuccess()){
+                        $resultContainer->addErrorMessage("Pokemon is already in daycare.");
+                    }
+                }else{
+                    // Database error
+                    $resultContainer->setFailure();
+                    $resultContainer->mergeErrorMessages($activePokemonResult);
+                }
+            }
+            //Check if the trainer has less than 2 active services.
+            if ($resultContainer->isSuccess()){
                 $resultRecordNumFetch = $this->serviceRecordsModel->getServiceRecords(
                                                             null,//service_record_id
                                                             $trainer_id, //trainer_id 
@@ -50,25 +103,25 @@
                                                             1);//active_degree
 
                 if ($resultRecordNumFetch->isSuccess()){
-                    $num_records = $resultContainer->get_mysqli_result()->num_rows;
+                    $num_records = $resultRecordNumFetch->get_mysqli_result()->num_rows;
                     if ($num_records >= 2){
-                        echo "Invalid";
                         $resultContainer->setFailure();
                         $resultContainer->addErrorMessage("A trainer cannot have more than two Pokémon in daycare at the same time.");
+                        
                     }
                 }else{
                     // Database error
                     $resultContainer->setFailure();
                     $resultContainer->mergeErrorMessages($resultRecordNumFetch);
+                    
                 }
-
-                //Once all the validation is done, insert a new service record.
-                if ($resultContainer->isSuccess()){
-                    $resultInsertion = $this->serviceRecordsModel->startService($trainer_id,$pokemon_id,$start_time);
-                    $resultContainer->mergeErrorMessages($resultInsertion);
+            }
+            //Once all the validation is done, insert a new service record.
+            if ($resultContainer->isSuccess()){
+                $insertionResult = $this->serviceRecordsModel->startService($trainer_id,$pokemon_id,$start_time);
+                if (!$insertionResult->isSuccess()){
+                    $resultContainer->mergeErrorMessages($insertionResult);
                 }
-            }else{
-                $resultContainer->addErrorMessages("Trainer does not exist.");
             }
             return $resultContainer;
         }
