@@ -219,23 +219,30 @@
             return $pokemonReContainer;
         }
  
-        public function checkInCompletionBox(int $trainer_id, string $trainer_name, $pokemon_nickname){
+        public function operationCompletionBox(int $is_checkint, int $trainer_id, string $trainer_name, $pokemon_nickname){
             //Renders comletion box for inserting a new service record (Check-in)
                 //     int $trainer_id: The traier that has been checked-in
                 //string $trainer_name: The traier that has been checked-in.
                 //   $pokemon_nickname: The pokemon that has been checked-in.
+            $title = $is_checkin? "Check-In Complete!": "Check-Out Complete!";
+            $sub_text = $is_checkin? 
+                "The check-in has been recorded. Go to Check-In/Out tab to check out the customer.":
+                "The check-out has been recorded.";
+            $pokemon_active_param = $is_checkin? "false":"true";
+            $redirect_to = $is_checkin? "check-in-pokemon":"check-out-pokemon";
+            $button_text = 
             echo '
                 <div class="jumbotron">
                     <h1 class="display-4">Check-In Complete!</h1>
                     <p class="lead">The check-in has been recorded. Go to Check-In/Out tab to check out the customer.</p>
                     <hr class="my-4">
                     <p class="lead" style="float:right;">
-                        <a class="btn btn-info" href="select-pokemon.php?redirect-to=check-in-confirmation&active=false&trainer='.$trainer_id.'" role="button">Check-in '.$trainer_name.''."'".'s other Pokémon</a>
+                        <a class="btn btn-info" href="select-pokemon.php?redirect-to='.$redirect_to.'&active='.$pokemon_active_param.'&trainer='.$trainer_id.'" role="button">Check-in '.$trainer_name.''."'".'s other Pokémon</a>
                     </p>
                 </div>';
         }
 
-        public function checkOutCompletionBox(int $trainer_id, string $trainer_name, $pokemon_nickname){
+        public function checkOutgitCompletionBox(int $trainer_id, string $trainer_name, $pokemon_nickname){
             //Renders comletion box for inserting a new service record (Check-in)
                 //     int $trainer_id: The traier that has been checked-in
                 //string $trainer_name: The traier that has been checked-in.
