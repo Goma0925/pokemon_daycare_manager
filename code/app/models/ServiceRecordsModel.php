@@ -31,7 +31,7 @@
             // $query->printBindTypeArr();
             // $query->printBindArr();
     
-            $query->handleQuery();
+            return $query->handleQuery();
         }
 
         public function startService(int $trainer_id, int $pokemon_id, string $start_date = null) {
@@ -58,34 +58,15 @@
             }
         }
 
-        public function endService(string $end_date=null, int $service_record_id) {
-            try {
-                // Declare vars
-                $query = new Query();
-                if (!isset($end_date)){
-                    $end_date = date('Y-m-d H:i:s');
-                }
-                if (!isset($service_record_id)) {
-                    throw new Exception("Error: insufficient arguments provided");  
-                }
-                $sql = "UPDATE ActiveServiceRecords 
-                            SET end_time = ? WHERE service_record_id = ?;"; 
-                $bindArr = [$end_date, $service_record_id];
-                $bindTypeStr = "si";
-                // $query->addToSql("UPDATE ActiveServiceRecords 
-                //                  SET end_time = ? WHERE service_record_id = ?;");
-                // $query->setBindArr([$end_date, $service_record_id]);
-                // $query->setBindTypeStr("si");
-                $query->setAll($sql, $bindTypeStr, $bindArr);
-
-                // $resultContainer = $this->handleQuery($sql,$bindTypeStr,$bindArr); // returns ResultContainer
-                $resultContainer = $query>handleQuery(); // returns ResultContainer
-                return $resultContainer; // return type ResultContainer
-            }
-            catch (Exception $e) { // we will not return if this function is not called correctly
-                // this should be logged because of the global logging settings set (thanks amon)
-                return; // halt function 
-            }
+        public function endService(DateTime $end_date, int $service_record_id) {
+            $query = new Query();
+            $sql = "UPDATE ActiveServiceRecords 
+                        SET end_time = ? WHERE service_record_id = ?;"; 
+            $bindArr = [$end_date->format('Y-m-d h:i:s'), $service_record_id];
+            $bindTypeStr = "si";
+            $query->setAll($sql, $bindTypeStr, $bindArr);
+            $resultContainer = $query->handleQuery(); // returns ResultContainer
+            return $resultContainer; // return type ResultContainer
         }
 
         /* This is the parent method of several methods.

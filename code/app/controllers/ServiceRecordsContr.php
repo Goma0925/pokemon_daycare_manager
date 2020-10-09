@@ -144,8 +144,10 @@
             }
         }
 
-        public function endServiceRecord($start_time = null,  int $pokemon_id, int $trainer_id){
+        public function endServiceRecord(int $service_record_id){
             //Put an end date to the target service record.
+            $resultContainer = $this->serviceRecordsModel->endService(new DateTime(), $service_record_id);
+            return $resultContainer;
         }
     }
 

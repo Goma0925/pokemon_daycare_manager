@@ -1,5 +1,5 @@
 <?php
-    include 'models/NotificationModel.php';
+    include_once 'models/NotificationModel.php';
 
     class NotificationView {
         private $notificationModel;

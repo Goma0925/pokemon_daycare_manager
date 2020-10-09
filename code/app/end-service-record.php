@@ -26,24 +26,25 @@
         $inputErrorView = new InputErrorView();
 
         // On GET request, render check-out confirmation box.
-        if (isset($_GET["trainer"]) && isset($_GET["pokemon"])){
-            $is_checkin = false;
+        if (isset($_GET["service"])){
+            $service_record_id = $_GET["service"];
             $action = "end-service-record.php";
             $method = "POST";
             $form_params = Array();
-            $resultContainer = $serviceRecordsView->confirmationBox($is_checkin, $_GET["trainer"], $_GET["pokemon"], $action, $method, $form_params);
+            $resultContainer = $serviceRecordsView->checkOutConfirmationBox($service_record_id, $action, $method, $form_params);
             //When given invalid trainer or pokemon ID in GET params, show error messages.
             if ($resultContainer->isSuccess()){
                 $errorMessages = $resultContainer->getErrorMessages();
                 $inputErrorView->errorBox($errorMessages);
             }
         }
-        // After the user clicks Check In button, it'll send a post to insert a service record.
-        else if (isset($_POST["trainer"]) && isset($_POST["pokemon"])){
-            $resultContainer = $serviceRecordsContr->endServiceRecord($start_time = null,  $pokemon_id=$_POST["pokemon"], $trainer_id=$_POST["trainer"]);
+
+        // After the user clicks Check out button, it'll send a post to insert the end time in the service record.
+        else if (isset($_POST["service"])){
+            $service_record_id = $_POST["service"];
+            $resultContainer = $serviceRecordsContr->endServiceRecord($service_record_id);
             if ($resultContainer->isSuccess()){
-                $is_checkin = false;
-                $serviceRecordsView->completionBox($is_checkin, $_POST["trainer"], $_POST["trainer_name"], $_POST["pokemon_nickname"]);
+                $serviceRecordsView->checkOutCompletionBox();
             }else{
                 $errorMessages = $resultContainer->getErrorMessages();
                 $inputErrorView->errorBox($errorMessages);

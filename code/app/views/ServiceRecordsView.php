@@ -23,16 +23,19 @@
 <?php
     include_once 'models/ServiceRecordsModel.php';
     include_once 'models/TrainersModel.php';
+    include_once 'models/BusinessStatesModel.php';
     include_once 'models/PokemonModel.php';
 
     class ServiceRecordsView { //Make sure to use plural noun for the class name
         private $serviceRecordsModel;
         private $trainersModel;
+        private $businsStatesModel;
         public function __construct() {
             //Make sure you don' put the $ sign in front of the variable name when using $this keyword!
             // e.g:   $this->trainersModel = new TrainersModel();
             $this->serviceRecordsModel = new ServiceRecordsModel();
             $this->trainersModel = new TrainersModel();
+            $this->businessStatesModel = new BusinessStatesModel();
         }
 
 
@@ -238,7 +241,7 @@
             echo '
                 <div class="jumbotron">
                     <h1 class="display-4">Check-Out Complete!</h1>
-                    <p class="lead">The payment has been recorded.</p>
+                    <p class="lead">The service record has been recorded.</p>
                     <hr class="my-4">
                     <p class="lead" style="float:right;">
                         <a class="btn btn-info" href="check-in-and-out.php?redirect-to=check-out-pokemon" role="button">Go back to check-out menu</a>
@@ -249,7 +252,8 @@
         public function checkOutConfirmationBox(int $service_record_id, string $action, string $method, Array $form_params){
             //A box UI to submit the request to put end date to a particular service record on button click.
             $resultContainer = $this->serviceRecordsModel->getElaborateActiveServiceRecordById($service_record_id);
-            if ($resultContainer->isSuccess()){
+            $businesStateResult = $this->businessStatesModel->getCurrentBusinessState();
+            if ($resultContainer->isSuccess() && $businesStateResult->isSuccess()){
                 $service_record = $resultContainer->get_mysqli_result()->fetch_assoc();
                 $invalid_request = $service_record? false: true;
 
@@ -262,8 +266,7 @@
                     $now = time(); // or your date as well
                     $datediff = $now - $check_in_time;
                     $days = round($datediff / (60 * 60 * 24));
-                    
-                    $rate = 100;
+                    $rate = $businesStateResult->get_mysqli_result()->fetch_assoc()["price_per_day"];
                     $total_fee = $rate * $days;
                 }
 
@@ -293,7 +296,7 @@
                         <br><br><br>
                         <p class="lead" style="float:right;">
                             <a class="btn btn-info" href="check-in-and-out.php?redirect-to=check-out-pokemon" role="button">Cancel</a>
-                            <button class="btn btn-info" type="submit" '.($invalid_request?"disabled":"").'>Record Payment</button>
+                            <button class="btn btn-info" type="submit" '.($invalid_request?"disabled":"").'>Check-Out and Finish</button>
                         </p>
                     </form>
                 </div>

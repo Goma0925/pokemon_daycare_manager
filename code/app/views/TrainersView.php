@@ -1,5 +1,5 @@
 <?php
-    include 'models/TrainersModel.php';
+    include_once 'models/TrainersModel.php';
 
     class TrainersView {
         private $trainersModel;

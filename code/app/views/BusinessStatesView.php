@@ -1,5 +1,5 @@
 <?php
-    include 'models/BusinessStatesModel.php';
+    include_once 'models/BusinessStatesModel.php';
 
     class BusinessStatesView { //Make sure to use plural noun for the class name
         private $businessStatesModel;
