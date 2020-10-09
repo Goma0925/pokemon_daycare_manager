@@ -121,9 +121,10 @@ CREATE TABLE MoveEvents (
     REFERENCES Moves(move_name),
     FOREIGN KEY (notification_id)
     REFERENCES Notifications(notification_id)
-    ON DELETE CASCADE,
-    FOREIGN KEY (new_move_name, pokemon_id) /* CFK */
-    REFERENCES CurrentMoves(move_name, pokemon_id)
+    ON DELETE CASCADE
+   /* FOREIGN KEY (new_move_name, pokemon_id) /* CFK */
+   /* REFERENCES CurrentMoves(move_name, pokemon_id) */
+    
 );
 
 

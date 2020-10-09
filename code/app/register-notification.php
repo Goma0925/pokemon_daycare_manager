@@ -76,6 +76,7 @@
                 if ($resultContainer->isSuccess()){
                     $notificationView->registrationSuccessMessage();
                     
+                    
                 }else{
                     $errorMessages = $resultContainer->getErrorMessages();
                     $inputErrorView->errorBox($errorMessages);

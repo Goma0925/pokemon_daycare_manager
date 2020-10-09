@@ -1,4 +1,7 @@
 <?php 
+    include_once 'models/MoveIndexModel.php';
+
+
     class NotificationContr {
         private $notificationModel;
         public function __construct() {
@@ -78,7 +81,7 @@
         // adding an move event
         public function addMoveEvent($eventDateTime, $pokemonID, $oldMove, $newMove){
             $result = new ResultContainer();
-
+            $insertOrDelete = false;
             //Input format validation.
 
             if (preg_match("/^[1-9]\d{2}-\d{3}-\d{4}/", $eventDateTime)){
@@ -90,9 +93,28 @@
                 $result->addErrorMessage("Moves cannot be the same");
             }
             
-            echo gettype($pokemonID);
+            $moveIndexModel = new MoveIndexModel();
+            $resultContainer = $moveIndexModel->getCurrentMovesofPokemon($pokemonID);
+            $poke_num = $resultContainer->get_mysqli_result()->num_rows;
+            $rows_num = $resultContainer->get_mysqli_result()->fetch_all();
+            if ($rows_num != null){
+                for ($i=0; $i<$poke_num; $i++){
+                    if ( $rows_num[$i][0] == $newMove){
+
+                        $result->setFailure();
+                        $result->addErrorMessage("Moves cannot be the same");
+
+                    }
+                }
+            }
+            if ($poke_num < 4) {
+
+                $insertOrDelete = true;
+
+            }
+            
             $pokemonIDInt = (int) $pokemonID;
-            echo gettype($pokemonIDInt);
+        
 
             //If all validations pass, insert an egg event to the database.
             if ($result->isSuccess()){
@@ -106,25 +128,48 @@
                     $result->setFailure();
                     $result->mergeErrorMessages($queryResult); //Retriving errors from model.
                 };
-                
+                // insert insert
+            if ($insertOrDelete == false) {
                 $queryResult3 = $this->notificationModel->updateCurrentMoves($pokemonIDInt, $oldMove, $newMove);
                 if (!$queryResult3->isSuccess()){
                     $result->setFailure();
                     $result->mergeErrorMessages($queryResult3); //Retriving errors from model.
+                    
                 };
 
-
-                // get notification id
+                 // get notification id
                 $trainerID = $this->notificationModel->getTrainerIdByPokemon($pokemonIDInt);
                 $notifID = $this->notificationModel->getNotificationID($trainerID, $realDateTime);
-                echo 'hello';
                 // add fight event
-                $queryResult2 = $this->notificationModel->addMoveEvent($notifID, $oldMove, $newMove, $pokemonID);
-                
+                $queryResult2 = $this->notificationModel->addMoveEvent($notifID, $oldMove, $newMove, $pokemonIDInt);
                 if (!$queryResult2->isSuccess()){
                     $result->setFailure();
                     $result->mergeErrorMessages($queryResult2); //Retriving errors from model.
                 };
+            }
+            else {
+
+                $queryResult4 = $this->notificationModel->insertCurrentMoves($pokemonIDInt,$newMove);
+                if (!$queryResult4->isSuccess()){
+                    $result->setFailure();
+                    $result->mergeErrorMessages($queryResult4); //Retriving errors from model.
+                };
+                 // get notification id
+                 $trainerID = $this->notificationModel->getTrainerIdByPokemon($pokemonIDInt);
+                 $notifID = $this->notificationModel->getNotificationID($trainerID, $realDateTime);
+                 // add fight event
+                 $queryResult2 = $this->notificationModel->addMoveEvent($notifID, NULL, $newMove, $pokemonIDInt);
+                 if (!$queryResult2->isSuccess()){
+                     $result->setFailure();
+                     $result->mergeErrorMessages($queryResult2); //Retriving errors from model.
+                 };
+
+
+            }
+
+
+                
+
 
                 return $result;
             }else{
