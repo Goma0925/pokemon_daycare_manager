@@ -7,6 +7,7 @@
         include_once 'views/CommonView.php';
         include_once 'views/NotificationView.php';
         include_once 'controllers/NotificationContr.php';
+        include_once 'views/InputErrorView.php';
     ?>
     <?php   
         $commonView = new CommonView();
@@ -43,6 +44,38 @@
         
         // Render table
         $notificationView = new NotificationView();
+        $inputErrorView = new InputErrorView();
+        $notificationContr = new NotificationContr();
+
+        if (isset($_GET["delRec"])){
+            $strid = $_GET["trainer"];
+            $id = (int)$strid;
+            $resultContainer = $notificationContr->deleteNotification($id);
+            if ($resultContainer->isSuccess()){
+                echo 'Record Successfully Deleted';
+            }else{
+                $errorMessages = $resultContainer->getErrorMessages();
+                $inputErrorView->errorBox($errorMessages);
+            }
+            
+
+        }
+
+
+        if (isset($_GET["pickupEgg"])){
+            $strid = $_GET["trainer"];
+            $id = (int)$strid;
+            $resultContainer = $notificationContr->updateEgg($id);
+            if ($resultContainer->isSuccess()){
+                echo 'Egg Picked Up';
+            }else{
+                $errorMessages = $resultContainer->getErrorMessages();
+                $inputErrorView->errorBox($errorMessages);
+            }
+            
+
+        }
+ 
         if (isset($_GET["All-notifs"])){
             
             //Render trainer table. This function matches all the trainers whose name contains partial/entire

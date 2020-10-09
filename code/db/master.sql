@@ -56,7 +56,7 @@ CREATE TABLE Ratings ( /* is the service record id fk allow duplicates? */
 /* Create a table for 'Moves' */
 CREATE TABLE Moves (
     PRIMARY KEY(move_name),
-    move_name VARCHAR(20) UNIQUE, /* length is what? update tables fields doc */
+    move_name VARCHAR(20), /* length is what? update tables fields doc */
     move_description VARCHAR(150)
 );
 
@@ -68,8 +68,7 @@ CREATE TABLE CurrentMoves ( /* is this compound pk? */
     FOREIGN KEY (move_name)
     REFERENCES Moves(move_name),
     FOREIGN KEY (pokemon_id)
-    REFERENCES Pokemon(pokemon_id),
-    CONSTRAINT `unique_moves` UNIQUE(move_name, pokemon_id)
+    REFERENCES Pokemon(pokemon_id)
 );
 
 /* Create a table for 'BusinessStates' */
@@ -78,7 +77,8 @@ CREATE TABLE BusinessStates (
     bstate_id INT AUTO_INCREMENT,
     date_changed DATETIME NOT NULL,
     price_per_day DECIMAL NOT NULL,
-    max_pokemon_per_trainer INT NOT NULL
+    max_pokemon_per_trainer INT NOT NULL,
+    flat_egg_price DECIMAL NOT NULL
 );
 
 /* Create a table for 'Notifications' 
@@ -100,11 +100,13 @@ CREATE TABLE EggEvents (
     mother INT CHECK (mother != father), /* mother and father cannot be same */
     given_to_trainer TINYINT DEFAULT 0,
     FOREIGN KEY (notification_id)
-    REFERENCES Notifications(notification_id),
+    REFERENCES Notifications(notification_id) 
+    ON DELETE CASCADE,
     FOREIGN KEY (father) 
     REFERENCES Pokemon(pokemon_id),
     FOREIGN KEY (mother) 
     REFERENCES Pokemon(pokemon_id)
+    
 );
 
 
@@ -118,7 +120,8 @@ CREATE TABLE MoveEvents (
     FOREIGN KEY (old_move_name)
     REFERENCES Moves(move_name),
     FOREIGN KEY (notification_id)
-    REFERENCES Notifications(notification_id),
+    REFERENCES Notifications(notification_id)
+    ON DELETE CASCADE,
     FOREIGN KEY (new_move_name, pokemon_id) /* CFK */
     REFERENCES CurrentMoves(move_name, pokemon_id)
 );
@@ -138,7 +141,8 @@ CREATE TABLE FightEvents ( /* is this most recent? */
     pokemon_id INT,
     fight_id INT, 
     FOREIGN KEY (notification_id)
-    REFERENCES Notifications(notification_id),
+    REFERENCES Notifications(notification_id)
+    ON DELETE CASCADE,
     FOREIGN KEY (fight_id)
     REFERENCES Fights(fight_id),
     FOREIGN KEY (pokemon_id)

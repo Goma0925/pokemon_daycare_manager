@@ -86,6 +86,7 @@
             //It ignores the distinction lowercase & uppercase.
             $sql = "SELECT Notifications.date_created, 
                             e.notification_id,
+                            e.given_to_trainer,
                             p1.breedname AS parent1,
                             p2.breedname AS parent2,
                             Trainers.trainer_name  
@@ -97,7 +98,8 @@
                     INNER JOIN (Pokemon AS p2)
                     ON (p2.pokemon_id = e.mother)
                     INNER JOIN (Trainers)
-                    ON (Trainers.trainer_id = Notifications.trainer_id);";
+                    ON (Trainers.trainer_id = Notifications.trainer_id)
+                    WHERE e.given_to_trainer = 0;";
 
             $query->setSql($sql); // ADDED
 
@@ -199,7 +201,32 @@
         }
 
 
+        public function eggeventExists($id){
+            $query = new Query();
+            $sql = "SELECT EggEvents.notification_id,
+                            Notifications.trainer_id
+                        FROM EggEvents
+                        INNER JOIN Notifications
+                        ON Notifications.notification_id = EggEvents.notification_id
+                        WHERE (Notifications.trainer_id = ? && given_to_trainer = 0);";
+            //Construct bind parameters
+            $bindTypeStr = "i"; 
+            $bindArr = Array($id);
+            $query->setAll($sql,$bindTypeStr,$bindArr);
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $query->handleQuery();
 
+            //Get the number of rows to check if the record with the email exsits.
+            $result = $resultContainer->get_mysqli_result();  
+            $row_num = $result->num_rows;
+
+            //Return true if the record with the email exsits.
+            if ($row_num > 0){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
 
 
@@ -280,6 +307,56 @@
             //Return the result container that contains a success flag and mysqli_result.
             return $resultContainer;
         }
+
+
+
+        public function deleteNotification($notifID){
+
+            $query = new Query();
+            $sql = 'DELETE FROM Notifications
+                        WHERE notification_id = ?;
+            ';
+            //Construct bind parameters
+            $bindTypeStr = "i"; 
+            $bindArr = Array($notifID);
+            $query->setAll($sql,$bindTypeStr,$bindArr);
+
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $query->handleQuery();
+
+            //Return the result container that contains a success flag and mysqli_result.
+            return $resultContainer;
+
+
+
+        }
+    
+        public function updateEgg($notifID){
+
+            $query = new Query();
+            $sql = 'UPDATE EggEvents
+                        SET given_to_trainer = 1
+                        WHERE notification_id = ?;
+            ';
+            //Construct bind parameters
+            $bindTypeStr = "i"; 
+            $bindArr = Array($notifID);
+            $query->setAll($sql,$bindTypeStr,$bindArr);
+
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $query->handleQuery();
+
+            //Return the result container that contains a success flag and mysqli_result.
+            return $resultContainer;
+
+
+
+        }
+    
+
+
+
+
 
 /*
         
