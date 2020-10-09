@@ -1,6 +1,5 @@
 <?php
-    include 'models/NotificationModel.php';
-    include 'views/MoveIndexView.php';
+    include_once 'models/NotificationModel.php';
 
     class NotificationView {
         private $notificationModel;

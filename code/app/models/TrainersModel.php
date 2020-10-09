@@ -9,11 +9,23 @@
             $bindArr = ["%".$name."%"];
             $bindTypeStr = "s";
             $query->setAll($sql,$bindTypeStr,$bindArr);
-            $res_container = $query->handleQuery(); // positional or explicitly state
+            $res_container = $query->handleQuery(); 
             return $res_container; 
         }
 
-
+        public function getTrainerByPokemon(int $pokemon_id){
+            // Retrieve a owner trainer of a particular pokemon.
+            $query = new Query();
+            $sql = "SELECT * FROM Trainers 
+                    INNER JOIN Pokemon
+                    USING (trainer_id)
+                    WHERE pokemon_id = ?";
+            $bindArr = [$pokemon_id];
+            $bindTypeStr = "i";
+            $query->setAll($sql,$bindTypeStr,$bindArr);
+            $res_container = $query->handleQuery();
+            return $res_container; 
+        }
 
         public function emailExists($email){
             $query = new Query();
@@ -114,6 +126,16 @@
             } 
             $resultContainer  = $query->handleQuery();
             return $resultContainer; 
+        }
+
+        public function getNextTrainerId(){
+            // Retrieves the next primary key in Trainers table.
+            // Used to indentify the trainer ID of a trainer that is being inserted.
+            $sql = 'SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = "daycare" AND TABLE_NAME = "Trainers";';
+            $query = new Query();
+            $query->setSql($sql);
+            $resultContainer  = $query->handleQuery(); // other args are optional, read handleQuery
+            return $resultContainer ;
         }
     }
 ?>

@@ -171,13 +171,24 @@ CREATE VIEW ActivePokemon
         Pokemon.nickname, Pokemon.breedname 
         FROM Pokemon 
         INNER JOIN ServiceRecords
-        USING (pokemon_id) WHERE ServiceRecords.end_time IS NULL; 
+        USING (pokemon_id) WHERE ServiceRecords.end_time IS NULL
+        GROUP BY pokemon_id; --Remove duplicates in case of bugs.
 
 
 CREATE VIEW InactivePokemon 
     AS
+        -- Pokemon that don't have any service records
         SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
         Pokemon.nickname, Pokemon.breedname 
-        FROM Pokemon INNER JOIN ServiceRecords
-        USING (pokemon_id) WHERE ServiceRecords.end_time IS NOT NULL; 
+        FROM Pokemon 
+        LEFT JOIN ServiceRecords
+        USING (pokemon_id)
+        WHERE ServiceRecords.service_record_id is NULL
+        UNION 
+        -- Pokemon that have service records but all of them are inactive.
+        SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
+        Pokemon.nickname, Pokemon.breedname 
+        FROM Pokemon 
+        LEFT JOIN ServiceRecords
+        USING (pokemon_id) WHERE ServiceRecords.end_time IS NOT NULL ;
 

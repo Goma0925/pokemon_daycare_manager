@@ -35,8 +35,14 @@
                 $result->addErrorMessage("Phone number '".$phone_number."' is already taken.");
             }
 
+            //Pre-fetch the next trainer id
+            $trainerIdResult = $this->trainersModel->getNextTrainerId();
+            $trainer_id = $trainerIdResult->get_mysqli_result()->fetch_row()[0];
+            $result->setSuccessValue("trainer_id", $trainer_id);
+
             //If all validations pass, insert a trainer to the database.
             if ($result->isSuccess()){
+
                 $queryResult = $this->trainersModel->addUser($name, $phone_number, $email);
                 if (!$queryResult->isSuccess()){
                     $result->setFailure();
