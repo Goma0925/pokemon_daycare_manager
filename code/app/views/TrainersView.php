@@ -107,7 +107,7 @@
         public function registrationSuccessBox(int $trainer_id){
             echo '
             <div class="jumbotron">
-                <h1 class="display-4">Check-In Complete!</h1>
+                <h1 class="display-4">Trainer registration complete!</h1>
                 <p class="lead">The trainer is registered successfully.</p>
                 <hr class="my-4">
                 <p class="lead" style="float:right;">

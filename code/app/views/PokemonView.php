@@ -188,7 +188,7 @@
                     </div> <!-- form-group// -->      
                 </form>
                 </article> <!-- card-body end .// -->
-                <div class="border-top card-body text-center"><a href="select-pokemon.php?active=false&redirect-to=check-in-confirmation&trainer='.$trainer_id.'">Go back and select from database</a></div>
+                <div class="border-top card-body text-center"><a href="select-pokemon.php?active=false&redirect-to=check-in-pokemon&trainer='.$trainer_id.'">Go back and select from database</a></div>
                 </div> <!-- card.// -->
                 </div> <!-- col.//-->
 
