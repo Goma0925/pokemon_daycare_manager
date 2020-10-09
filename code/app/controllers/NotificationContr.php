@@ -6,6 +6,8 @@
             $this->notificationModel = new NotificationModel();
         }
 
+
+
         // adding an egg event
         public function addEggEvent($eventDateTime, $parent1, $parent2){
             $result = new ResultContainer();
@@ -22,6 +24,7 @@
             }
 
 
+
             //Next, check for existance of trainer / pokemon trainer pairs
             $parent1TrainerID = $this->notificationModel->getTrainerIdByPokemon($parent1);
             $parent2TrainerID = $this->notificationModel->getTrainerIdByPokemon($parent2);
@@ -31,7 +34,16 @@
                 $result->addErrorMessage("The trainer for the two pokemon are not the same");
             }
 
+
+            $realDateTime = str_replace("T", " ", $eventDateTime);
+            $trainerID = $this->notificationModel->getTrainerIdByPokemon($parent2);
             
+            $eggexists = $this->notificationModel->eggeventExists($trainerID);
+            if ($eggexists) {
+                $result->setFailure();
+                $result->addErrorMessage("Cant have 2 eggs for same trainer at same time");
+            }
+
 
             //If all validations pass, insert an egg event to the database.
             if ($result->isSuccess()){
@@ -119,9 +131,34 @@
         }
 
 
+        public function deleteNotification($notifID) {
+            $result = new ResultContainer();
+
+                $queryResult = $this->notificationModel->deleteNotification($notifID);
+
+                if (!$queryResult->isSuccess()){
+                    $result->setFailure();
+                    $result->mergeErrorMessages($queryResult); //Retriving errors from model.
+                };
+
+                return $result;
+
+        }
 
 
+        public function updateEgg($notifID) {
+            $result = new ResultContainer();
 
+                $queryResult = $this->notificationModel->updateEgg($notifID);
+
+                if (!$queryResult->isSuccess()){
+                    $result->setFailure();
+                    $result->mergeErrorMessages($queryResult); //Retriving errors from model.
+                };
+
+                return $result;
+
+        }
 
 
 

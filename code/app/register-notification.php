@@ -38,6 +38,11 @@
         $notificationView = new NotificationView();
         $inputErrorView = new InputErrorView();
         $notificationContr = new NotificationContr();
+
+ 
+
+
+
         if (isset($_GET["addEgg"])){
             if (isset($_POST["parent1"])) {
                 $resultContainer = $notificationContr->addEggEvent($_POST["eventdatetime"], $_POST["parent1"], $_POST["parent2"]);

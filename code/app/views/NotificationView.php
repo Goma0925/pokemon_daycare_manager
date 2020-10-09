@@ -44,7 +44,7 @@
                     </table>';
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
                     echo '
-                        <input type="submit" value="Select trainer">
+                        <input type="submit" value="Delete Record" name="delRec">
                     ';
                 }
                 echo '
@@ -108,7 +108,8 @@
                     </table>';
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
                     echo '
-                        <input type="submit" value="Select trainer">
+                    <input type="submit" value="Delete Record" name="delRec">
+                    <input type="submit" value="Update Pickup" name="pickupEgg">
                     ';
                 }
                 echo '
@@ -176,7 +177,7 @@
                     </table>';
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
                     echo '
-                        <input type="submit" value="Select trainer">
+                    <input type="submit" value="Delete Record" name="delRec">
                     ';
                 }
                 echo '
@@ -240,7 +241,7 @@
                     </table>';
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
                     echo '
-                        <input type="submit" value="Select trainer">
+                    <input type="submit" value="Delete Record" name="delRec">
                     ';
                 }
                 echo '

@@ -100,11 +100,13 @@ CREATE TABLE EggEvents (
     mother INT CHECK (mother != father), /* mother and father cannot be same */
     given_to_trainer TINYINT DEFAULT 0,
     FOREIGN KEY (notification_id)
-    REFERENCES Notifications(notification_id),
+    REFERENCES Notifications(notification_id) 
+    ON DELETE CASCADE,
     FOREIGN KEY (father) 
     REFERENCES Pokemon(pokemon_id),
     FOREIGN KEY (mother) 
     REFERENCES Pokemon(pokemon_id)
+    
 );
 
 
@@ -118,7 +120,8 @@ CREATE TABLE MoveEvents (
     FOREIGN KEY (old_move_name)
     REFERENCES Moves(move_name),
     FOREIGN KEY (notification_id)
-    REFERENCES Notifications(notification_id),
+    REFERENCES Notifications(notification_id)
+    ON DELETE CASCADE,
     FOREIGN KEY (new_move_name, pokemon_id) /* CFK */
     REFERENCES CurrentMoves(move_name, pokemon_id)
 );
@@ -138,7 +141,8 @@ CREATE TABLE FightEvents ( /* is this most recent? */
     pokemon_id INT,
     fight_id INT, 
     FOREIGN KEY (notification_id)
-    REFERENCES Notifications(notification_id),
+    REFERENCES Notifications(notification_id)
+    ON DELETE CASCADE,
     FOREIGN KEY (fight_id)
     REFERENCES Fights(fight_id),
     FOREIGN KEY (pokemon_id)
