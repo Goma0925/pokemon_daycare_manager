@@ -247,6 +247,7 @@
         }
 
         public function checkOutConfirmationBox(int $service_record_id, string $action, string $method, Array $form_params){
+            //A box UI to submit the request to put end date to a particular service record on button click.
             $resultContainer = $this->serviceRecordsModel->getElaborateActiveServiceRecordById($service_record_id);
             if ($resultContainer->isSuccess()){
                 $service_record = $resultContainer->get_mysqli_result()->fetch_assoc();
@@ -285,9 +286,9 @@
                         <hr class="my-4">
                         <p><b>Trainer</b>&nbsp;&nbsp;&nbsp;&nbsp;: '.$trainer_name.'</p>
                         <p><b>Pokemon</b>: '.$pokemon_nickname.' ('.$pokemon_breed.')</p>
-                        <p><b>Check-out date</b>: '.date('m/d/Y', $check_in_time).'</p>
+                        <p><b>Check-in  date</b>: '.date('m/d/Y', $check_in_time).'</p>
                         <p><b>Check-out date</b>: '.date('m/d/Y', $check_out_time).' ('.$days.' days of stay)</p>
-                        <p><b>Fee per day</b>: $'.$rate.'</p>
+                        <p><b>Rate per day</b>: $'.$rate.'</p>
                         <h3 class="display-8" style="float:right"><b> Total fee: $ '.$total_fee.'</b></h3>
                         <br><br><br>
                         <p class="lead" style="float:right;">
