@@ -47,12 +47,18 @@
                                                             $pokemon_id = null, 
                                                             $date_range = null,
                                                             $active_degree = 1);
+
                 if (!$resultRecordNumFetch->isSuccess()){
                     $num_records = $resultContainer->get_mysqli_result()->num_rows;
                     if ($num_records >= 2){
+                        echo "out";
                         $resultContainer->setFailure();
                         $resultContainer->addErrorMessage("A trainer cannot have more than two Pokémon in daycare at the same time.");
+                    }else{
+                        echo "safe";
                     }
+                }else{
+                    echo "no serc";
                 }
 
                 //Once all the validation is done, insert a new service record.
@@ -81,6 +87,10 @@
                 // var_dump($end_time);
                 $result = $this->serviceRecordsModel->updateAServiceRecord($start_time, $end_time, $service_record_id);
             }
+        }
+
+        public function endServiceRecord($start_time = null,  int $pokemon_id, int $trainer_id){
+            //Put an end date to the target service record.
         }
     }
 

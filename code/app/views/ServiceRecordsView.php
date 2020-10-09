@@ -163,13 +163,14 @@
             } 
         }
 
-        public function confirmationBox(boolean $is_checkin, int $trainer_id, int $pokemon_id, string $action, string $method, Array $form_params){
+        public function confirmationBox(bool $is_checkin, int $trainer_id, int $pokemon_id, string $action, string $method, Array $form_params){
             //Renders the confirmation box to confirm the check in/out info and submit the request.
                  //      $action: The "action" value in HTML form. Determines where to send the form request.
                  //      $method: HTTP request to send this trainer_id and pokemon_id in the form.
                 // $form_params: An array of (name, value) pairs of form parameters to send with the HTML form.
             $pokemonModel = new PokemonModel();
             $trainerModel = new TrainersModel();
+
             $pokemonReContainer = $pokemonModel->getPokemonByAttr($pokemon_id = $pokemon_id, $current_level = null, $upper_current_level = null, $nickname = null, $breedname = null, $active = false);
             $trainerReContainer = $trainerModel->getTrainerByAttr($trainer_id = $trainer_id, $email = null, $phone = null) ;
             if ($pokemonReContainer->isSuccess() && $trainerReContainer->isSuccess()){
@@ -179,6 +180,13 @@
 
                 $trainer_record = $trainerReContainer->get_mysqli_result()->fetch_assoc();
                 $trainer_name = $trainer_record? $trainer_record["trainer_name"]: "No trainer name found";
+
+                //Change several elements in HTML based on if it is check-in or check-out.
+                $box_title = $is_checkin? "Check-In Confimration": "Check-Out Confirmation";
+                $redirect_to = $is_checkin? "check-in-pokemon": "check-out-pokemon";
+                $button_text = $is_checkin? "Check-In": "Check-Out";
+                //Whether to show active or inactive pokemon when clicking on "select other pokemon"
+                $pokemon_active_param = $is_checkin? "fale": "true"; 
                 echo '
                 <div class="jumbotron">
                     <form action="'.$action.'" method="'.$method.'">
@@ -194,14 +202,14 @@
                             ';
                         };
                 
-                echo   '<h2 class="display-4">Check-in confirmation</h2>
+                echo   '<h2 class="display-4">'.$box_title.'</h2>
                         <p class="lead">Please confirm the information below is correct.</p>
                         <hr class="my-4">
                         <p><b>Trainer</b>&nbsp;&nbsp;&nbsp;&nbsp;: '.$trainer_name.'</p>
                         <p><b>Pokemon</b>: '.$pokemon_nickname.' ('.$pokemon_breed.')</p>
                         <p class="lead" style="float:right;">
-                            <a class="btn btn-info" href="select-pokemon.php?redirect-to=check-in-confirmation&active=false&trainer='.$trainer_id.'" role="button">Select other pokemon</a>
-                            <button class="btn btn-info" type="submit">Check-In</button>
+                            <a class="btn btn-info" href="select-pokemon.php?redirect-to='.$redirect_to.'&active='.$pokemon_active_param.'&trainer='.$trainer_id.'" role="button">Select other pokemon</a>
+                            <button class="btn btn-info" type="submit">'.$button_text.'</button>
                         </p>
                     </form>
                 </div>
@@ -211,7 +219,14 @@
             return $pokemonReContainer;
         }
  
-        public function checkInCompletionBox(int $trainer_id, string $trainer_name, $pokemon_nickname){
+        public function completionBox(boolean $is_checkin, int $trainer_id, string $trainer_name, $pokemon_nickname){
+            //Renders comletion box for 
+            // 1) Inserting a new service record 
+            // 2) Updating the service record to put an end data.
+                // boolean $is_checkin: Whether or not if this is a check-in confirmation or check-out confirmration.
+                //     int $trainer_id: The traier that has been checked-in/out.
+                //string $trainer_name: The traier that has been checked-in/out.
+                //   $pokemon_nickname: The pokemon that has been checked-in/out.
             echo '
                 <div class="jumbotron">
                     <h1 class="display-4">Check-In Complete!</h1>
