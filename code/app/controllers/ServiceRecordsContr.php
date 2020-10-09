@@ -28,6 +28,7 @@
 
             $resultContainer = $this->trainersModel->getTrainerByPokemon($pokemon_id);
             if ($resultContainer->isSuccess()){
+ 
                 //Check if the incoming data of the pokemon's owner is the incoming trainer.
                 $owner_record = $resultContainer->get_mysqli_result()->fetch_assoc();
                 if ($owner_record==null){
@@ -42,28 +43,29 @@
 
                 //Check if the trainer has less than 2 active services.
                 $resultRecordNumFetch = $this->serviceRecordsModel->getServiceRecords(
-                                                            $service_record_id = null,
-                                                            $trainer_id = $trainer_id, 
-                                                            $pokemon_id = null, 
-                                                            $date_range = null,
-                                                            $active_degree = 1);
+                                                            null,//service_record_id
+                                                            $trainer_id, //trainer_id 
+                                                            null, //pokemon_id 
+                                                            null,//date_range 
+                                                            1);//active_degree
 
-                if (!$resultRecordNumFetch->isSuccess()){
+                if ($resultRecordNumFetch->isSuccess()){
                     $num_records = $resultContainer->get_mysqli_result()->num_rows;
                     if ($num_records >= 2){
-                        echo "out";
+                        echo "Invalid";
                         $resultContainer->setFailure();
                         $resultContainer->addErrorMessage("A trainer cannot have more than two Pokémon in daycare at the same time.");
-                    }else{
-                        echo "safe";
                     }
                 }else{
-                    echo "no serc";
+                    // Database error
+                    $resultContainer->setFailure();
+                    $resultContainer->mergeErrorMessages($resultRecordNumFetch);
                 }
 
                 //Once all the validation is done, insert a new service record.
                 if ($resultContainer->isSuccess()){
-                    $resultContainer->mergeErrorMessages($this->serviceRecordsModel->startService($trainer_id,$pokemon_id,$start_time));
+                    $resultInsertion = $this->serviceRecordsModel->startService($trainer_id,$pokemon_id,$start_time);
+                    $resultContainer->mergeErrorMessages($resultInsertion);
                 }
             }else{
                 $resultContainer->addErrorMessages("Trainer does not exist.");
