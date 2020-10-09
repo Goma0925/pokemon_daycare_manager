@@ -4,3 +4,4 @@ SOURCE test_data/trainers.sql;
 SOURCE test_data/pokemon.sql;
 SOURCE test_data/service_records.sql;
 SOURCE test_data/notifications.sql;
+SOURCE test_data/business_states.sql;

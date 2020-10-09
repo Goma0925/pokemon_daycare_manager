@@ -15,6 +15,8 @@
 
         public function moveDropdownBox($input_name, $move_number){
             //Renders all available moves in a drop down box.
+            //   $input_name: The name of the dropdown select button
+            //  $move_number: An indentification of this dropdown box in case you use this element in the same page.
             $success = false;
             echo '
                 <div class="form-group">

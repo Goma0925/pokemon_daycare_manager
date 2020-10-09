@@ -34,11 +34,15 @@
             }else{
                 $errorMessages = $resultContainer->getErrorMessages();
                 $inputErrorView->errorBox($errorMessages);
+                //Render the registration form to retry
+                $trainerView->trainerRegistrationForm();
             }
+        }else{
+            //Render the registration form
+            $trainerView->trainerRegistrationForm();
         }
 
-        //Render the registration form
-        $trainerView->trainerRegistrationForm();
+
     ?>
     </div>
 </body>
