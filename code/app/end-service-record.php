@@ -25,12 +25,12 @@
         $serviceRecordsContr = new ServiceRecordsContr();
         $inputErrorView = new InputErrorView();
 
-        // On GET request, render check-in confirmation box.
+        // On GET request, render check-out confirmation box.
         if (isset($_GET["trainer"]) && isset($_GET["pokemon"])){
-            $action = "add-service-record.php";
+            $action = "end-service-record.php";
             $method = "POST";
             $form_params = Array();
-            $resultContainer = $serviceRecordsView->checkInConfirmationBox($_GET["trainer"], $_GET["pokemon"], $action, $method, $form_params);
+            $resultContainer = $serviceRecordsView->checkOutConfirmationBox($_GET["trainer"], $_GET["pokemon"], $action, $method, $form_params);
             //When given invalid trainer or pokemon ID in GET params, show error messages.
             if ($resultContainer->isSuccess()){
                 $errorMessages = $resultContainer->getErrorMessages();
@@ -39,9 +39,9 @@
         }
         // After the user clicks Check In button, it'll send a post to insert a service record.
         else if (isset($_POST["trainer"]) && isset($_POST["pokemon"])){
-            $resultContainer = $serviceRecordsContr->addServiceRecord($start_time = null,  $pokemon_id=$_POST["pokemon"], $trainer_id=$_POST["trainer"]);
+            $resultContainer = $serviceRecordsContr->endServiceRecord($start_time = null,  $pokemon_id=$_POST["pokemon"], $trainer_id=$_POST["trainer"]);
             if ($resultContainer->isSuccess()){
-                $serviceRecordsView->checkInCompletionBox($_POST["trainer"], $_POST["trainer_name"], $_POST["pokemon_nickname"]);
+                $serviceRecordsView->checkOutCompletionBox($_POST["trainer"], $_POST["trainer_name"], $_POST["pokemon_nickname"]);
             }else{
                 $errorMessages = $resultContainer->getErrorMessages();
                 $inputErrorView->errorBox($errorMessages);

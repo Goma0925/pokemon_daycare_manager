@@ -47,27 +47,21 @@
 
             //3. Construct pokemon selection table according to the redirect-to destination parameter.
             switch ($_GET["redirect-to"]) {
-                case "fight-update":
-                    $action = "update-fight.php"; //Form action attribute to send the form request to.
-                    $form_params = Array();//This can be modified if you want to add HTML form values in PokemonSelectionTable
-                    $pokemonView->pokemonSelectionTableAll($show_active_pokemon, $action, $method, $form_params);
-                break;
-
-                case "egg-update":
-                    $action = "update-egg.php"; //Form action attribute to send the form request to.
-                    $form_params = Array();//This can be modified if you want to add HTML form values in PokemonSelectionTable
-                    $pokemonView->pokemonSelectionTableAll($show_active_pokemon, $action, $method, $form_params);
-                break;
-
-                case "move-update":
-                    $action = "update-move.php"; //Form action attribute to send the form request to.
-                    $form_params = Array();//This can be modified if you want to add HTML form values in PokemonSelectionTable
-                    $pokemonView->pokemonSelectionTableAll($show_active_pokemon, $action, $method, $form_params);
-                break;
-
-                case "check-in-confirmation": 
+                //Render pokemon selection pokemon for check-in if $_GET["redirect-to"]="check-in-pokemon"
+                case "check-in-pokemon": 
                     //if the trainer param specifies a particular trainer, render pokemon of the trainer
                     $action = "add-service-record.php"; //Send the pokemon selection post data here.
+                    $trainer_id = $_GET["trainer"];
+                    $form_params = Array(
+                        "trainer"=>$trainer_id,
+                    );//This can be modified if you want to add HTML form values in PokemonSelectionTable
+                    $pokemonView->pokemonSelectionTableByTrainer($trainer_id, $show_active_pokemon, $action, $method, $form_params);
+
+                break;
+
+                case "check-out-pokemon": 
+                    //if the trainer param specifies a particular trainer, render pokemon of the trainer
+                    $action = "end-service-record.php"; //Send the pokemon selection post data here.
                     $trainer_id = $_GET["trainer"];
                     $form_params = Array(
                         "trainer"=>$trainer_id,

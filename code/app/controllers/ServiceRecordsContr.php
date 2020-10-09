@@ -1,5 +1,6 @@
 <?php 
     include_once 'models/ServiceRecordsModel.php';
+    include_once 'models/TrainersModel.php';
     include_once 'utils/ResultContainer.php';
     class ServiceRecordsContr {//Make sure to use plural noun for the class nam
         private $serviceRecordsModel;
@@ -7,6 +8,7 @@
             //Make sure you don' put the $ sign in front of the variable name when using $this keyword!
             //eg:  $this->trainersModel = new TrainersModel();
             $this->serviceRecordsModel = new ServiceRecordsModel();
+            $this->trainersModel = new TrainersModel();
         }
 
         
@@ -16,33 +18,51 @@
         // trainer_id INT, 
         // NOTE: end time will be set later
 
-        // Add service record to database
-        // Do we just return true or false, or return result object?
-        // Where should we enforce that the date fields of the service
-        // record form are required, or checkbox is selected so use current
-        // datetime stamp. 
         public function addServiceRecord($start_time = null, 
-                                        $pokemon_id,
-                                        $trainer_id) {
-            $resultContainer = new ResultContainer();  
-            try { 
-                $dt = isset($start_time) ? 
-                    DateTime::createFromFormat("Y-m-d H:i:s'", $start_time) 
-                    :
-                    true; // we will handle the datetime entry
-                if ($dt === false) {
-                    throw new Exception("Bad date format!"); 
+                                        int $pokemon_id,
+                                        int $trainer_id) {
+            // Add service record to database
+
+            //Set current date time if not set. 
+            $dt = !isset($start_time) ? date('Y-m-d H:i:s') : $start_date; 
+
+            $resultContainer = $this->trainersModel->getTrainerByPokemon($pokemon_id);
+            if ($resultContainer->isSuccess()){
+                //Check if the incoming data of the pokemon's owner is the incoming trainer.
+                $owner_record = $resultContainer->get_mysqli_result()->fetch_assoc();
+                if ($owner_record==null){
+                    $resultContainer->setFailure();
+                    $resultContainer->addErrorMessage("Pokémon does not exist.");
                 }
-                else {
+                $owner_id = $owner_record? $owner_record["trainer_id"]:"No trainer found";
+                if ($owner_id != $trainer_id){
+                    $resultContainer->setFailure();
+                    $resultContainer->addErrorMessage("Only the owner of the Pokémon can check-in his/her Pokémon.");
+                }
+
+                //Check if the trainer has less than 2 active services.
+                $resultRecordNumFetch = $this->serviceRecordsModel->getServiceRecords(
+                                                            $service_record_id = null,
+                                                            $trainer_id = $trainer_id, 
+                                                            $pokemon_id = null, 
+                                                            $date_range = null,
+                                                            $active_degree = 1);
+                if (!$resultRecordNumFetch->isSuccess()){
+                    $num_records = $resultContainer->get_mysqli_result()->num_rows;
+                    if ($num_records >= 2){
+                        $resultContainer->setFailure();
+                        $resultContainer->addErrorMessage("A trainer cannot have more than two Pokémon in daycare at the same time.");
+                    }
+                }
+
+                //Once all the validation is done, insert a new service record.
+                if ($resultContainer->isSuccess()){
                     $resultContainer->mergeErrorMessages($this->serviceRecordsModel->startService($trainer_id,$pokemon_id,$start_time));
-                    return $resultContainer;
                 }
+            }else{
+                $resultContainer->addErrorMessages("Trainer does not exist.");
             }
-            catch (Exception $e) { // We control datetime format with form, so this should
-                                   // not happen. 
-                $res->isFailure();
-                return $resultContainer; // gracefully return (do not want to harm children calls)
-            }
+            return $resultContainer;
         }
 
 

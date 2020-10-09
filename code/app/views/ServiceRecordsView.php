@@ -163,8 +163,8 @@
             } 
         }
 
-        public function checkInConfirmationBox(int $trainer_id, int $pokemon_id, string $action, string $method, Array $form_params){
-            //Renders the confirmation box to confirm the check in info and submit the request.
+        public function confirmationBox(boolean $is_checkin, int $trainer_id, int $pokemon_id, string $action, string $method, Array $form_params){
+            //Renders the confirmation box to confirm the check in/out info and submit the request.
                  //      $action: The "action" value in HTML form. Determines where to send the form request.
                  //      $method: HTTP request to send this trainer_id and pokemon_id in the form.
                 // $form_params: An array of (name, value) pairs of form parameters to send with the HTML form.
@@ -179,7 +179,6 @@
 
                 $trainer_record = $trainerReContainer->get_mysqli_result()->fetch_assoc();
                 $trainer_name = $trainer_record? $trainer_record["trainer_name"]: "No trainer name found";
-
                 echo '
                 <div class="jumbotron">
                     <form action="'.$action.'" method="'.$method.'">
@@ -208,6 +207,8 @@
                 </div>
                 ';
             }
+            $pokemonReContainer->mergeErrorMessages($trainerReContainer);
+            return $pokemonReContainer;
         }
  
         public function checkInCompletionBox(int $trainer_id, string $trainer_name, $pokemon_nickname){
@@ -217,10 +218,9 @@
                     <p class="lead">The check-in has been recorded. Go to Check-In/Out tab to check out the customer.</p>
                     <hr class="my-4">
                     <p class="lead" style="float:right;">
-                        <a class="btn btn-info" href="select-pokemon.php?redirect-to=check-in-confirmation&active=false&trainer='.$trainer_id.'" role="button">Check-in other pokemon</a>
+                        <a class="btn btn-info" href="select-pokemon.php?redirect-to=check-in-confirmation&active=false&trainer='.$trainer_id.'" role="button">Check-in '.$trainer_name.''."'".'s other Pokémon</a>
                     </p>
                 </div>';
         }
-
     }
 ?>

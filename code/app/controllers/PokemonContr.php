@@ -9,10 +9,21 @@
 
         public function addPokemon($trainer_id, $level, $nickname, $breedname, $move_names){
             $resultAddPokemon = new ResultContainer();
+
+            //Check if moves are valid
             if (count($move_names) < 2){
+                //Check if more than one move is submitted.
                 $resultAddPokemon->setFailure();
                 $resultAddPokemon->addErrorMessage("Pokemon must have at least two moves");
-            }else{
+            }
+            if (count(array_unique($move_names)) != count($move_names)){
+                //Check there are no duplicate moves submitted.
+                $resultAddPokemon->setFailure();
+                $resultAddPokemon->addErrorMessage("Pokemon cannot have duplicate moves.");
+            }
+            
+            if ($resultAddPokemon->isSuccess()){
+                //Move validation success. Now add the pokemon.
                 //Pre-aquire the next pokemon id
                 $resultPokemonId = $this->pokemonModel->getNextPokemonId();
                 $pokemon_record = $resultPokemonId ->get_mysqli_result()->fetch_assoc();

@@ -7,7 +7,14 @@
             $this->trainersModel = new TrainersModel();
         }
 
-        public function trainerSelectionTableByName($name, $action, $method, $form_params){
+        public function checkInOutSelectionBox(){
+            echo '
+            
+            ';
+        }
+
+        public function trainerSelectionTableByName(string $name, string $button_name, string $action, 
+                                                    string $method, Array $form_params){
             //        $name: Trainer's name
             //      $action: URI to jump after hitting select user button. The action value to put in HTML form.
             //      $method: Method type to send the form with. GET, POST, etc.
@@ -15,12 +22,12 @@
             $resultContainer = $this->trainersModel->getTrainersByName($name);
             if ($resultContainer->isSuccess()) {
                 echo '
-                <form action="'.$action.'" method="'.$method.'">';
+                <form action="/submit" method="'.$method.'">';
 
                 //Render hidden input based on $form_params
-                foreach ($form_params as $name=>$value){
+                foreach ($form_params as $key=>$value){
                     echo '
-                    <input type="hidden" name="'.$name.'" value="'.$value.'">
+                    <input type="hidden" name="'.$key.'" value="'.$value.'">
                     ';
                 };
                 
@@ -49,12 +56,19 @@
                             </tr>
                     ';
                 }
-
-                //Render "not found" message if no records were found.
+                //Render the check-in/out buttons if there are search results.
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
                     echo '  
                             <tr>
-                                <td colspan="4"><button type="submit" style="float: right;margin-right:20px;" class="btn btn-info">Select</button></td>
+                                <td colspan="4"><button type="submit" value="'.$action.'" formaction="'.$action.'" style="float: right;margin-right:20px;" class="btn btn-info">'.$button_name.'</button></td>
+                            </tr>
+                    ';
+                }
+                //Render "not found" message if no records were found.
+                if ($resultContainer->get_mysqli_result()->num_rows==0){
+                    echo '
+                            <tr>
+                                <td colspan="12" width="100%" style="text-align: center;">No trainers found for "'.$name.'".</td>
                             </tr>
                     ';
                 }
