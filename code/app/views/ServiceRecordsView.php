@@ -181,6 +181,7 @@
                 $trainer_record = $trainerReContainer->get_mysqli_result()->fetch_assoc();
                 $trainer_name = $trainer_record? $trainer_record["trainer_name"]: "No trainer name found";
                 $invalid_request = ($pokemon_record==null || $trainer_record==null)? true: false;
+                
                 echo '
                 <div class="jumbotron">
                     <form action="'.$action.'" method="'.$method.'">

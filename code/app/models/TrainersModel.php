@@ -127,5 +127,15 @@
             $resultContainer  = $query->handleQuery();
             return $resultContainer; 
         }
+
+        public function getNextTrainerId(){
+            // Retrieves the next primary key in Trainers table.
+            // Used to indentify the trainer ID of a trainer that is being inserted.
+            $sql = 'SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = "daycare" AND TABLE_NAME = "Trainers";';
+            $query = new Query();
+            $query->setSql($sql);
+            $resultContainer  = $query->handleQuery(); // other args are optional, read handleQuery
+            return $resultContainer ;
+        }
     }
 ?>

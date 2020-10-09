@@ -267,12 +267,12 @@
                 $bindArr[] = $new_move_names[$i];
                 $bindArr[] = $pokemon_id;
             }
-            echo "<br>SQL:".$sql;
-            echo "<br>bind:".$bindTypeStr;
-            echo "<br>bind item:";
-            foreach ($bindArr as $item){
-                echo $item.", ";
-            }
+            // echo "<br>SQL:".$sql;
+            // echo "<br>bind:".$bindTypeStr;
+            // echo "<br>bind item:";
+            // foreach ($bindArr as $item){
+            //     echo $item.", ";
+            // }
 
             $query->setAll($sql, $bindTypeStr, $bindArr);
 

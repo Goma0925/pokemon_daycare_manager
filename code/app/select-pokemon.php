@@ -20,13 +20,18 @@
         $commonView->navbar();
     ?>
     <div style="margin-left:5%; margin-right:5%; margin-top: 25px;">
-        <h2>Please select a pokemon:
-            <?php 
-                if ($_GET["redirect-to"] == "check-in-pokemon"){
-                    //Render a button to register a new pokemon for check-in flow.
-                    echo '<a style="float: right; margin-bottom:10px;" href="./register-pokemon.php?trainer='.$_GET["trainer"].'" type="button" class="btn btn-secondary">Register new pokemon</a>';
-                }
-            ?>
+        <?php 
+            if (isset($_GET["trainer_name"])){
+                echo "<h2>Please select ".$_GET["trainer_name"]."'s pokemon:";
+            }else{
+                echo '<h2>Please select a pokemon:';
+            }
+
+            if ($_GET["redirect-to"] == "check-in-pokemon"){
+                //Render a button to register a new pokemon for check-in flow.
+                echo '<a style="float: right; margin-bottom:10px;" href="./register-pokemon.php?trainer='.$_GET["trainer"].'" type="button" class="btn btn-secondary">Register new pokemon</a>';
+            }
+        ?>
         </h2><br>
     <?php
         //A. Construct header

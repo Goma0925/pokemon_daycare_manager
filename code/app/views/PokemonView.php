@@ -1,11 +1,14 @@
 <?php
-    include 'models/PokemonModel.php';
-    include 'views/MoveIndexView.php';
+    include_once 'models/PokemonModel.php';
+    include_once 'models/TrainersModel.php';
+    include_once 'views/MoveIndexView.php';
 
     class PokemonView { //Make sure to use plural noun for the class name
         private $pokemonModel;
+        private $trainerModel;
         public function __construct() {
             $this->pokemonModel = new PokemonModel();
+            $this->trainersModel = new TrainersModel;
         }
 
         public function pokemonSelectionTableByTrainer(int $trainer_id,  bool $show_active, string $action, string $method, Array $form_params=Array()){
@@ -15,8 +18,20 @@
                 // $show_active: If set true, it will select the trainer's pokemon that are "active",
                 //                  meaning they are in daycare.
                 // $form_params: An array of (name, value) pairs of additional form parameters to send with the HTML form.
-            $resultContainer = $this->pokemonModel->getPokemonByTrainer($trainer_id, null, null, $show_active);
-            $this->pokemonSelectionTable($resultContainer, $action, $method, $form_params);
+            $trainerReContainer = $this->trainersModel->getTrainerByAttr($trainer_id, null, null) ;
+            $is_valid_trainer = false;
+            if ($trainerReContainer){
+                $trainer_record = $trainerReContainer->get_mysqli_result()->fetch_assoc();
+                $is_valid_trainer = $trainer_record? true:false;
+            }
+            if ($is_valid_trainer){
+                //Render the trainer's name
+                $trainer_name = $trainer_record["trainer_name"];
+                echo '<p><b>'.$trainer_name."'s pokemon</b></p>";
+                //Render selection table
+                $resultContainer = $this->pokemonModel->getPokemonByTrainer($trainer_id, null, null, $show_active);
+                $this->pokemonSelectionTable($resultContainer, $action, $method, $form_params);
+            }
             return $resultContainer;
         }
 
@@ -101,77 +116,90 @@
         }
 
         public function pokemonRegistrationForm(int $trainer_id, string $action, string $method, Array $form_params){
-            //Renders a pokemon registration form
-            echo '
-            <div class="row justify-content-center">
-            <div class="col-md-6">
-            <div class="card">
-            <header class="card-header">
-                <h4 class="card-title mt-2">Register Pokémon</h4>
-            </header>
-            <article class="card-body">
-            <form method="'.$method.'" action="'.$action.'">';
-            //Render hidden input based on $form_params
-            foreach ($form_params as $name=>$value){
-                echo '
-                <input type="hidden" name="'.$name.'" value="'.$value.'">
-                ';
-            };
-            //Add trainer_id
-            echo '
-                <input type="hidden" name="trainer" value="'.$trainer_id.'">';
-
-            echo '
-                <div class="form-group row">
-                    <label for="nickname" class="col-3 col-form-label">Nickname</label>
-                    <div class="col-9">
-                    <input class="form-control" type="text" value="" name="nickname" required>
-                    </div>
-                    <label for="species" class="col-4 col-form-label"></label>
-                    <small class="form-text text-muted">Nick name should be less than 17 characters.</small>
-                </div>
-                <div class="form-group row">
-                    <label for="species" class="col-3 col-form-label">Species</label>
-                    <div class="col-9">
-                      <input class="form-control" type="text" value="" name="breedname" id="species" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="level" class="col-3 col-form-label">Level</label>
-                    <div class="col-9">
-                        <input class="form-control" type="number" name="level" value="1" min="1" max="100" id="level" required>
-                    </div>
-                    <label for="species" class="col-4 col-form-label"></label>
-                    <small class="form-text text-muted">Level should be between 1-100.</small>
-                </div>';
-            //Render move dropdown boxes
-            $MoveIndexView = new MoveIndexView();
-            for($i=0;$i<4;$i++){
-                echo '
-                <div class="form-group row">
-                    <label for="example-text-input" class="col-3 col-form-label">Move '.($i+1).'</label>
-                    <div class="col-9">
-                ';
-                $MoveIndexView->moveDropdownBox("move", $i+1);
-                echo '
-                    </div>
-                </div>
-                ';
+            $trainerReContainer = $this->trainersModel->getTrainerByAttr($trainer_id, null, null) ;
+            $resultContainer = new ResultContainer();
+            if ($trainerReContainer){
+                $trainer_record = $trainerReContainer->get_mysqli_result()->fetch_assoc();
+                $trainer_record? $resultContainer->setSuccess():$resultContainer->setFailure();
             }
-            echo '
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block"> Register  </button>
-                </div> <!-- form-group// -->      
-            </form>
-            </article> <!-- card-body end .// -->
-            <div class="border-top card-body text-center"><a href="select-pokemon.php?active=false&redirect-to=check-in-confirmation&trainer='.$trainer_id.'">Go back and select from database</a></div>
-            </div> <!-- card.// -->
-            </div> <!-- col.//-->
+            if ($resultContainer->isSuccess()){
+                //Get the trainer's name
+                $trainer_name = $trainer_record["trainer_name"];
+                //Renders a pokemon registration form
+                echo '
+                <div class="row justify-content-center">
+                <div class="col-md-6">
+                <div class="card">
+                <header class="card-header">
+                    <h4 class="card-title mt-2">Register '.$trainer_name.'\'s Pokémon</h4>
+                </header>
+                <article class="card-body">
+                <form method="'.$method.'" action="'.$action.'">';
+                //Render hidden input based on $form_params
+                foreach ($form_params as $name=>$value){
+                    echo '
+                    <input type="hidden" name="'.$name.'" value="'.$value.'">
+                    ';
+                };
+                //Add trainer_id
+                echo '
+                    <input type="hidden" name="trainer" value="'.$trainer_id.'">';
+
+                echo '
+                    <div class="form-group row">
+                        <label for="nickname" class="col-3 col-form-label">Nickname</label>
+                        <div class="col-9">
+                        <input class="form-control" type="text" value="" name="nickname" required>
+                        </div>
+                        <label for="species" class="col-4 col-form-label"></label>
+                        <small class="form-text text-muted">Nick name should be less than 17 characters.</small>
+                    </div>
+                    <div class="form-group row">
+                        <label for="species" class="col-3 col-form-label">Species</label>
+                        <div class="col-9">
+                        <input class="form-control" type="text" value="" name="breedname" id="species" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="level" class="col-3 col-form-label">Level</label>
+                        <div class="col-9">
+                            <input class="form-control" type="number" name="level" value="1" min="1" max="100" id="level" required>
+                        </div>
+                        <label for="species" class="col-4 col-form-label"></label>
+                        <small class="form-text text-muted">Level should be between 1-100.</small>
+                    </div>';
+                //Render move dropdown boxes
+                $MoveIndexView = new MoveIndexView();
+                for($i=0;$i<4;$i++){
+                    echo '
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-3 col-form-label">Move '.($i+1).'</label>
+                        <div class="col-9">
+                    ';
+                    $MoveIndexView->moveDropdownBox("move", $i+1);
+                    echo '
+                        </div>
+                    </div>
+                    ';
+                }
+                echo '
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block"> Register  </button>
+                    </div> <!-- form-group// -->      
+                </form>
+                </article> <!-- card-body end .// -->
+                <div class="border-top card-body text-center"><a href="select-pokemon.php?active=false&redirect-to=check-in-confirmation&trainer='.$trainer_id.'">Go back and select from database</a></div>
+                </div> <!-- card.// -->
+                </div> <!-- col.//-->
+
+                </div> <!-- row.//-->
+                ';
+            }else{
+                $resultContainer->addErrorMessage("Invalid request for unknow trainer's pokemon form.");
+            }
             
-            </div> <!-- row.//-->
-            ';
             //Just return a plain result container
-            return new ResultContainer();
+            return $resultContainer;
         }
 
         public function registrationSuccessBox(

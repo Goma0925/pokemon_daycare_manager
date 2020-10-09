@@ -84,7 +84,7 @@
             }
         }
 
-        public function trainerRegistrationForm(int $trainer_id, int $pokemon_id){
+        public function trainerRegistrationForm(){
             echo '
             <form action="" method="post">
                 <div class="form-group">
@@ -104,7 +104,7 @@
             ';
         }
 
-        public function registrationSuccessBox(){
+        public function registrationSuccessBox(int $trainer_id){
             echo '
             <div class="jumbotron">
                 <h1 class="display-4">Check-In Complete!</h1>
