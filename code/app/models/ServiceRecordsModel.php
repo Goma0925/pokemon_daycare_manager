@@ -204,5 +204,36 @@
         public function getAllServiceRecords() {
             return $this->getServiceRecords(null,null,null,null,2);
         }
+
+        public function getElaborateActiveServiceRecords(){
+            //Get inactive service records with trainer name and pokemon name
+            $query = new Query();
+            $sql = "SELECT service_record_id, start_time, end_time, nickname, breedname, trainer_name
+                    FROM ActiveServiceRecords
+                    INNER JOIN Trainers 
+                        USING (trainer_id) 
+                    INNER JOIN Pokemon 
+                        USING (pokemon_id);";
+            $query->addToSql($sql);
+            $resultContainer = $query->handleQuery();
+            return $resultContainer;
+        }
+
+        public function getElaborateActiveServiceRecordById($service_record_id){
+            //Get inactive service records with trainer name and pokemon name
+            $query = new Query();
+            $sql = "SELECT service_record_id, start_time, end_time, nickname, breedname, trainer_name
+                    FROM ActiveServiceRecords
+                    INNER JOIN Trainers 
+                        USING (trainer_id) 
+                    INNER JOIN Pokemon 
+                        USING (pokemon_id)
+                    WHERE service_record_id = ?";
+            $query->addToSql($sql);
+            $query->addBindArrElem($service_record_id);
+            $query->addBindType("i");
+            $resultContainer = $query->handleQuery();
+            return $resultContainer;
+        }
     }
 ?>

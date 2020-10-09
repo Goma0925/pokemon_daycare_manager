@@ -230,7 +230,7 @@
                 </div>';
         }
 
-        public function checkOutCompletionBox(int $trainer_id, string $trainer_name, $pokemon_nickname){
+        public function checkOutCompletionBox(){
             //Renders comletion box for inserting a new service record (Check-in)
                 //     int $trainer_id: The traier that has been checked-in
                 //string $trainer_name: The traier that has been checked-in.
@@ -238,12 +238,129 @@
             echo '
                 <div class="jumbotron">
                     <h1 class="display-4">Check-Out Complete!</h1>
-                    <p class="lead">The check-Out has been recorded.</p>
+                    <p class="lead">The payment has been recorded.</p>
                     <hr class="my-4">
                     <p class="lead" style="float:right;">
-                        <a class="btn btn-info" href="select-pokemon.php?redirect-to=check-out-pokemon&active=true&trainer='.$trainer_id.'" role="button">Check-out '.$trainer_name.''."'".'s other Pokémon</a>
+                        <a class="btn btn-info" href="check-in-and-out.php?redirect-to=check-out-pokemon" role="button">Go back to check-out menu</a>
                     </p>
                 </div>';
+        }
+
+        public function checkOutConfirmationBox(int $service_record_id, string $action, string $method, Array $form_params){
+            $resultContainer = $this->serviceRecordsModel->getElaborateActiveServiceRecordById($service_record_id);
+            if ($resultContainer->isSuccess()){
+                $service_record = $resultContainer->get_mysqli_result()->fetch_assoc();
+                $invalid_request = $service_record? false: true;
+
+                //Calculate the fee.
+                $check_in_time = $service_record? strtotime($service_record["start_time"]): null;
+                $check_out_time = time();
+                $days = "?";
+                $total_fee = "$---";
+                if (!$invalid_request){
+                    $now = time(); // or your date as well
+                    $datediff = $now - $check_in_time;
+                    $days = round($datediff / (60 * 60 * 24));
+                    
+                    $rate = 100;
+                    $total_fee = $rate * $days;
+                }
+
+                $trainer_name = $service_record? $service_record["trainer_name"]: "No trainer found.";
+                $pokemon_nickname = $service_record?  $service_record["nickname"]: "No Pokemon found.";
+                $pokemon_breed = $service_record? $service_record["breedname"]: "Unknown species";
+                echo '
+                <div class="jumbotron">
+                    <form action="'.$action.'" method="'.$method.'">
+                    <input type="hidden" name="service" value="'.$service_record_id.'">
+                        ';
+                        //Render hidden input based on $form_params
+                        foreach ($form_params as $key=>$value){
+                            echo '
+                            <input type="hidden" name="'.$key.'" value="'.$value.'">
+                            ';
+                        };
+                
+                echo   '<h3 class="display-5">Service Summary</h3>
+                        <hr class="my-4">
+                        <p><b>Trainer</b>&nbsp;&nbsp;&nbsp;&nbsp;: '.$trainer_name.'</p>
+                        <p><b>Pokemon</b>: '.$pokemon_nickname.' ('.$pokemon_breed.')</p>
+                        <p><b>Check-out date</b>: '.date('m/d/Y', $check_in_time).'</p>
+                        <p><b>Check-out date</b>: '.date('m/d/Y', $check_out_time).' ('.$days.' days of stay)</p>
+                        <p><b>Fee per day</b>: $'.$rate.'</p>
+                        <h3 class="display-8" style="float:right"><b> Total fee: $ '.$total_fee.'</b></h3>
+                        <br><br><br>
+                        <p class="lead" style="float:right;">
+                            <a class="btn btn-info" href="check-in-and-out.php?redirect-to=check-out-pokemon" role="button">Cancel</a>
+                            <button class="btn btn-info" type="submit" '.($invalid_request?"disabled":"").'>Record Payment</button>
+                        </p>
+                    </form>
+                </div>
+                ';
+            }
+            return $resultContainer;
+        }
+
+        public function serviceSelectionTableAll(string $action, string $method, Array $form_params){
+            $resultContainer = $this->serviceRecordsModel->getElaborateActiveServiceRecords();
+            if ($resultContainer->isSuccess()){
+                echo '
+                <form action="/submit" method="'.$method.'">';
+
+                //Render hidden input based on $form_params
+                foreach ($form_params as $key=>$value){
+                    echo '
+                    <input type="hidden" name="'.$key.'" value="'.$value.'">
+                    ';
+                };
+                
+                echo '
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Select</th>   
+                                <th scope="col">Trainer</th>
+                                <th scope="col">Pokemon</th>
+                                <th scope="col">Check-in</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    ';
+                while ($row = $resultContainer->get_mysqli_result()->fetch_assoc()) {
+                    echo '  <tr>
+                                <td>
+                                    <div class="form-check">                                     
+                                        <input class="form-check-input" type="radio" name="service" value="'.$row["service_record_id"].'" required>
+                                    </div>
+                                </td>
+                                <td>'.$row["trainer_name"].'</td>
+                                <td>'.$row["nickname"].'</td>
+                                <td>'.$row["start_time"].'</td>
+                            </tr>
+                    ';
+                }
+                //Render the check-in/out buttons if there are search results.
+                if ($resultContainer->get_mysqli_result()->num_rows!=0){
+                    echo '  
+                            <tr>
+                                <td colspan="4"><button type="submit" value="'.$action.'" formaction="'.$action.'" style="float: right;margin-right:20px;" class="btn btn-info">Check-out</button></td>
+                            </tr>
+                    ';
+                }
+                //Render "not found" message if no records were found.
+                if ($resultContainer->get_mysqli_result()->num_rows==0){
+                    echo '
+                            <tr>
+                                <td colspan="12" width="100%" style="text-align: center;">No active service records found.</td>
+                            </tr>
+                    ';
+                }
+                echo '
+                        </tbody>
+                    </table>
+                </form>';
+        
+            }
         }
     }
 ?>
