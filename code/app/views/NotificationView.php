@@ -1,5 +1,6 @@
 <?php
     include 'models/NotificationModel.php';
+    include 'views/MoveIndexView.php';
 
     class NotificationView {
         private $notificationModel;
@@ -196,6 +197,10 @@
                     echo "<p>".$errorMessage."</p>";
                 }
             }
+            
+
+                            
+                        
         }
 
 
@@ -340,6 +345,62 @@
             </form>
             ';
         }
+
+
+
+
+
+
+
+
+        public function moveeventRegistrationForm(){
+           
+            echo '<br><br>
+                <form action="register-notification.php" method="get">
+                        
+                    <div class="row">
+                        <div class="col">
+                            <p>Date <input type="datetime-local" class="form-control" name="eventdatetime" placeholder="Date and Time" required></p>
+                        </div>
+                        <div class="col">
+                            <p>Pokemon ID: <input type="number" class="form-control" name="pokemon" placeholder="Pokemon ID" required></p>
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col">
+                        <p>';
+                        //$MoveIndexView->moveDropdownBox("move", 1); 
+                        echo '</p>
+                        </div>
+                    </div>
+                    <input type="submit" name="chooseMove">
+                </form>';                                //Render move dropdown boxes     
+            }
+
+
+
+        public function changeMoves($id){     
+            $MoveIndexView = new MoveIndexView();       
+            echo '<br><br>
+            <form action="" method="post">
+                    
+                <div class="row">
+                    <div class="col"><p> New Move:';
+                    $MoveIndexView->moveDropdownBox("move", 1); 
+                    echo '</p>
+                    </div>
+                    <div class="col">
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col">
+                    <p>Current Moves: ';
+                    $MoveIndexView->currentMoveDropdown($id); 
+                    echo '</p>
+                    </div>
+                </div>
+                <input type="submit">
+            </form>';  }
 
         // general success message
         public function registrationSuccessMessage(){

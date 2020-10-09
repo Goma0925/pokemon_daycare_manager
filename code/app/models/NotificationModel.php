@@ -308,7 +308,22 @@
             return $resultContainer;
         }
 
+        public function addMoveEvent($notifID, $oldMove, $newMove, $pokemonID){
+            $query = new Query();
+            $sql = 'INSERT INTO MoveEvents (notification_id, old_move_name, new_move_name, pokemon_id)
+                        VALUE (?, ?, ?, ?);
+            ';
+            //Construct bind parameters
+            $bindTypeStr = "issi"; 
+            $bindArr = Array($notifID, $oldMove, $newMove, $pokemonID);
+            $query->setAll($sql,$bindTypeStr,$bindArr);
 
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $query->handleQuery();
+
+            //Return the result container that contains a success flag and mysqli_result.
+            return $resultContainer;
+        }
 
         public function deleteNotification($notifID){
 
@@ -353,7 +368,27 @@
 
         }
     
+        public function updateCurrentMoves($pokemonID, $oldMove, $newMove){
+            $query = new Query();
+            $sql = 'UPDATE CurrentMoves
+                        SET move_name = ?
+                        WHERE (pokemon_id = ? && move_name = ?);
+                        ';
+             echo gettype($pokemonID);
+            //Construct bind parameters
+            $bindTypeStr = "sis"; 
+            $bindArr = Array($newMove, $pokemonID, $oldMove);
+            $query->setAll($sql,$bindTypeStr,$bindArr);
 
+            //Send query to database. Refer to utils/ResultContainer.php for its contents.
+            $resultContainer = $query->handleQuery();
+
+            //Return the result container that contains a success flag and mysqli_result.
+            return $resultContainer;
+
+
+
+        }
 
 
 

@@ -75,6 +75,64 @@
         }
 
 
+        // adding an move event
+        public function addMoveEvent($eventDateTime, $pokemonID, $oldMove, $newMove){
+            $result = new ResultContainer();
+
+            //Input format validation.
+
+            if (preg_match("/^[1-9]\d{2}-\d{3}-\d{4}/", $eventDateTime)){
+                $result->setFailure();
+                $result->addErrorMessage("Must be a valid date and time");
+            }
+            if ($oldMove == $newMove) {
+                $result->setFailure();
+                $result->addErrorMessage("Moves cannot be the same");
+            }
+            
+            echo gettype($pokemonID);
+            $pokemonIDInt = (int) $pokemonID;
+            echo gettype($pokemonIDInt);
+
+            //If all validations pass, insert an egg event to the database.
+            if ($result->isSuccess()){
+
+                // get trainer id
+                $trainerID = $this->notificationModel->getTrainerIdByPokemon($pokemonIDInt);
+               
+                $realDateTime = str_replace("T", " ", $eventDateTime);
+                $queryResult = $this->notificationModel->addNotification($trainerID, $realDateTime);
+                if (!$queryResult->isSuccess()){
+                    $result->setFailure();
+                    $result->mergeErrorMessages($queryResult); //Retriving errors from model.
+                };
+                
+                $queryResult3 = $this->notificationModel->updateCurrentMoves($pokemonIDInt, $oldMove, $newMove);
+                if (!$queryResult3->isSuccess()){
+                    $result->setFailure();
+                    $result->mergeErrorMessages($queryResult3); //Retriving errors from model.
+                };
+
+
+                // get notification id
+                $trainerID = $this->notificationModel->getTrainerIdByPokemon($pokemonIDInt);
+                $notifID = $this->notificationModel->getNotificationID($trainerID, $realDateTime);
+                echo 'hello';
+                // add fight event
+                $queryResult2 = $this->notificationModel->addMoveEvent($notifID, $oldMove, $newMove, $pokemonID);
+                
+                if (!$queryResult2->isSuccess()){
+                    $result->setFailure();
+                    $result->mergeErrorMessages($queryResult2); //Retriving errors from model.
+                };
+
+                return $result;
+            }else{
+                return $result;
+            }
+        }
+
+
         // adding a fight event
         public function addFightEvent($pokemonID, $description, $eventDateTime){
             $result = new ResultContainer();
