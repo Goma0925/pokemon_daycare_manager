@@ -21,7 +21,9 @@
         }
 
         public function logout(){
-            session_destroy();
+            if (isset($_SESSION)){
+                session_destroy();
+            }
             return new ResultContainer();
         }
     }

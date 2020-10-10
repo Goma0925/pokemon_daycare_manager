@@ -33,9 +33,12 @@
                 ';
             }
             
-            echo '
+            echo '  
                     </ul>
                 </div>
+                <form class="form-inline" action="logout.php" method="GET">
+                    <button type="submit" class="btn btn-outline-light">Logout</button>
+                </form>
             </nav>
             ';
         }

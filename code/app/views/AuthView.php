@@ -38,5 +38,24 @@
             ';
 
         }
+
+        public function loginWarning(){
+            echo '
+            <div class="alert alert-warning" role="alert">
+                To see this page, you need to <a href="login.php">login</a>
+            </div>
+            ';
+        }
+
+        public function logoutMessage(){
+            echo '
+            <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">See you!</h1>
+                <p class="lead">You have been logged out. To login again, click <a href="login.php">here</a>.</p>
+            </div>
+            </div>
+            ';
+        }
     }
 ?>
