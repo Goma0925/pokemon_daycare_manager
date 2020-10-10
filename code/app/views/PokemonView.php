@@ -235,13 +235,14 @@
             return new ResultContainer;
         }
 
-        public function activePokemonDropdown($input_name){
+        public function activePokemonDropdown($input_name, $is_required){
             $resultContainer = $this->pokemonModel->getAllActivePokemon();
             if ($resultContainer->isSuccess()){
+                $require_keyword = $is_required? "required":"";
                 $success = false;
                 echo '
                     <div class="form-group">
-                    <select class="form-control" name="'.$input_name.'">
+                    <select class="form-control" name="'.$input_name.'" '.$require_keyword.'>
                         <option value="">Pokémon in daycare</option>';
                 //Render all active pokemon.
                 while ($row = $resultContainer->get_mysqli_result()->fetch_assoc()){
