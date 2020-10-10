@@ -1,3 +1,10 @@
+<?php 
+    session_start();
+    //Ridirect to login warming to prompt login if not logged in.
+    if ($_SESSION["authenticated"]==false){
+        header("Location: login-warming.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

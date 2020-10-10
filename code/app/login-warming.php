@@ -1,10 +1,3 @@
-<?php 
-    session_start();
-    //Ridirect to login warming to prompt login if not logged in.
-    if ($_SESSION["authenticated"]==false){
-        header("Location: login-warming.php");
-    }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,13 +5,11 @@
             include_once 'utils/Settings.php';
             Settings::setup_debug(); //Custom function that contains debug settings
             include_once 'views/CommonView.php';
-            include_once 'views/SomeView.php';
-            include_once 'controllers/SomeContr.php';
+            include_once 'views/AuthView.php';
     ?>
     <?php   
         $commonView = new CommonView();
-        // Replace the page title here. It generates title and CSS & JavaScript links.
-        $commonView->header("Page title not set"); 
+        $commonView->header("Login Warming"); 
     ?>
 </head>
 <body>
@@ -28,8 +19,8 @@
     ?>
     <div style="margin-left:5%; margin-right:5%; margin-top: 25px;">
     <?php 
-        // Code here
-        echo "Hello World!"
+        $authView = new AuthView();
+        $authView->loginWarning();
     ?>
     </div>
 </body>

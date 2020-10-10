@@ -42,7 +42,7 @@
         public function loginWarning(){
             echo '
             <div class="alert alert-warning" role="alert">
-                To see this page, you need to <a href="login.php">login</a>
+                To see this page, you need to <a href="login.php">login</a>.
             </div>
             ';
         }

@@ -6,11 +6,11 @@
             // Set the title and link to show on navbar in the format
             // "Title" => "path/to/page.php"
             $this->page_links = array(
-                "Direcotry" => "coming-soon.php",
+                "Direcotry" => "service-search.php",
                 "Check In/Out" => "check-in-and-out.php",
                 "Events" => "search-notification.php",
-                "Analytics" => "analytics-page.php",
-                "Settings" => "coming-soon.php",
+                "Analytics" => "coming-soon.php",
+                "Settings" => "settings-page.php",
             );
         }
 

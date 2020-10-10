@@ -9,7 +9,6 @@
         }
 
         public function login(string $username, string $password){
-            echo "login";
             $resultContainer = $this->authModel->login($username, $password);
             if ($resultContainer->isSuccess()){
                 session_start();
@@ -21,8 +20,10 @@
         }
 
         public function logout(){
+            session_start();
             if (isset($_SESSION)){
                 session_destroy();
+                $_SESSION = [];
             }
             return new ResultContainer();
         }
