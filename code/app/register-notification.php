@@ -38,6 +38,11 @@
         $notificationView = new NotificationView();
         $inputErrorView = new InputErrorView();
         $notificationContr = new NotificationContr();
+
+ 
+
+
+
         if (isset($_GET["addEgg"])){
             if (isset($_POST["parent1"])) {
                 $resultContainer = $notificationContr->addEggEvent($_POST["eventdatetime"], $_POST["parent1"], $_POST["parent2"]);
@@ -54,12 +59,43 @@
             //string of the $name. It ignores the difference between lowercase and uppercase.
             $notificationView -> eggeventRegistrationForm();
         }
+
+        // first page of registering move
         if (isset($_GET["addMove"])){
+
+
+
             
             //Render trainer table. This function matches all the trainers whose name contains partial/entire
             //string of the $name. It ignores the difference between lowercase and uppercase.
-            echo 'move';
+            $notificationView -> moveeventRegistrationForm();
         }
+
+        // second page of registering moves
+        if (isset($_GET["chooseMove"])){
+
+            if (isset($_POST["currentMoves"])) {
+                $resultContainer = $notificationContr->addMoveEvent($_GET["eventdatetime"], $_GET["pokemon"], $_POST["currentMoves"], $_POST["move-1"]);
+                if ($resultContainer->isSuccess()){
+                    $notificationView->registrationSuccessMessage();
+                    
+                    
+                }else{
+                    $errorMessages = $resultContainer->getErrorMessages();
+                    $inputErrorView->errorBox($errorMessages);
+                }
+
+
+                
+            }
+
+            $notificationView -> changeMoves($_GET["pokemon"]);
+
+
+        }
+
+
+
         if (isset($_GET["addFight"])){
             if (isset($_POST["pokemon"])) {
                 $resultContainer = $notificationContr->addFightEvent( $_POST["pokemon"], $_POST["description"],$_POST["eventdatetime"]);

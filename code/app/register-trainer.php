@@ -30,7 +30,8 @@
         if (isset($_POST["name"])) {
             $resultContainer = $trainersContr->addTrainer($_POST["name"], $_POST["phone"], $_POST["email"]);
             if ($resultContainer->isSuccess()){
-                $trainerView->registrationSuccessMessage();
+                $trainer_id = $resultContainer->getSuccessValues()["trainer_id"];
+                $trainerView->registrationSuccessBox($trainer_id);
             }else{
                 $errorMessages = $resultContainer->getErrorMessages();
                 $inputErrorView->errorBox($errorMessages);

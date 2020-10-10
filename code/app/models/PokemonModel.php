@@ -267,12 +267,12 @@
                 $bindArr[] = $new_move_names[$i];
                 $bindArr[] = $pokemon_id;
             }
-            echo "<br>SQL:".$sql;
-            echo "<br>bind:".$bindTypeStr;
-            echo "<br>bind item:";
-            foreach ($bindArr as $item){
-                echo $item.", ";
-            }
+            // echo "<br>SQL:".$sql;
+            // echo "<br>bind:".$bindTypeStr;
+            // echo "<br>bind item:";
+            // foreach ($bindArr as $item){
+            //     echo $item.", ";
+            // }
 
             $query->setAll($sql, $bindTypeStr, $bindArr);
 
@@ -283,6 +283,8 @@
         }
 
         public function getNextPokemonId(){
+            // Retrieves the next primary key in Pokemon table.
+            // Used to indentify the pokemon ID of a pokemon that is being inserted.
             $sql = 'SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = "daycare" AND TABLE_NAME = "Pokemon";';
             $query = new Query();
             $query->setSql($sql);

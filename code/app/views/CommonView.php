@@ -7,7 +7,7 @@
             // "Title" => "path/to/page.php"
             $this->page_links = array(
                 "Direcotry" => "#",
-                "Check in/out" => "search-trainer.php",
+                "Check In/Out" => "check-in-and-out.php",
                 "Events" => "search-notification.php",
                 "Analytics" => "#",
                 "Settings" => "#",

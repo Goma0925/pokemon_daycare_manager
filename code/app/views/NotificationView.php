@@ -1,5 +1,7 @@
 <?php
-    include 'models/NotificationModel.php';
+    include_once 'models/NotificationModel.php';
+    include_once 'views/MoveIndexView.php';
+    include_once 'views/PokemonView.php';
 
     class NotificationView {
         private $notificationModel;
@@ -44,7 +46,7 @@
                     </table>';
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
                     echo '
-                        <input type="submit" value="Select trainer">
+                        <input type="submit" value="Delete Record" name="delRec">
                     ';
                 }
                 echo '
@@ -108,7 +110,8 @@
                     </table>';
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
                     echo '
-                        <input type="submit" value="Select trainer">
+                    <input type="submit" value="Delete Record" name="delRec">
+                    <input type="submit" value="Update Pickup" name="pickupEgg">
                     ';
                 }
                 echo '
@@ -176,7 +179,7 @@
                     </table>';
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
                     echo '
-                        <input type="submit" value="Select trainer">
+                    <input type="submit" value="Delete Record" name="delRec">
                     ';
                 }
                 echo '
@@ -195,6 +198,10 @@
                     echo "<p>".$errorMessage."</p>";
                 }
             }
+            
+
+                            
+                        
         }
 
 
@@ -240,7 +247,7 @@
                     </table>';
                 if ($resultContainer->get_mysqli_result()->num_rows!=0){
                     echo '
-                        <input type="submit" value="Select trainer">
+                    <input type="submit" value="Delete Record" name="delRec">
                     ';
                 }
                 echo '
@@ -297,18 +304,25 @@
 
         // create the EggEvent form in register-notification.php
         public function eggeventRegistrationForm(){
+            $pokemonView = new PokemonView();
             echo '<br><br>
             <form action="" method="post">
 
                 <div class="row">
                     <div class="col">
-                        <p>Date <input type="datetime-local" class="form-control" name="eventdatetime" placeholder="Date and Time" required></p>
+                        <div class="form-group">
+                            <p>Date <input type="datetime-local" class="form-control" name="eventdatetime" placeholder="Date and Time" required></p>
+                        </div>
                     </div>
                     <div class="col">
-                        <p>Parent 1: <input type="number" class="form-control" name="parent1" placeholder="Pokemon ID" required></p>
+                        Parent 1: ';
+                            $pokemonView->activePokemonDropdown("parent1", true);
+            echo '      
                     </div>
                     <div class="col">
-                        <p>Parent 2: <input type="number" class="form-control" name="parent2" placeholder="Pokemon ID" required></p>
+                        Parent 2: ';
+                            $pokemonView->activePokemonDropdown("parent2", true);
+            echo    '   
                     </div>
                 </div>
                 <input type="submit">
@@ -319,6 +333,7 @@
         
         // create the FightEvent form in register-notification.php
         public function fighteventRegistrationForm(){
+            $pokemonView = new PokemonView();
             echo '<br><br>
             <form action="" method="post">
 
@@ -327,7 +342,9 @@
                         <p>Date <input type="datetime-local" class="form-control" name="eventdatetime" placeholder="Date and Time" required></p>
                     </div>
                     <div class="col">
-                        <p>Pokemon ID: <input type="number" class="form-control" name="pokemon" placeholder="Pokemon ID" required></p>
+                        Pokemon ID:';
+                            $pokemonView->activePokemonDropdown("pokemon", true);
+        echo    '       
                     </div>
                 </div>
                 <div class="row">
@@ -339,6 +356,64 @@
             </form>
             ';
         }
+
+
+
+
+
+
+
+
+        public function moveeventRegistrationForm(){
+            $pokemonView = new PokemonView();
+            echo '<br><br>
+                <form action="register-notification.php" method="get">
+                        
+                    <div class="row">
+                        <div class="col">
+                            <p>Date <input type="datetime-local" class="form-control" name="eventdatetime" placeholder="Date and Time" required></p>
+                        </div>
+                        <div class="col">
+                            Pokemon ID:';
+                            $pokemonView->activePokemonDropdown("pokemon", true);
+            echo    '    
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col">
+                        <p>';
+                        //$MoveIndexView->moveDropdownBox("move", 1); 
+                        echo '</p>
+                        </div>
+                    </div>
+                    <input type="submit" name="chooseMove">
+                </form>';                                //Render move dropdown boxes     
+            }
+
+
+
+        public function changeMoves($id){     
+            $MoveIndexView = new MoveIndexView();       
+            echo '<br><br>
+            <form action="" method="post">
+                    
+                <div class="row">
+                    <div class="col"><p> New Move:';
+                    $MoveIndexView->moveDropdownBox("move", 1); 
+                    echo '</p>
+                    </div>
+                    <div class="col">
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col">
+                    <p>Current Moves: ';
+                    $MoveIndexView->currentMoveDropdown($id); 
+                    echo '</p>
+                    </div>
+                </div>
+                <input type="submit">
+            </form>';  }
 
         // general success message
         public function registrationSuccessMessage(){

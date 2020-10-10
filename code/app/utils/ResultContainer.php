@@ -20,7 +20,7 @@
             Multiple error messages can be added. Note these error messages
             are intended for end user. Do not add technical errror message.
 
-        4.  After returning from the function, use ResultContainer->isSuccess() to check if the operation was 
+        4.  After returning from the function, use ResultContainer->is_success() to check if the operation was 
             successful (The default success flag is true, so you could skip this).
 
         5.  Once ResultContainer is returned to Controller or View, you can check the success by 
@@ -43,28 +43,28 @@
 
 <?php 
     class ResultContainer{
-        private $errorMessages;
-        private $isSuccess;
+        private $error_messages;
+        private $is_success;
         private $mysqli_result;
         private $success_values; //Used to carry any values caused by a successful operation.
 
         public function __construct() {
-            $this->errorMessages = Array();
+            $this->error_messages = Array();
             $this->success_values = Array();
-            $this->isSuccess = true;
+            $this->is_success = true;
             $this->mysqli_result = null;
         }
 
         public function setSuccess(){
-            $this->isSuccess = true;
+            $this->is_success = true;
         }
 
         public function setFailure(){
-            $this->isSuccess = false;
+            $this->is_success = false;
         }
 
         public function isSuccess(){
-            return $this->isSuccess;
+            return $this->is_success;
         }
 
         public function setSuccessValue($key, $value){
@@ -94,24 +94,26 @@
         }
 
         public function addErrorMessage($message){
-            $this->errorMessages[] = $message;
+            $this->error_messages[] = $message;
         }
 
         public function getErrorMessages(){
-            return $this->errorMessages;
+            return $this->error_messages;
         }
 
         // quick fix for moment (should be fixed)
         // add array of messages to one container
         // public function mergeArrayErrorMessages($errMessages) { // do not wanna break your method below
-        //     $this->errorMessages = array_merge($this->errorMessages, $errMessages);
+        //     $this->error_messages = array_merge($this->error_messages, $errMessages);
         // }
 
-        public function mergeErrorMessages($resultContainer){ 
-            //$resultContainer: Another ResultContainer instance.
-            $this->errorMessages = array_merge($this->errorMessages, $resultContainer->errorMessages);
-            if (!$resultContainer->isSuccess()){
-                $this->isSuccess = false;
+        public function mergeErrorMessages($result_container){ 
+            //Combine errorMessages and successValues of two ResultContainers.
+            //$result_container: Another ResultContainer instance.
+            $this->error_messages = array_merge($this->error_messages, $result_container->error_messages);
+            $this->successValues = array_merge($this->success_values, $result_container->success_values);
+            if (!$result_container->isSuccess()){
+                $this->is_success = false;
             }
         }
     }

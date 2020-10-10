@@ -105,11 +105,13 @@ CREATE TABLE EggEvents (
     mother INT CHECK (mother != father), /* mother and father cannot be same */
     given_to_trainer TINYINT DEFAULT 0,
     FOREIGN KEY (notification_id)
-    REFERENCES Notifications(notification_id),
+    REFERENCES Notifications(notification_id) 
+    ON DELETE CASCADE,
     FOREIGN KEY (father) 
     REFERENCES Pokemon(pokemon_id),
     FOREIGN KEY (mother) 
     REFERENCES Pokemon(pokemon_id)
+    
 );
 
 /* Create a table for 'MoveEvents' */
@@ -122,10 +124,11 @@ CREATE TABLE MoveEvents (
     FOREIGN KEY (old_move_name)
     REFERENCES Moves(move_name),
     FOREIGN KEY (notification_id)
-    REFERENCES Notifications(notification_id),
-
-    FOREIGN KEY (new_move_name, pokemon_id) /* CFK */
-    REFERENCES CurrentMoves(move_name, pokemon_id)
+    REFERENCES Notifications(notification_id)
+    ON DELETE CASCADE
+   /* FOREIGN KEY (new_move_name, pokemon_id) /* CFK */
+   /* REFERENCES CurrentMoves(move_name, pokemon_id) */
+    
 );
 
 
@@ -143,7 +146,8 @@ CREATE TABLE FightEvents ( /* is this most recent? */
     pokemon_id INT,
     fight_id INT, 
     FOREIGN KEY (notification_id)
-    REFERENCES Notifications(notification_id) ,
+    REFERENCES Notifications(notification_id)
+    ON DELETE CASCADE,
     FOREIGN KEY (fight_id)
     REFERENCES Fights(fight_id),
     FOREIGN KEY (pokemon_id)
@@ -171,13 +175,24 @@ CREATE VIEW ActivePokemon
         Pokemon.nickname, Pokemon.breedname 
         FROM Pokemon 
         INNER JOIN ServiceRecords
-        USING (pokemon_id) WHERE ServiceRecords.end_time IS NULL; 
+        USING (pokemon_id) WHERE ServiceRecords.end_time IS NULL
+        GROUP BY pokemon_id; --Remove duplicates in case of bugs.
 
 
 CREATE VIEW InactivePokemon 
     AS
+        -- Pokemon that don't have any service records
         SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
         Pokemon.nickname, Pokemon.breedname 
-        FROM Pokemon INNER JOIN ServiceRecords
-        USING (pokemon_id) WHERE ServiceRecords.end_time IS NOT NULL; 
+        FROM Pokemon 
+        LEFT JOIN ServiceRecords
+        USING (pokemon_id)
+        WHERE ServiceRecords.service_record_id is NULL
+        UNION 
+        -- Pokemon that have service records but all of them are inactive.
+        SELECT Pokemon.pokemon_id, Pokemon.trainer_id, Pokemon.current_level,
+        Pokemon.nickname, Pokemon.breedname 
+        FROM Pokemon 
+        LEFT JOIN ServiceRecords
+        USING (pokemon_id) WHERE ServiceRecords.end_time IS NOT NULL ;
 
