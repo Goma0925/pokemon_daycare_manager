@@ -2,6 +2,12 @@ DROP DATABASE IF EXISTS daycare;
 CREATE DATABASE daycare;
 USE daycare;
 
+CREATE TABLE Auth (
+    PRIMARY KEY (username),
+    username    VARCHAR(64),
+    pass        CHAR(56)
+);
+
 /* Create a table for 'Trainers' */
 CREATE TABLE Trainers (
     PRIMARY KEY(trainer_id),
