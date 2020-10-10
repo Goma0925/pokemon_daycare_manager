@@ -367,14 +367,14 @@
 
 
         }
+
+
+        // insrt a record into CurrentMoves table
         public function insertCurrentMoves($pokemonID,$newMove){
             $query = new Query();
             $sql = 'INSERT INTO CurrentMoves (move_name, pokemon_id)
                         VALUES (?,?);';
-                        
-                        
-                        
-             echo gettype($pokemonID);
+  
             //Construct bind parameters
             $bindTypeStr = "si"; 
             $bindArr = Array($newMove, $pokemonID);
@@ -386,16 +386,17 @@
             //Return the result container that contains a success flag and mysqli_result.
             return $resultContainer;
 
-
-
         }
+
+
+        // update a record into CurrentMoves table
         public function updateCurrentMoves($pokemonID, $oldMove, $newMove){
             $query = new Query();
             $sql = 'UPDATE CurrentMoves
                         SET move_name = ?
                         WHERE (pokemon_id = ? && move_name = ?);
                         ';
-             echo gettype($pokemonID);
+            
             //Construct bind parameters
             $bindTypeStr = "sis"; 
             $bindArr = Array($newMove, $pokemonID, $oldMove);

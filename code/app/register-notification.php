@@ -59,6 +59,8 @@
             //string of the $name. It ignores the difference between lowercase and uppercase.
             $notificationView -> eggeventRegistrationForm();
         }
+
+        // first page of registering move
         if (isset($_GET["addMove"])){
 
 
@@ -69,6 +71,7 @@
             $notificationView -> moveeventRegistrationForm();
         }
 
+        // second page of registering moves
         if (isset($_GET["chooseMove"])){
 
             if (isset($_POST["currentMoves"])) {

@@ -93,6 +93,8 @@
                 $result->addErrorMessage("Moves cannot be the same");
             }
             
+
+            //validation for the purposes of four or less and duplicate moves
             $moveIndexModel = new MoveIndexModel();
             $resultContainer = $moveIndexModel->getCurrentMovesofPokemon($pokemonID);
             $poke_num = $resultContainer->get_mysqli_result()->num_rows;
@@ -107,12 +109,14 @@
                     }
                 }
             }
+
             if ($poke_num < 4) {
 
                 $insertOrDelete = true;
 
             }
             
+            // need to make it int because reasons
             $pokemonIDInt = (int) $pokemonID;
         
 
@@ -128,7 +132,8 @@
                     $result->setFailure();
                     $result->mergeErrorMessages($queryResult); //Retriving errors from model.
                 };
-                // insert insert
+
+            // conditional whether it is an insert of a delete
             if ($insertOrDelete == false) {
                 $queryResult3 = $this->notificationModel->updateCurrentMoves($pokemonIDInt, $oldMove, $newMove);
                 if (!$queryResult3->isSuccess()){
