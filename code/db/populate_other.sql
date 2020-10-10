@@ -1,0 +1,6 @@
+USE daycare;
+
+LOAD DATA LOCAL INFILE 'test_data/trainers_data.csv' INTO TABLE Trainers FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE 'test_data/pokemon_data.csv' INTO TABLE Pokemon FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE 'test_data/service_records.csv' INTO TABLE ServiceRecords FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE 'test_data/business_states.csv' INTO TABLE BusinessStates FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n';
