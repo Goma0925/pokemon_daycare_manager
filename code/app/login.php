@@ -23,7 +23,7 @@
     <?php   
         $commonView = new CommonView();
         // Replace the page title here. It generates title and CSS & JavaScript links.
-        $commonView->header("Page title not set"); 
+        $commonView->header("Login"); 
     ?>
 </head>
 <body>
