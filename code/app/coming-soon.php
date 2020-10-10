@@ -26,7 +26,7 @@
     ?>
     <div style="margin-left:5%; margin-right:5%; margin-top: 100px;">
     <div id="article">
-    <h1>It’s not a bug – it’s an undocumented feature.</h1>
+    <h1>"It’s not a bug – it’s an undocumented feature." -  Anonymous</h1>
     <div>
     <p>We apologize for the inconvenience, but we're performing some maintenance. </a>. We'll be back up soon...maybe!</p>
     <p>&mdash; Team MAJic</p>
