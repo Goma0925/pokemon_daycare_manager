@@ -33,7 +33,6 @@
                         ';
                 }
             }else{
-                $success = false;
                 echo "Failure";
             }
             

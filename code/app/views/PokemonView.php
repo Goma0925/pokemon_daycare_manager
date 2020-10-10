@@ -136,29 +136,32 @@
                 <article class="card-body">
                 <form method="'.$method.'" action="'.$action.'">';
                 //Render hidden input based on $form_params
-                foreach ($form_params as $name=>$value){
+                foreach ($form_params as $key=>$value){
                     echo '
-                    <input type="hidden" name="'.$name.'" value="'.$value.'">
+                    <input type="hidden" name="'.$key.'" value="'.$value.'">
                     ';
                 };
                 //Add trainer_id
                 echo '
                     <input type="hidden" name="trainer" value="'.$trainer_id.'">';
 
+                
                 echo '
                     <div class="form-group row">
                         <label for="nickname" class="col-3 col-form-label">Nickname</label>
                         <div class="col-9">
-                        <input class="form-control" type="text" value="" name="nickname" required>
+                        <input class="form-control" type="text" value="" name="nickname"  maxlength="16" required>
                         </div>
                         <label for="species" class="col-4 col-form-label"></label>
-                        <small class="form-text text-muted">Nick name should be less than 17 characters.</small>
+                        <small class="form-text text-muted">Nickname should be less than 17 characters.</small>
                     </div>
                     <div class="form-group row">
-                        <label for="species" class="col-3 col-form-label">Species</label>
+                        <label for="species" class="col-3 col-form-label"  maxlength="16">Species</label>
                         <div class="col-9">
-                        <input class="form-control" type="text" value="" name="breedname" id="species" required>
+                        <input class="form-control" type="text" value="" name="breedname" id="species" maxlength="16" required>
                         </div>
+                        <label for="species" class="col-4 col-form-label"></label>
+                        <small class="form-text text-muted">Species name should be less than 17 characters.</small>
                     </div>
                     <div class="form-group row">
                         <label for="level" class="col-3 col-form-label">Level</label>
@@ -230,6 +233,29 @@
                 </p>
             </div>';
             return new ResultContainer;
+        }
+
+        public function activePokemonDropdown($input_name){
+            $resultContainer = $this->pokemonModel->getAllActivePokemon();
+            if ($resultContainer->isSuccess()){
+                $success = false;
+                echo '
+                    <div class="form-group">
+                    <select class="form-control" name="'.$input_name.'">
+                        <option value="">Pokémon in daycare</option>';
+                //Render all active pokemon.
+                while ($row = $resultContainer->get_mysqli_result()->fetch_assoc()){
+                    echo "Hi";
+                    echo '
+                    <option value="'.$row["pokemon_id"].'">'.$row["nickname"].'('.$row["breedname"].')</option>
+                        ';
+                }
+                echo '
+                    </select>
+                </div>
+                ';
+            }
+            return $resultContainer;
         }
     }
 ?>
