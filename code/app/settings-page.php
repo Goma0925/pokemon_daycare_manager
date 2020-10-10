@@ -11,7 +11,8 @@
             $("#td_date_changed").hide();
 
             $("#insert_new").click(function(){
-                $("input#date_changed").attr("type","datetime-local");
+                $("input#date_changed").attr("type","date");
+                $("input#date_changed").attr("min",date_input_val);
                 $("#td_date_changed").show();
                 console.log("clicked");
                 $("#insert_new").hide();
@@ -33,18 +34,18 @@
                 );
                 $("#insert_new").show();
             });
-            $(document).on("blur",'input#egg_price_float',checkDecimals);
-            $(document).on("blur",'input#price_per_day_float',checkDecimals);
+            $(document).on("change",'input#egg_price_float',checkDecimals);
+            $(document).on("change",'input#price_per_day_float',checkDecimals);
 
             function checkDecimals() {
                 var num = parseFloat($(this).val());
+                console.log(num)
                 var cleanNum = num.toFixed(2);
                 $(this).val(cleanNum);
                 if(num/cleanNum < 1){
                     $('#error').text('Please enter only 2 decimal places, we have truncated extra points');
                 }                
             }
-
         });
 
     </script>
@@ -81,19 +82,24 @@
             $price_per_day = $states["price_per_day"];
             $pokemon_per_trainer = $states["max_pokemon_per_trainer"];
             $egg_price = $states["flat_egg_price"];
-            // echo $egg_price;
-            // echo $pokemon_per_trainer;
-            // echo $price_per_day;
-            // echo $date_changed;
+            
+            $result = $businessStatesContr->addNewBusinessState(
+                $date_changed,
+                !empty($price_per_day) ? $price_per_day : null,
+                !empty($pokemon_per_trainer) ? $pokemon_per_trainer : null,
+                !empty($egg_price) ? $egg_price : null);
 
-            $result = $businessStatesContr->addNewBusinessState($date_changed,
-                $price_per_day,$pokemon_per_trainer,$egg_price);
-            if ($result == true) {
-                echo ""; // some good message
+            if ($result->isSuccess()) {
+                $success = $result->getSuccessValues()["bstate"];
+                echo $success;
                 $businessStatesView->renderBusinessStatesTable();
             }
             else {
-                echo ""; // some bad message
+                $failure = $result->getErrorMessages();
+                foreach ($failure as $val) {
+                    echo $val;
+                }
+                $businessStatesView->renderBusinessStatesTable();
             }
         }
         else {

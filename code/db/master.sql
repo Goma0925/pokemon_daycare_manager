@@ -6,7 +6,7 @@ USE daycare;
 CREATE TABLE Trainers (
     PRIMARY KEY(trainer_id),
     trainer_id INT AUTO_INCREMENT, /* change from auto to something else */
-    email VARCHAR(320) UNIQUE,
+    email VARCHAR(32) UNIQUE,
     phone VARCHAR(12) NOT NULL UNIQUE, 
     trainer_name VARCHAR(16) NOT NULL
 );
@@ -17,12 +17,24 @@ CREATE TABLE Pokemon (
     pokemon_id INT AUTO_INCREMENT,
     trainer_id INT NOT NULL,
     current_level INT DEFAULT 1,
-    nickname VARCHAR(16),
-    breedname VARCHAR(16) NOT NULL,
+    nickname VARCHAR(25), /* changed from 16 to 25, same for below */
+    breedname VARCHAR(25) NOT NULL,
     CONSTRAINT `trainer_fk` 
         FOREIGN KEY (trainer_id) 
         REFERENCES Trainers(trainer_id)
         /* add deletion rule */ 
+);
+
+
+/* Create a table for 'BusinessStates' */
+CREATE TABLE BusinessStates ( /* EVEN THOUGH WE CURRENT PASS DATETIME TO date_changed, 
+                              SQL just truncates and casts accordingly */
+    PRIMARY KEY(date_changed),
+    date_changed DATE NOT NULL, /*bstate_rule_date is a fk ref for this pk */
+    /*time_changed TIME NOT NULL, /* only used for administration logs */
+    price_per_day DECIMAL NOT NULL,
+    max_pokemon_per_trainer INT NOT NULL,
+    flat_egg_price DECIMAL NOT NULL
 );
 
 /* Create a table for 'ServiceRecords' */
@@ -33,12 +45,15 @@ CREATE TABLE ServiceRecords (
     end_time DATETIME, 
     pokemon_id INT,
     trainer_id INT, 
+    bstate_rule_date DATE,
     CONSTRAINT `pokemon_id_fk`  /* add delete rules here */
         FOREIGN KEY (pokemon_id) 
         REFERENCES Pokemon(pokemon_id),
     CONSTRAINT `trainer_id_fk` 
         FOREIGN KEY (trainer_id) 
-        REFERENCES Trainers(trainer_id)
+        REFERENCES Trainers(trainer_id),
+    CONSTRAINT `b_id`
+        FOREIGN KEY (bstate_rule_date) REFERENCES BusinessStates(date_changed) /* ADDED THIS IN ON OCT 09 */
 );
 
 /* Create a table for 'Ratings' */
@@ -71,16 +86,6 @@ CREATE TABLE CurrentMoves ( /* is this compound pk? */
     REFERENCES Pokemon(pokemon_id)
 );
 
-/* Create a table for 'BusinessStates' */
-CREATE TABLE BusinessStates (
-    PRIMARY KEY(bstate_id),
-    bstate_id INT AUTO_INCREMENT,
-    date_changed DATETIME NOT NULL,
-    price_per_day DECIMAL NOT NULL,
-    max_pokemon_per_trainer INT NOT NULL,
-    flat_egg_price DECIMAL NOT NULL
-);
-
 /* Create a table for 'Notifications' 
    Parent table for several subset [NOUN]Event tables */
 CREATE TABLE Notifications (
@@ -107,7 +112,6 @@ CREATE TABLE EggEvents (
     REFERENCES Pokemon(pokemon_id)
 );
 
-
 /* Create a table for 'MoveEvents' */
 CREATE TABLE MoveEvents (
     PRIMARY KEY(notification_id),
@@ -119,6 +123,7 @@ CREATE TABLE MoveEvents (
     REFERENCES Moves(move_name),
     FOREIGN KEY (notification_id)
     REFERENCES Notifications(notification_id),
+
     FOREIGN KEY (new_move_name, pokemon_id) /* CFK */
     REFERENCES CurrentMoves(move_name, pokemon_id)
 );

@@ -37,24 +37,42 @@
         public function startService(int $trainer_id, int $pokemon_id, string $start_date = null) {
             // Declare vars
             $query = new Query();
+
+            // if required fields not provided, throw exceptino
             try {
                 if (!isset($trainer_id) || !isset($pokemon_id)) { // we can just infer date otherwise
                     throw new Exception("Error: insufficient arguments provided");  
                 } 
+
+                // user provided date? use that; otherwise take current timestamp
                 $start_date = !isset($start_date) ? date('Y-m-d H:i:s') : $start_date; 
-                $sql = "INSERT INTO ServiceRecords(start_time, pokemon_id, trainer_id) 
-                               VALUES (?,?,?);"; 
-                $bindArr = [$start_date, $pokemon_id, $trainer_id];
-                $bindTypeStr = "sii";
-                // $query->setBindArr([$start_date, $pokemon_id, $trainer_id]);
-                // $query->addToSql($sql);
-                // $query->setBindStr("sii");
-                $query->setAll($sql, $bindTypeStr, $bindArr);
-                $resultContainer  = $query->handleQuery(); // returns ResultContainer
-                return $resultContainer; // return type ResultContainer
+
+                    // find business state id for this time
+                        // find most recent business state with a date less than start_date
+                    $query_2 = new Query();
+                    $query_2->setAll("SELECT bstate_id FROM BusinessStates
+                                      WHERE date_changed <= ? ORDER BY date_changed DESC LIMIT 1;",
+                                      "s", [$start_date]);
+                    $resContainer2 = $query_2->handleQuery(); 
+
+                    // if we can get the business state associated with the record, then continue
+                    if ($resContainer2->isSuccess() && $resultContainer2->get_mysqli_result()->num_rows == 1) {
+                        $bstate_id = $resContainer2->get_mysqli_result()->fetch_object()->bstate_id;
+                        $sql = "INSERT INTO ServiceRecords(start_time, pokemon_id, trainer_id) 
+                                VALUES (?,?,?,?);"; 
+                        $bindArr = [$start_date, $pokemon_id, $trainer_id, $bstate_id];
+                        $bindTypeStr = "siii";
+                        $query->setAll($sql, $bindTypeStr, $bindArr);
+                        $resultContainer  = $query->handleQuery(); 
+                        return $resultContainer; 
+                    }
+                    // otherwise, do not proceed (application-level transaction)
+                    else {
+                        throw new Exception("Error: cannot associate service record with valid business state id");
+                    }
             }
             catch (Exception $e) {
-                return;
+                return; // lower parts of code should be considered here (do later)
             }
         }
 
@@ -173,6 +191,10 @@
             $query->addToSql(";");    
             $resultContainer = $query->handleQuery(); // returns ResultContainer
             return $resultContainer; // return type ResultContainer
+        }
+
+        public function getRatings() {
+
         }
            
         // COMMON GET BYS (DEFAULTS TO ALL STATUS, change as needed)
