@@ -1,0 +1,37 @@
+Deploy instructions (Mac/Linux)
+1. Install LAMP with the following command.
+        sudo apt-get install apache2 libapache2-mod-php mariadb-server php
+
+2. Set up mariadb with the following command:
+        sudo mysql_secure_installation
+
+3. Log-in to mariadb and create a user with the previleged access
+        sudo mariadb
+
+4. Create a new database user for the application.
+        CREATE USER 'user_name'@'localhost' IDENTIFIED BY 'password';
+
+5. Grant your new user all the previleges. 
+    Note this is not recommended for production but for the testing purpose only
+        GRANT ALL PRIVILEGES ON *.* TO 'user_name'@'localhost';
+
+6. Set your user name and password in the file src/setup/Credentials.php.
+    
+7. Move the file src/setup/Credentials.php to src/app/utils/Credentials.php
+        cd ~/<project_directory>/src
+        mv src/setup/Credentials.php src/app/utils/Credentials.php
+
+8. Change directory to src/db
+        cd ~/<project_directory>/src/db
+
+9. Start the mariadb console and build the database.
+        mariadb -p <your_password>
+        #In console
+        SOURCE master.sql
+        #If you would like to populate the db with test data.
+        SOURCE populate_all.sql 
+
+10. Link the apache server directory with the application directory
+        ln -s <project_directory>/src/app /var/www/
+
+11. The application should be good to go! You can access the app on <your_id_of_server>/app/login.php
