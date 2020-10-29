@@ -1,7 +1,7 @@
 # Team MAJic CSC362 Documentation
 
-Demo running at: http://104.198.68.139/app/login.php\
-Login information for demo:\
+Demo running at: http://104.198.68.139/app/login.php \
+Login information for demo: \
   - User: MAJic
   - PW  : password\
   *Since the connection is not secured, your browser might raise a security error for exposing these credentials. 
