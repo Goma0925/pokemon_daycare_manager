@@ -1,5 +1,11 @@
 # Team MAJic CSC362 Documentation
 
+Demo running at: http://104.198.68.139/app/login.php
+Login information for demo:
+  - User: MAJic
+  - PW  : password
+  *Since the connection is not secured, your browser might raise a security error for exposing these credentials. 
+
 ## Database Table Structure design process documents
 
 - Refer to the [Google document here](https://docs.google.com/document/d/1jgozpCre09VwrJf2MbCyaLxs0pAqhCrrDxTNRYHAc7Q/edit?usp=sharing) for the database's table structure and the field specifications.
